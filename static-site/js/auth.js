@@ -214,13 +214,13 @@
         <label class="account-line" for="createLoginId"><span>로그인 ID</span><input id="createLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" spellcheck="false" /></label>
         <label class="account-line" for="createPassword"><span>비밀번호</span><input id="createPassword" type="password" placeholder="비밀번호" autocapitalize="none" autocorrect="off" /></label>
         <label class="account-line" for="createPasswordConfirm"><span>비밀번호 확인</span><input id="createPasswordConfirm" type="password" placeholder="비밀번호 확인" autocapitalize="none" autocorrect="off" /></label>
-        <label class="account-line readonly-account" for="createNickname"><span>닉네임</span><input id="createNickname" type="text" placeholder="닉네임" value="${member.nickname}" readonly /></label>
-        <label class="account-line readonly-account" for="createInstagram"><span>인스타그램 ID</span><input id="createInstagram" type="text" placeholder="instagram_id" value="${member.instagramId || ""}" readonly /></label>
-        <label class="account-check"><span>자동로그인</span><input id="createAuto" type="checkbox" checked /></label>
+        <div class="account-line readonly-account"><span>닉네임</span><span class="readonly-value">${member.nickname}</span></div>
+        <div class="account-line readonly-account"><span>인스타그램 ID</span><span class="readonly-value">${member.instagramId || "-"}</span></div>
+        <label class="account-check check-first"><input id="createAuto" type="checkbox" checked /><span>자동로그인</span></label>
         <button class="account-submit" id="createSubmit" type="submit" disabled>계정생성</button>
       </form>
     `;
-    const requiredIds = ["createLoginId", "createPassword", "createPasswordConfirm", "createNickname", "createInstagram"];
+    const requiredIds = ["createLoginId", "createPassword", "createPasswordConfirm"];
     const submit = document.getElementById("createSubmit");
     const updateActive = () => {
       const ready = requiredIds.every((id) => document.getElementById(id).value.trim()) &&
@@ -243,8 +243,8 @@
       const account = {
         loginId,
         password,
-        nickname: document.getElementById("createNickname").value.trim(),
-        instagramId: document.getElementById("createInstagram").value.trim(),
+        nickname: member.nickname,
+        instagramId: member.instagramId || "",
         memberIds: member.memberIds,
         createdAt: new Date().toISOString(),
       };
