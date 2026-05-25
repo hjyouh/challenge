@@ -1014,6 +1014,7 @@ body[data-page="my"] .phone {
   min-height: 58px;
   padding-top: env(safe-area-inset-top);
   place-items: center;
+  font-size: 18px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #161513;
   text-align: center;
@@ -1357,14 +1358,14 @@ body[data-page="auth"] {
 
 .login-popup h2 {
   color: #8e8a84;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.25;
 }
 
 .login-popup p {
   margin-top: 6px;
   color: var(--gold);
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.35;
 }
 
