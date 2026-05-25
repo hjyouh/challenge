@@ -88,8 +88,8 @@
     location.href = "../index.html";
   }
 
-  function field(id, label, placeholder, type = "text", value = "") {
-    return `<label class="auth-field" for="${id}"><span>${label}</span><input id="${id}" type="${type}" placeholder="${placeholder}" value="${value}" /></label>`;
+  function field(id, label, placeholder, type = "text", value = "", autocapitalize = "none") {
+    return `<label class="auth-field" for="${id}"><span>${label}</span><input id="${id}" type="${type}" placeholder="${placeholder}" value="${value}" autocapitalize="${autocapitalize}" autocorrect="off" spellcheck="false" /></label>`;
   }
 
   function bindTextChoice(selector, handler) {
