@@ -1,0 +1,227 @@
+(function () {
+  const today = new Date();
+  const imported = window.DC_IMPORTED_DATA || null;
+
+  const demoUsers = [
+    { id: "me", emoji: "😀", nickname: "나의챌린지", instagramId: "my.challenge", completedBias: 0 },
+    { id: "u1", emoji: "😇", nickname: "천사러버", instagramId: "angel_like", completedBias: 2 },
+    { id: "u2", emoji: "🧧", nickname: "복주머니왕", instagramId: "bok_king", completedBias: 1 },
+    { id: "u3", emoji: "🌟", nickname: "성실체크", instagramId: "daily.star", completedBias: 0 },
+    { id: "u4", emoji: "🔥", nickname: "좋아요장인", instagramId: "like_master", completedBias: -1 },
+    { id: "u5", emoji: "🍀", nickname: "행운참가자", instagramId: "lucky.join", completedBias: -2 },
+    { id: "u6", emoji: "💛", nickname: "노랑하트", instagramId: "yellow_heart", completedBias: -3 },
+    { id: "u7", emoji: "🎯", nickname: "정조준", instagramId: "target.like", completedBias: -4 },
+    { id: "u8", emoji: "🌙", nickname: "달빛챌린지", instagramId: "moon_chal", completedBias: -5 },
+    { id: "u9", emoji: "☀️", nickname: "햇살회원", instagramId: "sunny_member", completedBias: -6 },
+    { id: "u10", emoji: "🎁", nickname: "선물요정", instagramId: "gift_fairy", completedBias: -7 },
+    { id: "u11", emoji: "🪽", nickname: "날개출석", instagramId: "wing.check", completedBias: -8 },
+  ];
+
+  const emojiSet = ["😀", "😇", "🧧", "🌟", "🔥", "🍀", "💛", "🎯", "🌙", "☀️", "🎁", "🪽", "🥰", "😎", "🤍", "💎", "🥇", "🥈", "🥉", "🌱", "✨", "🫶", "🙌", "🎀", "🌈", "🍯", "🍑", "🍒", "🍋", "🌷", "🌹", "🌻", "🌿", "🪄", "🎊", "🎉", "🪩", "🧡", "💚", "💙", "💜", "🤎", "🖤", "🤍", "⭐", "🌞", "🌝", "🦋", "🍭", "🧁"];
+
+  function dateKey(date) {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  }
+
+  function parseKey(key) {
+    const [year, month, day] = key.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  function shortDate(key) {
+    const date = typeof key === "string" ? parseKey(key) : key;
+    return `${date.getMonth() + 1}/${date.getDate()}`;
+  }
+
+  function isMissionDay(date) {
+    return date.getDay() === 2 || date.getDay() === 6;
+  }
+
+  function missionDates(year, monthIndex) {
+    const importedMonth = imported?.months?.[`${year}-${monthIndex + 1}`];
+    if (importedMonth) return importedMonth.missions.map((mission) => mission.date);
+    const result = [];
+    const cursor = new Date(year, monthIndex, 1);
+    while (cursor.getMonth() === monthIndex) {
+      if (isMissionDay(cursor)) result.push(dateKey(cursor));
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return result;
+  }
+
+  function previousMissionDate(from = today) {
+    const cursor = new Date(from);
+    cursor.setHours(0, 0, 0, 0);
+    cursor.setDate(cursor.getDate() - 1);
+    while (!isMissionDay(cursor)) cursor.setDate(cursor.getDate() - 1);
+    return cursor;
+  }
+
+  function nextMissionDate(from = today) {
+    const cursor = new Date(from);
+    cursor.setHours(0, 0, 0, 0);
+    while (!isMissionDay(cursor)) cursor.setDate(cursor.getDate() + 1);
+    return cursor;
+  }
+
+  function profile() {
+    const saved = JSON.parse(localStorage.getItem("deinchal-profile") || "null");
+    if (saved) return saved;
+    const base = { id: "me", emoji: "😀", userId: "", nickname: "", instagramId: "", password: "", autoLogin: true };
+    localStorage.setItem("deinchal-profile", JSON.stringify(base));
+    return base;
+  }
+
+  function saveProfile(next) {
+    localStorage.setItem("deinchal-profile", JSON.stringify(next));
+  }
+
+  function currentMemberId() {
+    const saved = profile();
+    const latest = imported?.latest;
+    const latestMonth = latest ? imported?.months?.[`${latest.year}-${latest.month}`] : null;
+    const members = latestMonth?.members || [];
+    const matched = members.find((member) => member.instagramId === saved.instagramId || member.nickname === saved.nickname);
+    if (matched) return matched.id;
+    const checked = members.find((member) => Object.values(member.checks || {}).some(Boolean));
+    return checked?.id || members[0]?.id || "me";
+  }
+
+  function checks() {
+    return JSON.parse(localStorage.getItem("deinchal-checks") || "[]");
+  }
+
+  function saveChecks(next) {
+    localStorage.setItem("deinchal-checks", JSON.stringify(next));
+  }
+
+  function hasAttended(key, memberId = currentMemberId()) {
+    if (checks().some((item) => item.userId === "me" && item.date === key && item.status === "attended")) return true;
+    if (!imported) return false;
+    const date = parseKey(key);
+    const month = imported.months?.[`${date.getFullYear()}-${date.getMonth() + 1}`];
+    const member = month?.members?.find((item) => item.id === memberId || item.instagramId === memberId);
+    return Boolean(member?.checks?.[key]);
+  }
+
+  function attendToday() {
+    const key = dateKey(today);
+    const next = checks().filter((item) => !(item.userId === "me" && item.date === key));
+    next.push({ userId: "me", date: key, status: "attended", createdAt: new Date().toISOString() });
+    saveChecks(next);
+  }
+
+  function rate(done, total) {
+    return total ? Math.round((done / total) * 1000) / 10 : 0;
+  }
+
+  function rankGrade(percent) {
+    if (percent >= 90) return "💎";
+    if (percent >= 80) return "🥇";
+    if (percent >= 70) return "🥈";
+    if (percent >= 60) return "🥉";
+    return "🌱";
+  }
+
+  function instagramValid(id) {
+    return /^[A-Za-z0-9._]{1,30}$/.test(id) && !id.includes("..") && !id.endsWith(".");
+  }
+
+  function monthStats(year, monthIndex) {
+    const dates = missionDates(year, monthIndex);
+    const done = dates.filter(hasAttended).length;
+    return { dates, done, total: dates.length, percent: rate(done, dates.length) };
+  }
+
+  function importedMemberStats(memberId, dates) {
+    const done = dates.filter((key) => hasAttended(key, memberId)).length;
+    return { done, total: dates.length, percent: rate(done, dates.length) };
+  }
+
+  function importedGroupStats(memberIds, dates) {
+    const done = dates.filter((key) => memberIds.some((memberId) => hasAttended(key, memberId))).length;
+    return { done, total: dates.length, percent: rate(done, dates.length) };
+  }
+
+  function userRows(mode = "month", targetYear = today.getFullYear()) {
+    const year = Number(targetYear) || today.getFullYear();
+    const todayKeyValue = dateKey(today);
+    const monthLimit = year === today.getFullYear() ? today.getMonth() : 11;
+    const dates = (mode === "year"
+      ? Array.from({ length: monthLimit + 1 }, (_, month) => missionDates(year, month)).flat()
+      : missionDates(year, today.getMonth())).filter((key) => year < today.getFullYear() || key <= todayKeyValue);
+    if (imported) {
+      const memberMap = new Map();
+      Object.values(imported.months || {}).forEach((month) => {
+        if (mode === "month" && (month.year !== today.getFullYear() || month.month !== today.getMonth() + 1)) return;
+        if (mode === "year" && month.year !== year) return;
+        month.members.forEach((member) => {
+          const nickKey = member.nickname || member.instagramId || member.id;
+          if (!memberMap.has(nickKey)) {
+            memberMap.set(nickKey, {
+              id: member.id,
+              memberIds: [],
+              emoji: "🙂",
+              nickname: member.nickname,
+              instagramId: member.instagramId,
+            });
+          }
+          const row = memberMap.get(nickKey);
+          if (!row.memberIds.includes(member.id)) row.memberIds.push(member.id);
+          if (!row.instagramId && member.instagramId) row.instagramId = member.instagramId;
+        });
+      });
+      const me = currentMemberId();
+      return Array.from(memberMap.values())
+        .map((member) => {
+          const stat = importedGroupStats(member.memberIds, dates);
+          return { ...member, ...stat, grade: rankGrade(stat.percent), isMe: member.memberIds.includes(me) };
+        })
+        .sort((a, b) => b.percent - a.percent || b.done - a.done || a.nickname.localeCompare(b.nickname, "ko"));
+    }
+    const myDone = dates.filter(hasAttended).length;
+    return demoUsers
+      .map((user) => {
+        const done = user.id === "me" ? myDone : Math.max(Math.min(dates.length, dates.length + user.completedBias), 0);
+        const percent = rate(done, dates.length);
+        return { ...user, done, total: dates.length, percent, grade: rankGrade(percent) };
+      })
+      .sort((a, b) => b.percent - a.percent || a.nickname.localeCompare(b.nickname, "ko"));
+  }
+
+  function assignRanks(rows) {
+    let lastPercent = null;
+    let lastRank = 0;
+    return rows.map((row, index) => {
+      const rank = row.percent === lastPercent ? lastRank : index + 1;
+      lastPercent = row.percent;
+      lastRank = rank;
+      return { ...row, rank };
+    });
+  }
+
+  window.DC = {
+    today,
+    emojiSet,
+    dateKey,
+    parseKey,
+    shortDate,
+    isMissionDay,
+    missionDates,
+    previousMissionDate,
+    nextMissionDate,
+    profile,
+    saveProfile,
+    currentMemberId,
+    checks,
+    saveChecks,
+    hasAttended,
+    attendToday,
+    rate,
+    rankGrade,
+    instagramValid,
+    monthStats,
+    userRows,
+    assignRanks,
+  };
+})();

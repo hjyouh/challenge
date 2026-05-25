@@ -1,0 +1,18 @@
+{
+  "name": "디인챌 복주머니 미션",
+  "short_name": "디인챌",
+  "description": "인스타그램 해시태그 품앗이 챌린지를 복주머니 보상과 출석 카드로 관리하는 PWA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#0F172A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

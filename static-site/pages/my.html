@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="stylesheet" href="../css/styles.css?v=my15" />
+    <title>디인챌 마이페이지</title>
+  </head>
+  <body data-page="my">
+    <main class="phone">
+      <header class="my-header">
+        <h1>천사님 인스타 챌린지</h1>
+      </header>
+
+      <section class="profile-panel">
+        <div class="profile-row">
+          <label for="userId">아이디</label>
+          <input id="userId" class="line-input" type="text" placeholder="My ID" />
+          <label class="inline-check"><input id="autoLogin" type="checkbox" />자동로그인</label>
+        </div>
+        <div class="profile-row">
+          <label for="password">비밀번호</label>
+          <input id="password" class="line-input" type="password" placeholder="xxxx" />
+          <div class="action-stack">
+            <button id="togglePassword" class="icon-action" type="button" aria-label="비밀번호 보기">👁</button>
+            <button class="text-action" id="changePassword" type="button">비밀번호 변경</button>
+          </div>
+        </div>
+        <div class="profile-row">
+          <label for="nickname">닉네임</label>
+          <input id="nickname" class="line-input" type="text" placeholder="닉네임" />
+          <div class="action-stack">
+            <button class="text-action" id="saveProfile" type="button">닉네임 변경</button>
+          </div>
+        </div>
+        <div class="profile-row">
+          <label for="emojiPicker">이모지</label>
+          <div class="emoji-select-wrap">
+            <button class="line-select" id="emojiPicker" type="button">이모지 선택  ▽</button>
+            <div class="emoji-menu" id="emojiMenu"></div>
+          </div>
+        </div>
+        <div class="profile-row">
+          <label for="instagramId">인스타그램 ID</label>
+          <div class="instagram-field">
+            <span class="at-prefix">@</span>
+            <input id="instagramId" class="line-input with-prefix" type="text" placeholder="MyID" />
+          </div>
+          <button id="validateInstagram" class="valid-button" type="button">valid</button>
+        </div>
+        <p id="instagramStatus" class="field-status"></p>
+        <div class="profile-row install-row">
+          <button class="install-toggle" id="installToggle" type="button" aria-expanded="true">홈화면 설치 안내 △</button>
+        </div>
+        <div class="install-detail open" id="installDetail">
+          <section>
+            <h2>🌐 구글 크롬 (Chrome) 에 홈화면 설치</h2>
+            <ol>
+              <li>크롬 앱으로 원하는 웹페이지에 접속합니다.</li>
+              <li>우측 상단 점 3개 메뉴(⋮) 선택.</li>
+              <li>홈 화면에 추가를 선택.</li>
+              <li>바로가기 이름을 입력하고 추가.</li>
+              <li>팝업창이 뜨면 자동으로 추가를 누르거나 아이콘을 길게 눌러 원하는 위치에 배치.</li>
+            </ol>
+          </section>
+          <section>
+            <h2>🍎 아이폰 사파리에 홈화면 설치</h2>
+            <ol>
+              <li>사파리 하단 주소 옆 (...) 아이콘을 선택</li>
+              <li>공유 아이콘 선택</li>
+              <li>더보기 아이콘 선택</li>
+              <li>홈 화면에 추가 선택</li>
+            </ol>
+            <p>홈화면에 아이콘이 생성이 됩니다.</p>
+          </section>
+          <section>
+            <h2>📱 삼성 인터넷 브라우져에 홈화면 설치</h2>
+            <ol>
+              <li>삼성 인터넷 앱으로 웹페이지에 접속</li>
+              <li>우측 하단 줄 3개 메뉴(☰)를 선택</li>
+              <li>현재 페이지 추가를 선택</li>
+              <li>목록에서 홈 화면을 선택</li>
+              <li>추가를 눌러 완료 후 홈화면에 아이콘 생성</li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <button class="logout-link" id="logoutDemo" type="button">로그아웃</button>
+    </main>
+    <nav class="bottom-nav">
+      <a href="../index.html"><img class="nav-icon" src="../assets/images/home.png" alt="" />홈</a>
+      <a href="./attendance.html"><img class="nav-icon" src="../assets/images/attendance.png" alt="" />출석부</a>
+      <a href="./ranking.html"><img class="nav-icon" src="../assets/images/ranking.png" alt="" />랭킹</a>
+      <a class="active" href="./my.html"><img class="nav-icon" src="../assets/images/user-avatar.png" alt="" />마이</a>
+    </nav>
+    <script src="../js/imported-data.js?v=data2"></script>
+    <script src="../js/common.js?v=auth1"></script>
+    <script src="../js/auth-guard.js?v=auth1"></script>
+    <script src="../js/my.js?v=my15"></script>
+  </body>
+</html>
