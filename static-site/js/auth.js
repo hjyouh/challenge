@@ -211,9 +211,9 @@
     panel.innerHTML = `
       <form class="account-popup" id="createForm">
         <p class="account-question">이 계정으로 생성하시겠습니까?<br /><span>${member.nickname}</span> / <span>@${member.instagramId || "-"}</span></p>
-        <label class="account-line" for="createLoginId"><span>로그인 ID</span><input id="createLoginId" type="text" placeholder="login_id" /></label>
-        <label class="account-line" for="createPassword"><span>비밀번호</span><input id="createPassword" type="password" placeholder="비밀번호" /></label>
-        <label class="account-line" for="createPasswordConfirm"><span>비밀번호 확인</span><input id="createPasswordConfirm" type="password" placeholder="비밀번호 확인" /></label>
+        <label class="account-line" for="createLoginId"><span>로그인 ID</span><input id="createLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" spellcheck="false" /></label>
+        <label class="account-line" for="createPassword"><span>비밀번호</span><input id="createPassword" type="password" placeholder="비밀번호" autocapitalize="none" autocorrect="off" /></label>
+        <label class="account-line" for="createPasswordConfirm"><span>비밀번호 확인</span><input id="createPasswordConfirm" type="password" placeholder="비밀번호 확인" autocapitalize="none" autocorrect="off" /></label>
         <label class="account-line readonly-account" for="createNickname"><span>닉네임</span><input id="createNickname" type="text" placeholder="닉네임" value="${member.nickname}" readonly /></label>
         <label class="account-line readonly-account" for="createInstagram"><span>인스타그램 ID</span><input id="createInstagram" type="text" placeholder="instagram_id" value="${member.instagramId || ""}" readonly /></label>
         <label class="account-check"><span>자동로그인</span><input id="createAuto" type="checkbox" checked /></label>
