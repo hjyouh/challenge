@@ -28,6 +28,10 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -106,7 +110,7 @@ body[data-page="attendance"] .attendance-header {
   display: grid;
   width: calc(100% + 68px);
   margin: -14px -34px 44px;
-  padding: 18px 34px 20px;
+  padding: max(18px, env(safe-area-inset-top)) 34px 20px;
   place-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #161513;
@@ -132,6 +136,7 @@ body[data-page="attendance"] .attendance-header .eyebrow {
   margin-right: -26px;
   display: grid;
   min-height: 64px;
+  padding-top: env(safe-area-inset-top);
   place-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #161513;
@@ -780,6 +785,7 @@ body[data-page="attendance"] .pouch-card .emoji {
   width: calc(100% + 32px);
   min-height: 58px;
   margin: -20px -16px 0;
+  padding-top: env(safe-area-inset-top);
   place-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #161513;
@@ -1004,6 +1010,7 @@ body[data-page="my"] .phone {
 .my-header {
   display: grid;
   min-height: 58px;
+  padding-top: env(safe-area-inset-top);
   place-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #161513;
@@ -1469,6 +1476,8 @@ body[data-page="auth"] {
 }
 
 .auth-field input {
+  width: 100%;
+  min-width: 0;
   min-height: 42px;
   border: 0;
   border-bottom: 1px solid rgba(180, 176, 168, 0.55);
