@@ -93,8 +93,17 @@
     `;
   }
 
+  const angelEl = document.getElementById("angel");
+  const angelColors = ["angel-yellow.png", "angel-white.png"];
+  const angelKey = "deinchal-angel-color";
+  const lastIdx = parseInt(localStorage.getItem(angelKey) || "0", 10);
+  const nextIdx = (lastIdx + 1) % angelColors.length;
+  angelEl.style.backgroundImage = `url("./assets/images/${angelColors[lastIdx]}")`;
+
   circle.addEventListener("click", () => {
     if (!isMission || attended) return;
+    angelEl.style.backgroundImage = `url("./assets/images/${angelColors[nextIdx]}")`;
+    localStorage.setItem(angelKey, String(nextIdx));
     stage.classList.add("shooting");
     setTimeout(() => {
       const stats = DC.monthStats(DC.today.getFullYear(), DC.today.getMonth());
