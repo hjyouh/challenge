@@ -1021,6 +1021,9 @@ body[data-page="my"] .phone {
 }
 
 body[data-page="auth"] .my-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   padding-top: calc(env(safe-area-inset-top) + 28px);
   text-align: center;
 }
