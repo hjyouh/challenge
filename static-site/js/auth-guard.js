@@ -1,4 +1,17 @@
 (function () {
+  // ── TEST RESET (나중에 제거) ──────────────────────────────
+  // 앱을 완전히 종료 후 재실행하면 sessionStorage가 초기화됨
+  // → localStorage 전체 클리어 후 처음 화면으로
+  const TEST_RESET = true;
+  if (TEST_RESET && !sessionStorage.getItem("deinchal-session-started")) {
+    sessionStorage.setItem("deinchal-session-started", "1");
+    localStorage.removeItem("deinchal-login-accounts");
+    localStorage.removeItem("deinchal-auth-session");
+    localStorage.removeItem("deinchal-profile");
+    localStorage.removeItem("deinchal-checks");
+  }
+  // ────────────────────────────────────────────────────────
+
   const profile = DC.profile();
   const session = JSON.parse(localStorage.getItem("deinchal-auth-session") || "null");
   const authenticated = Boolean(session || (profile.accountCreated && profile.autoLogin));
