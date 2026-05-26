@@ -111,7 +111,7 @@
     panel.innerHTML = `
       <div class="login-popup">
         <h2>처음 접속하시는 것입니까?</h2>
-        <p>기존 챌린지 명단에서 본인 계정을 먼저 찾습니다.</p>
+        <p>기존 챌린지 명단에서<br />본인 계정을 먼저 찾습니다.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
         <div class="popup-actions">
           <span class="text-choice" data-choice="no" role="button" tabindex="0">아니오</span>
@@ -209,8 +209,11 @@
 
   function renderCreate(member) {
     panel.innerHTML = `
+      <div class="account-subheader">
+        <p class="sub-question">이 계정으로 생성하시겠습니까?</p>
+        <p class="sub-name"><span>${member.nickname}</span> / <span>@${member.instagramId || "-"}</span></p>
+      </div>
       <form class="account-popup" id="createForm">
-        <p class="account-question">이 계정으로 생성하시겠습니까?<br /><span>${member.nickname}</span> / <span>@${member.instagramId || "-"}</span></p>
         <label class="account-line" for="createLoginId"><span>로그인 ID</span><input id="createLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" spellcheck="false" /></label>
         <label class="account-line" for="createPassword"><span>비밀번호</span><input id="createPassword" type="password" placeholder="비밀번호" autocapitalize="none" autocorrect="off" /></label>
         <label class="account-line" for="createPasswordConfirm"><span>비밀번호 확인</span><input id="createPasswordConfirm" type="password" placeholder="비밀번호 확인" autocapitalize="none" autocorrect="off" /></label>
