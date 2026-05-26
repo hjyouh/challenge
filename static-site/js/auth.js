@@ -92,6 +92,16 @@
     return `<label class="auth-field" for="${id}"><span>${label}</span><input id="${id}" type="${type}" placeholder="${placeholder}" value="${value}" autocapitalize="${autocapitalize}" autocorrect="off" spellcheck="false" /></label>`;
   }
 
+  function fitSubName() {
+    const el = panel.querySelector(".sub-name");
+    if (!el) return;
+    let size = parseInt(window.getComputedStyle(el).fontSize, 10);
+    while (el.scrollWidth > el.clientWidth && size > 8) {
+      size -= 1;
+      el.style.fontSize = size + "px";
+    }
+  }
+
   function bindTextChoice(selector, handler) {
     const node = panel.querySelector(selector);
     const run = () => {
@@ -223,6 +233,7 @@
         <button class="account-submit" id="createSubmit" type="submit" disabled>계정생성</button>
       </form>
     `;
+    requestAnimationFrame(fitSubName);
     const requiredIds = ["createLoginId", "createPassword", "createPasswordConfirm"];
     const submit = document.getElementById("createSubmit");
     const updateActive = () => {
