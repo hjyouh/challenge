@@ -94,7 +94,7 @@ h3 {
 body[data-page="home"] .phone {
   width: min(100%, 470px);
   background: #161513;
-  padding: 0 26px 126px;
+  padding: 0 26px 96px;
 }
 
 body[data-page="attendance"] .phone {
@@ -115,7 +115,7 @@ body[data-page="attendance"] .attendance-header {
   padding: calc(max(18px, env(safe-area-inset-top)) + 6px) 34px 20px;
   place-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
-  background: #161513;
+  background: #1e1c1a;
   text-align: center;
 }
 
@@ -141,7 +141,7 @@ body[data-page="attendance"] .attendance-header .eyebrow {
   padding-top: calc(env(safe-area-inset-top) + 6px);
   place-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
-  background: #161513;
+  background: #1e1c1a;
   text-align: center;
 }
 
@@ -155,7 +155,7 @@ body[data-page="attendance"] .attendance-header .eyebrow {
   position: relative;
   grid-template-columns: 1fr;
   align-items: center;
-  min-height: 46px;
+  min-height: 34px;
 }
 
 .mission-label {
@@ -477,8 +477,8 @@ body[data-page="home"] .board-head h2 {
   display: grid;
   place-items: center;
   gap: 10px;
-  min-height: 260px;
-  padding: 50px 0 30px;
+  min-height: 160px;
+  padding: 28px 0 20px;
   color: #e5e7eb;
   text-align: center;
 }
@@ -651,9 +651,9 @@ body[data-page="home"] .board-head h2 {
   gap: 4px;
   margin: 0 auto;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  background: #0f0e0d;
-  min-height: 92px;
-  padding: 14px 10px max(16px, env(safe-area-inset-bottom));
+  background: #1e1c1a;
+  min-height: 76px;
+  padding: 8px 10px max(14px, env(safe-area-inset-bottom));
 }
 
 .bottom-nav a {
@@ -790,7 +790,7 @@ body[data-page="attendance"] .pouch-card .emoji {
   padding-top: calc(env(safe-area-inset-top) + 6px);
   place-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
-  background: #161513;
+  background: #1e1c1a;
   text-align: center;
 }
 
@@ -814,6 +814,7 @@ body[data-page="ranking"] .phone {
   overflow-y: hidden;
   padding-right: 24px;
   scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 
 .rank-switch.scrollable {
@@ -1010,6 +1011,7 @@ body[data-page="my"] .phone {
 }
 
 .my-header {
+  position: relative;
   display: grid;
   min-height: 58px;
   padding-top: calc(env(safe-area-inset-top) + 6px);
@@ -1017,7 +1019,10 @@ body[data-page="my"] .phone {
   font-size: 18px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #161513;
+}
 
+body[data-page="my"] .my-header {
+  background: #1e1c1a;
 }
 
 body[data-page="auth"] .my-header {
@@ -1045,7 +1050,7 @@ body[data-page="auth"] .my-header h1 {
 .profile-row label,
 .install-toggle {
   color: #8e8a84;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 800;
 }
 
@@ -1085,6 +1090,9 @@ body[data-page="auth"] .my-header h1 {
 .line-select {
   text-align: left;
   color: #b8b3aa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .instagram-field {
@@ -1210,12 +1218,17 @@ body[data-page="auth"] .my-header h1 {
 
 .logout-link {
   position: absolute;
-  right: 34px;
-  bottom: 106px;
+  right: 16px;
+  bottom: 10px;
   z-index: 12;
+  border: 0;
+  background: transparent;
   color: #77736c;
-  font-size: 16px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
   font-weight: 800;
+  padding: 0;
 }
 
 .field-status {

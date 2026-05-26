@@ -15,6 +15,13 @@
   let emojiIndex = Math.max(0, DC.emojiSet.indexOf(profile.emoji));
   let instagramVerified = false;
   let originalPassword = "";
+  let fullNickname = "";
+  let fullInstagramId = "";
+
+  function truncate(str, max) {
+    if (!str) return "";
+    return str.length > max ? str.slice(0, max) + "…" : str;
+  }
 
   function attachScrollLine(scroller, host) {
     const rail = document.createElement("div");
@@ -58,13 +65,22 @@
 
   function fill() {
     userId.value = emptyIfDefault(profile.userId, ["myID", "My ID"]);
-    nickname.value = emptyIfDefault(profile.nickname, ["닉네임"]);
-    instagramId.value = emptyIfDefault(profile.instagramId, ["myID", "MyID"]);
+    fullNickname = emptyIfDefault(profile.nickname, ["닉네임"]);
+    nickname.value = truncate(fullNickname, 10);
+    fullInstagramId = emptyIfDefault(profile.instagramId, ["myID", "MyID"]);
+    instagramId.value = truncate(fullInstagramId, 20);
     password.value = emptyIfDefault(profile.password, ["123456"]);
     originalPassword = password.value;
     autoLogin.checked = Boolean(profile.autoLogin);
-    emojiPicker.textContent = `${profile.emoji} 이모지 선택  ▽`;
-    markInstagramPending();
+    emojiPicker.textContent = `${profile.emoji} 이모지 선택 ▽`;
+    if (fullInstagramId && DC.instagramValid(fullInstagramId)) {
+      instagramVerified = true;
+      validateInstagramButton.className = "valid-button valid";
+      instagramStatus.className = "field-status valid";
+      instagramStatus.textContent = "valid";
+    } else {
+      markInstagramPending();
+    }
     updatePasswordAction();
   }
 
@@ -114,7 +130,16 @@
     updateEmojiScrollLine();
   });
 
-  instagramId.addEventListener("input", markInstagramPending);
+  nickname.addEventListener("focus", function () { this.value = fullNickname; });
+  nickname.addEventListener("input", function () { fullNickname = this.value; });
+  nickname.addEventListener("blur", function () { this.value = truncate(fullNickname, 10); });
+
+  instagramId.addEventListener("focus", function () { this.value = fullInstagramId; });
+  instagramId.addEventListener("input", function () {
+    fullInstagramId = this.value;
+    markInstagramPending();
+  });
+  instagramId.addEventListener("blur", function () { this.value = truncate(fullInstagramId, 20); });
   validateInstagramButton.addEventListener("click", validateInstagram);
   installToggle.addEventListener("click", () => {
     const open = installDetail.classList.toggle("open");
@@ -129,10 +154,12 @@
   document.getElementById("saveProfile").addEventListener("click", () => {
     if (!instagramVerified && !validateInstagram()) return;
     profile.userId = userId.value.trim();
-    profile.nickname = nickname.value.trim() || "닉네임";
-    profile.instagramId = instagramId.value.trim();
+    profile.nickname = fullNickname.trim() || "닉네임";
+    profile.instagramId = fullInstagramId.trim();
     profile.autoLogin = autoLogin.checked;
     DC.saveProfile(profile);
+    nickname.value = truncate(profile.nickname, 10);
+    instagramId.value = truncate(profile.instagramId, 20);
     instagramStatus.textContent = "저장되었습니다.";
   });
   changePassword.addEventListener("click", () => {
