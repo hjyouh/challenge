@@ -148,7 +148,9 @@
     updateInstallScrollLine();
   });
   document.getElementById("togglePassword").addEventListener("click", () => {
-    password.type = password.type === "password" ? "text" : "password";
+    // type=text + -webkit-text-security 토글 (iOS 강력한 암호 팝업 방지)
+    const hidden = password.style.webkitTextSecurity === "disc" || !password.style.webkitTextSecurity;
+    password.style.webkitTextSecurity = hidden ? "none" : "disc";
   });
   password.addEventListener("input", updatePasswordAction);
   document.getElementById("saveProfile").addEventListener("click", () => {
