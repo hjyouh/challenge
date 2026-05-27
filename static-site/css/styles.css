@@ -308,7 +308,8 @@ body[data-page="attendance"] .attendance-header .eyebrow {
 }
 
 .mission-stage.offday-missed .circle-bag {
-  transform: translate(-50%, -50%) scale(1);
+  /* 비미션일은 항상 작은 복주머니 */
+  transform: translate(-50%, -50%) scale(0.5);
 }
 
 .circle-state {

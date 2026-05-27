@@ -8,8 +8,9 @@
   const monthTitle = document.getElementById("monthTitle");
   const monthRate = document.getElementById("monthRate");
   const missionScore = document.getElementById("missionScore");
-  let attended = false;
-  let sessionAttendedKey = "";
+  // 당일 출석 여부: localStorage에서 복원 (다른 탭 갔다 와도 큰 복주머니 유지)
+  let attended = isMission && DC.hasAttended(todayKey);
+  let sessionAttendedKey = attended ? todayKey : "";
   let scoreTimer = null;
 
   function attendedOn(key) {
@@ -65,14 +66,17 @@
     circleState.textContent = "";
     message.classList.toggle("complete", attended);
 
+    const gold = (text) => `<span style="color:var(--gold)">${text}</span>`;
     if (isMission && !attended) {
       message.innerHTML = "가운데 원을 눌러<br />출석체크해 주세요";
     } else if (attended) {
       message.innerHTML = "오늘 출석 완료!<br />복주머니가 출석부에 전달되었습니다.";
-    } else if (prevDone) {
-      message.innerHTML = "오늘은 출석 체크<br />안하는 날";
     } else {
-      message.innerHTML = `${koreanDate(prevKey)}에 결석하셨네요.<br />${koreanDate(nextKey)}에 출석해 주세요.`;
+      // 비미션일: "오늘은 출석체크 없습니다." 항상 노란색
+      // 전날 결석이면 "결석하셨네요." 추가, 출석했으면 그 줄 없음
+      // 다음 출석 날짜만 노란색
+      const missedLine = !prevDone ? `${koreanDate(prevKey)}에 결석하셨네요.<br />` : "";
+      message.innerHTML = `${gold("오늘은 출석체크 없습니다.")}<br />${missedLine}${gold(koreanDate(nextKey))}에 출석해 주세요.`;
     }
 
     const renderCard = (key) => {
