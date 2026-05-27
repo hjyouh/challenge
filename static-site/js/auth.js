@@ -345,15 +345,33 @@
     });
   }
 
-  // 키보드 올라올 때 헤더가 밀리지 않도록 visualViewport 높이 반영
-  if (window.visualViewport) {
-    const phone = document.querySelector(".auth-phone");
-    if (phone) {
+  // 키보드 올라올 때 헤더 고정: body scroll 막고 phone 높이만 조정
+  const phone = document.querySelector(".auth-phone");
+  if (phone) {
+    if (window.visualViewport) {
       const updateHeight = () => {
-        phone.style.height = window.visualViewport.height + "px";
+        requestAnimationFrame(() => {
+          phone.style.height = window.visualViewport.height + "px";
+          // body가 혹시 스크롤됐으면 강제로 리셋
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+        });
       };
       window.visualViewport.addEventListener("resize", updateHeight);
+      window.visualViewport.addEventListener("scroll", updateHeight);
       updateHeight();
+    }
+
+    // input 포커스 시 body 스크롤 대신 auth-panel 내부만 스크롤
+    const authPanel = document.getElementById("authPanel");
+    if (authPanel) {
+      authPanel.addEventListener("focusin", (e) => {
+        if (e.target.tagName === "INPUT") {
+          setTimeout(() => {
+            e.target.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          }, 320); // 키보드 애니메이션 완료 후
+        }
+      });
     }
   }
 
