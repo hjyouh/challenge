@@ -58,8 +58,19 @@
     return mode === "month" ? DC.userRows("month") : DC.userRows("year", selectedYear);
   }
 
+  function nickPx(text) {
+    const chars = [...text];
+    const wide = chars.filter((c) => c.charCodeAt(0) > 255).length;
+    const narrow = chars.length - wide;
+    return wide * 14 + narrow * 8;
+  }
+
   function render() {
     const rows = DC.assignRanks(currentRows());
+    const maxNickW = rows.reduce((max, row) => {
+      return Math.max(max, nickPx(shortName(row.nickname || row.instagramId || row.id)));
+    }, 60);
+    list.style.setProperty("--nick-col", Math.ceil(maxNickW) + 8 + "px");
     list.innerHTML = rows
       .map((row) => {
         const fullName = row.nickname || row.instagramId || row.id;

@@ -432,7 +432,7 @@ body[data-page="attendance"] .attendance-header .eyebrow {
 body[data-page="home"] .attendance-board {
   margin-top: 18px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.42);
-  padding: 0 0 36px;
+  padding: 0 0 18px;
 }
 
 body[data-page="home"] .board-head .soft-pill {
@@ -477,8 +477,8 @@ body[data-page="home"] .board-head h2 {
   display: grid;
   place-items: center;
   gap: 10px;
-  min-height: 160px;
-  padding: 28px 0 20px;
+  min-height: 110px;
+  padding: 12px 0 16px;
   color: #e5e7eb;
   text-align: center;
 }
@@ -652,8 +652,8 @@ body[data-page="home"] .board-head h2 {
   margin: 0 auto;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   background: #1e1c1a;
-  min-height: 60px;
-  padding: 4px 10px max(10px, env(safe-area-inset-bottom));
+  min-height: 52px;
+  padding: 2px 8px max(4px, env(safe-area-inset-bottom));
 }
 
 .bottom-nav a {
@@ -794,6 +794,10 @@ body[data-page="attendance"] .pouch-card .emoji {
   text-align: center;
 }
 
+.ranking-header h1 {
+  font-size: 22px;
+}
+
 body[data-page="ranking"] .phone {
   width: min(100%, 470px);
   background: #161513;
@@ -907,7 +911,7 @@ body[data-page="ranking"] .phone {
 
 body[data-page="ranking"] .rank-card {
   display: grid;
-  grid-template-columns: 22px 32px 1fr auto;
+  grid-template-columns: 22px 32px var(--nick-col, 110px) 1fr;
   align-items: center;
   gap: 3px;
   margin-top: 0;
@@ -978,7 +982,7 @@ body[data-page="ranking"] .rank-num {
 
 body[data-page="ranking"] .rank-stat {
   white-space: nowrap;
-  text-align: right;
+  text-align: left;
   font-size: 12px;
 }
 
@@ -999,10 +1003,10 @@ body[data-page="ranking"] .rank-stat {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  gap: 4px;
-  margin-top: 10px;
+  gap: 2px;
+  margin-top: 4px;
   min-height: 0;
-  padding: 0 16px 40px;
+  padding: 0 12px 40px;
   border-bottom: 0;
   overflow: hidden;
 }
@@ -1049,10 +1053,10 @@ body[data-page="auth"] .my-header h1 {
 
 .profile-row {
   display: grid;
-  grid-template-columns: 108px minmax(0, 1fr) 100px;
+  grid-template-columns: 70px minmax(0, 1fr) 100px;
   align-items: center;
-  gap: 10px;
-  min-height: 32px;
+  gap: 8px;
+  min-height: 30px;
 }
 
 .profile-row label,
@@ -1249,9 +1253,9 @@ body[data-page="auth"] .my-header h1 {
 }
 
 .field-status {
-  min-height: 18px;
-  padding-left: 118px;
-  font-size: 14px;
+  min-height: 16px;
+  padding-left: 78px;
+  font-size: 13px;
 }
 
 .valid-button {
