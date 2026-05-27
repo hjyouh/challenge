@@ -134,19 +134,18 @@ body[data-page="attendance"] .attendance-header .eyebrow {
 
 .home-header {
   width: calc(100% + 52px);
-  margin-left: -26px;
-  margin-right: -26px;
+  margin: 0 -26px 20px;
   display: grid;
   min-height: 52px;
-  padding-top: calc(env(safe-area-inset-top) + 2px);
+  padding: calc(env(safe-area-inset-top) + 6px) 26px 14px;
   place-items: center;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #1e1c1a;
   text-align: center;
 }
 
 .home-header h1 {
-  font-size: 20px;
-  letter-spacing: 0;
+  font-size: 22px;
 }
 
 .mission-meta {
@@ -786,8 +785,8 @@ body[data-page="attendance"] .pouch-card .emoji {
   display: grid;
   width: calc(100% + 20px);
   min-height: 58px;
-  margin: -20px -10px 0;
-  padding-top: calc(env(safe-area-inset-top) + 6px);
+  margin: -20px -10px 18px;
+  padding: calc(env(safe-area-inset-top) + 6px) 10px 14px;
   place-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #1e1c1a;
@@ -907,6 +906,10 @@ body[data-page="ranking"] .phone {
 .ranking-list {
   display: grid;
   gap: 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 body[data-page="ranking"] .rank-card {
@@ -938,7 +941,7 @@ body[data-page="ranking"] .rank-name {
   color: inherit;
   cursor: pointer;
   overflow: visible;
-  padding: 0;
+  padding: 0 4px;
   font: inherit;
   font-weight: inherit;
   text-align: left;
@@ -982,7 +985,8 @@ body[data-page="ranking"] .rank-num {
 
 body[data-page="ranking"] .rank-stat {
   white-space: nowrap;
-  text-align: left;
+  text-align: right;
+  padding-left: 4px;
   font-size: 12px;
 }
 
@@ -1004,9 +1008,9 @@ body[data-page="ranking"] .rank-stat {
   flex: 1 1 auto;
   flex-direction: column;
   gap: 2px;
-  margin-top: 4px;
+  margin-top: 0;
   min-height: 0;
-  padding: 0 12px 40px;
+  padding: 16px 12px 16px;
   border-bottom: 0;
   overflow: hidden;
 }
@@ -1026,11 +1030,14 @@ body[data-page="my"] .phone {
   position: relative;
   display: grid;
   min-height: 58px;
-  padding-top: calc(env(safe-area-inset-top) + 6px);
+  padding: calc(env(safe-area-inset-top) + 6px) 16px 14px;
   place-items: center;
-  font-size: 18px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #161513;
+}
+
+.my-header h1 {
+  font-size: 22px;
 }
 
 body[data-page="my"] .my-header {
@@ -1053,7 +1060,7 @@ body[data-page="auth"] .my-header h1 {
 
 .profile-row {
   display: grid;
-  grid-template-columns: 70px minmax(0, 1fr) 100px;
+  grid-template-columns: 70px minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
   min-height: 30px;
@@ -1124,16 +1131,19 @@ body[data-page="auth"] .my-header h1 {
 }
 
 .inline-check {
-  display: flex;
+  display: grid;
+  grid-template-columns: 26px auto;
   align-items: center;
   gap: 3px;
   color: #77736c !important;
   font-size: 14px !important;
   font-weight: 400 !important;
   white-space: nowrap;
+  justify-self: start;
 }
 
 .inline-check input {
+  justify-self: center;
   width: 14px;
   height: 14px;
   accent-color: var(--green);
@@ -1162,10 +1172,10 @@ body[data-page="auth"] .my-header h1 {
 }
 
 .action-stack {
-  display: flex;
+  display: grid;
+  grid-template-columns: 26px auto;
   align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
+  gap: 4px;
   min-width: 0;
   justify-self: start;
 }

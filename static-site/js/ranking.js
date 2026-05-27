@@ -23,7 +23,7 @@
   }
 
   function shortName(name) {
-    return name.length > 10 ? `${name.slice(0, 10)}...` : name;
+    return name.length > 11 ? `${name.slice(0, 11)}...` : name;
   }
 
   function escapeHtml(value) {

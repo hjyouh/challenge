@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-title" content="디인챌" />
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/images/angel-icon.png" />
-    <link rel="stylesheet" href="../css/styles.css?v=my21" />
+    <link rel="stylesheet" href="../css/styles.css?v=my22" />
     <meta property="og:title" content="디인챌 마이페이지" />
     <meta property="og:description" content="천사님 인스타 챌린지 출석 체크" />
     <meta property="og:image" content="https://angelsinstachallenge.vercel.app/assets/images/og-image.png" />
@@ -44,6 +44,7 @@
           <label for="nickname">닉네임</label>
           <input id="nickname" class="line-input" type="text" placeholder="닉네임" />
           <div class="action-stack">
+            <span></span>
             <button class="text-action" id="saveProfile" type="button">닉네임 변경</button>
           </div>
         </div>
@@ -60,7 +61,10 @@
             <span class="at-prefix">@</span>
             <input id="instagramId" class="line-input with-prefix" type="text" placeholder="MyID" />
           </div>
-          <button id="validateInstagram" class="valid-button" type="button">valid</button>
+          <div class="action-stack">
+            <span></span>
+            <button id="validateInstagram" class="valid-button" type="button">valid</button>
+          </div>
         </div>
         <p id="instagramStatus" class="field-status"></p>
         <div class="profile-row install-row">
