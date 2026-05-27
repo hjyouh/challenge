@@ -77,7 +77,7 @@
       instagramVerified = true;
       validateInstagramButton.className = "valid-button valid";
       instagramStatus.className = "field-status valid";
-      instagramStatus.textContent = "valid";
+      instagramStatus.textContent = "";
     } else {
       markInstagramPending();
     }
@@ -105,7 +105,7 @@
     instagramVerified = valid && known;
     validateInstagramButton.className = `valid-button ${instagramVerified ? "valid" : "invalid"}`;
     instagramStatus.className = `field-status ${instagramVerified ? "valid" : "invalid"}`;
-    instagramStatus.textContent = instagramVerified ? "valid" : "ID를 다시 확인해 주세요";
+    instagramStatus.textContent = instagramVerified ? "" : "ID를 다시 확인해 주세요";
     return instagramVerified;
   }
 

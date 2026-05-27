@@ -784,9 +784,9 @@ body[data-page="attendance"] .pouch-card .emoji {
 
 .ranking-header {
   display: grid;
-  width: calc(100% + 32px);
+  width: calc(100% + 20px);
   min-height: 58px;
-  margin: -20px -16px 0;
+  margin: -20px -10px 0;
   padding-top: calc(env(safe-area-inset-top) + 6px);
   place-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.34);
@@ -797,7 +797,7 @@ body[data-page="attendance"] .pouch-card .emoji {
 body[data-page="ranking"] .phone {
   width: min(100%, 470px);
   background: #161513;
-  padding: 20px 30px 132px;
+  padding: 20px 10px 132px;
 }
 
 .rank-switch-wrap {
@@ -907,11 +907,11 @@ body[data-page="ranking"] .phone {
 
 body[data-page="ranking"] .rank-card {
   display: grid;
-  grid-template-columns: 62px minmax(92px, 1fr) minmax(126px, 1.25fr) 48px;
+  grid-template-columns: 22px 32px 1fr auto;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
   margin-top: 0;
-  padding: 5px 0;
+  padding: 4px 0;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -965,13 +965,21 @@ body[data-page="ranking"] .rank-name.show-bubble::after {
   display: block;
 }
 
-body[data-page="ranking"] .rank-place,
-body[data-page="ranking"] .rank-percent {
+body[data-page="ranking"] .rank-grade {
   text-align: center;
+  font-size: 16px;
+  line-height: 1;
 }
 
-body[data-page="ranking"] .rank-count {
+body[data-page="ranking"] .rank-num {
   text-align: center;
+  font-size: 12px;
+}
+
+body[data-page="ranking"] .rank-stat {
+  white-space: nowrap;
+  text-align: right;
+  font-size: 12px;
 }
 
 .rank-fade-line {
@@ -991,10 +999,10 @@ body[data-page="ranking"] .rank-count {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  gap: 7px;
-  margin-top: 26px;
+  gap: 4px;
+  margin-top: 10px;
   min-height: 0;
-  padding: 0 24px 58px;
+  padding: 0 16px 40px;
   border-bottom: 0;
   overflow: hidden;
 }
@@ -1155,6 +1163,12 @@ body[data-page="auth"] .my-header h1 {
   justify-content: flex-start;
   gap: 8px;
   min-width: 0;
+  justify-self: start;
+}
+
+.profile-row > .inline-check,
+.profile-row > .valid-button {
+  justify-self: start;
 }
 
 .install-row {
@@ -1219,8 +1233,11 @@ body[data-page="auth"] .my-header h1 {
 .logout-link {
   position: absolute;
   right: 16px;
-  bottom: 10px;
+  top: calc(env(safe-area-inset-top) + 6px);
+  bottom: 0;
   z-index: 12;
+  display: flex;
+  align-items: center;
   border: 0;
   background: transparent;
   color: #77736c;
@@ -1258,6 +1275,11 @@ body[data-page="auth"] .my-header h1 {
 
 .emoji-select-wrap {
   position: relative;
+  overflow: visible;
+}
+
+.emoji-select-wrap .line-select {
+  overflow: visible;
 }
 
 .emoji-menu {

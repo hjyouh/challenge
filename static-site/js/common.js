@@ -147,9 +147,10 @@
     const year = Number(targetYear) || today.getFullYear();
     const todayKeyValue = dateKey(today);
     const monthLimit = year === today.getFullYear() ? today.getMonth() : 11;
-    const dates = (mode === "year"
+    const dates = mode === "year"
       ? Array.from({ length: monthLimit + 1 }, (_, month) => missionDates(year, month)).flat()
-      : missionDates(year, today.getMonth())).filter((key) => year < today.getFullYear() || key <= todayKeyValue);
+        .filter((key) => year < today.getFullYear() || key <= todayKeyValue)
+      : missionDates(year, today.getMonth());
     if (imported) {
       const memberMap = new Map();
       Object.values(imported.months || {}).forEach((month) => {
