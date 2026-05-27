@@ -137,10 +137,9 @@ body[data-page="attendance"] .attendance-header .eyebrow {
   margin-left: -26px;
   margin-right: -26px;
   display: grid;
-  min-height: 64px;
-  padding-top: calc(env(safe-area-inset-top) + 6px);
+  min-height: 52px;
+  padding-top: calc(env(safe-area-inset-top) + 2px);
   place-items: center;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.34);
   background: #1e1c1a;
   text-align: center;
 }
@@ -319,10 +318,10 @@ body[data-page="attendance"] .attendance-header .eyebrow {
 .angel {
   position: absolute;
   left: -188px;
-  top: -76px;
+  top: -106px;
   z-index: 3;
-  width: 132px;
-  height: 132px;
+  width: 92px;
+  height: 92px;
   background: center / contain no-repeat url("../assets/images/angel.png");
   color: transparent;
   font-size: 0;
@@ -331,15 +330,15 @@ body[data-page="attendance"] .attendance-header .eyebrow {
 
 .arrow {
   position: absolute;
-  left: 104px;
-  top: 150px;
-  width: 140px;
+  left: 110px;
+  top: 148px;
+  width: 90px;
   height: 4px;
   border-radius: 999px;
   background: #fde68a;
   opacity: 0;
   transform-origin: left center;
-  rotate: 17deg;
+  rotate: 22deg;
 }
 
 .mission-stage.shooting .angel {
@@ -364,7 +363,7 @@ body[data-page="attendance"] .attendance-header .eyebrow {
     opacity: 1;
   }
   100% {
-    transform: translate(148px, 150px) rotate(-22deg);
+    transform: translate(140px, 160px) rotate(-30deg);
     opacity: 1;
   }
 }
@@ -652,18 +651,18 @@ body[data-page="home"] .board-head h2 {
   margin: 0 auto;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   background: #1e1c1a;
-  min-height: 76px;
-  padding: 8px 10px max(14px, env(safe-area-inset-bottom));
+  min-height: 60px;
+  padding: 4px 10px max(10px, env(safe-area-inset-bottom));
 }
 
 .bottom-nav a {
   display: grid;
-  gap: 4px;
+  gap: 3px;
   place-items: center;
   border-radius: 16px;
   color: #77736c;
-  padding: 10px 4px;
-  font-size: 16px;
+  padding: 6px 4px;
+  font-size: 13px;
   font-weight: 800;
   text-align: center;
 }
@@ -676,8 +675,8 @@ body[data-page="home"] .board-head h2 {
 
 .bottom-nav .nav-icon {
   display: block;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   opacity: 0.55;
   filter: grayscale(1);
