@@ -200,6 +200,44 @@
     });
   }
 
+  // 특정 월의 내 랭킹 순위 계산 (하드코딩 제거용)
+  function monthRank(year, monthIndex) {
+    if (!imported) return null;
+    const monthKey = `${year}-${monthIndex + 1}`;
+    const monthData = imported.months?.[monthKey];
+    if (!monthData) return null;
+
+    const todayKey = dateKey(today);
+    const allDates = missionDates(year, monthIndex);
+    const dates = allDates.filter((key) =>
+      year < today.getFullYear() ||
+      (year === today.getFullYear() && monthIndex < today.getMonth()) ||
+      key <= todayKey
+    );
+    if (!dates.length) return null;
+
+    const me = currentMemberId();
+    const memberMap = new Map();
+    monthData.members.forEach((member) => {
+      const nickKey = member.nickname || member.instagramId || member.id;
+      if (!memberMap.has(nickKey)) {
+        memberMap.set(nickKey, { memberIds: [member.id], nickname: member.nickname });
+      } else {
+        const row = memberMap.get(nickKey);
+        if (!row.memberIds.includes(member.id)) row.memberIds.push(member.id);
+      }
+    });
+
+    const rows = Array.from(memberMap.values()).map((entry) => {
+      const stat = importedGroupStats(entry.memberIds, dates);
+      return { ...entry, ...stat, isMe: entry.memberIds.includes(me) };
+    }).sort((a, b) => b.percent - a.percent || b.done - a.done);
+
+    const ranked = assignRanks(rows);
+    const meRow = ranked.find((r) => r.isMe);
+    return meRow ? meRow.rank : null;
+  }
+
   window.DC = {
     today,
     emojiSet,
@@ -223,5 +261,6 @@
     monthStats,
     userRows,
     assignRanks,
+    monthRank,
   };
 })();

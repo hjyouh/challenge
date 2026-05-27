@@ -13,7 +13,7 @@
     const stats = DC.monthStats(year, monthIndex);
     const doneCount = stats.dates.filter((dateKey) => attendedOn(dateKey)).length;
     const percent = DC.rate(doneCount, stats.total);
-    const rank = 12;
+    const rank = DC.monthRank(year, monthIndex);
     const key = `${year}-${monthIndex}`;
     const open = key === openKey ? "open" : "";
     const renderPouch = (key) => {
@@ -35,7 +35,7 @@
       </button>
       <div class="month-summary">
         <span>${stats.total}번중 ${doneCount}번 출석 · ${percent}% 출석</span>
-        <span>현재 순위: ${rank}등</span>
+        <span>현재 순위: ${rank !== null ? rank + "등" : "-"}</span>
       </div>
       <div class="month-body">
         <div class="pouch-grid">

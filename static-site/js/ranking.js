@@ -61,10 +61,9 @@
   function render() {
     const rows = DC.assignRanks(currentRows());
     list.innerHTML = rows
-      .map((row, index) => {
-        const divider = index > 0 && index % 10 === 0 ? `<div class="rank-fade-line" aria-hidden="true"></div>` : "";
+      .map((row) => {
         const fullName = row.nickname || row.instagramId || row.id;
-        return `${divider}<article class="rank-card ${row.isMe || row.id === "me" ? "me" : ""}">
+        return `<article class="rank-card ${row.isMe || row.id === "me" ? "me" : ""}">
           <span class="rank-place">${row.rank}등 ${row.grade}</span>
           <button class="rank-name" type="button" data-full-name="${escapeHtml(fullName)}">${escapeHtml(shortName(fullName))}</button>
           <span class="rank-count">${row.total}번중 ${row.done}번 출석</span>

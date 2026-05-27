@@ -345,6 +345,18 @@
     });
   }
 
+  // 키보드 올라올 때 헤더가 밀리지 않도록 visualViewport 높이 반영
+  if (window.visualViewport) {
+    const phone = document.querySelector(".auth-phone");
+    if (phone) {
+      const updateHeight = () => {
+        phone.style.height = window.visualViewport.height + "px";
+      };
+      window.visualViewport.addEventListener("resize", updateHeight);
+      updateHeight();
+    }
+  }
+
   localStorage.removeItem(sessionKey);
   renderStart();
 })();
