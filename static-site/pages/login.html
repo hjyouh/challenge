@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="ko">
   <head>
+    <script>
+      // iOS에서 키보드 올라올 때 window scroll 강제 리셋 → 제목 고정
+      window.addEventListener('scroll', function() { window.scrollTo(0, 0); }, { passive: false });
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0f172a" />
@@ -10,7 +14,7 @@
     <meta name="apple-mobile-web-app-title" content="디인챌" />
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/images/angel-icon.png" />
-    <link rel="stylesheet" href="../css/styles.css?v=auth25" />
+    <link rel="stylesheet" href="../css/styles.css?v=auth26" />
     <meta property="og:title" content="디인챌 로그인" />
     <meta property="og:description" content="천사님 인스타 챌린지 출석 체크" />
     <meta property="og:image" content="https://angelsinstachallenge.vercel.app/assets/images/og-image.png" />
@@ -28,6 +32,6 @@
     </main>
     <script src="../js/imported-data.js?v=data2"></script>
     <script src="../js/common.js?v=common2"></script>
-    <script src="../js/auth.js?v=auth19"></script>
+    <script src="../js/auth.js?v=auth20"></script>
   </body>
 </html>

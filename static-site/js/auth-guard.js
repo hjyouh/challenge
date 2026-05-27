@@ -20,5 +20,8 @@
       ? "./pages/login.html"
       : "./login.html";
     location.replace(path);
+  } else {
+    // 인증 통과 → head에서 숨긴 페이지를 표시 (flash 방지)
+    document.documentElement.style.opacity = "";
   }
 })();

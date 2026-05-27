@@ -1353,11 +1353,8 @@ body[data-page="auth"] .my-header h1 {
 
 body[data-page="auth"] {
   background: #161513;
-  /* 키보드 올라올 때 body 자체 스크롤 방지 → 헤더 고정 */
-  position: fixed;
-  inset: 0;
-  width: 100%;
   overflow: hidden;
+  height: 100dvh;
 }
 
 .auth-phone {
