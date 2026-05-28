@@ -239,11 +239,17 @@
     return meRow ? meRow.rank : null;
   }
 
+  const splashStart = Date.now();
+
   function hideSplash() {
     const s = document.getElementById("splash");
     if (!s) return;
-    s.classList.add("out");
-    setTimeout(() => { if (s.parentNode) s.parentNode.removeChild(s); }, 380);
+    const elapsed = Date.now() - splashStart;
+    const delay = Math.max(0, 1500 - elapsed);
+    setTimeout(() => {
+      s.classList.add("out");
+      setTimeout(() => { if (s.parentNode) s.parentNode.removeChild(s); }, 380);
+    }, delay);
   }
 
   window.DC = {
