@@ -1104,38 +1104,44 @@ body[data-page="my"] .phone {
   padding-left: 0;
 }
 
-.inline-check {
-  display: grid;
-  grid-column: 3 / span 2;
-  grid-template-columns: subgrid;
-  align-items: center;
-  color: #77736c !important;
-  font-size: 14px !important;
-  font-weight: 400 !important;
-}
-
-.inline-check input {
+.row-check {
   justify-self: center;
+  align-self: center;
   width: 14px;
   height: 14px;
+  margin: 0;
   accent-color: var(--green);
 }
 
-.inline-check:has(input:checked) {
-  color: var(--green) !important;
+.row-check-label {
+  justify-self: start;
+  align-self: center;
+  color: #77736c;
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.row-check:checked + .row-check-label {
+  color: var(--green);
 }
 
 .icon-action {
+  justify-self: center;
+  align-self: center;
   color: #b8b3aa;
   font-size: 14px;
   line-height: 1;
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .text-action {
+  justify-self: start;
+  align-self: center;
   color: #77736c;
-  font-size: 14px;
+  font-size: 13px;
   white-space: nowrap;
 }
 
@@ -1146,15 +1152,7 @@ body[data-page="my"] .phone {
 }
 
 .action-stack {
-  display: grid;
-  grid-column: 3 / span 2;
-  grid-template-columns: subgrid;
-  align-items: center;
-}
-
-.profile-row > .inline-check,
-.profile-row > .valid-button {
-  justify-self: start;
+  display: contents;
 }
 
 .install-row {
@@ -1241,6 +1239,8 @@ body[data-page="my"] .phone {
 }
 
 .valid-button {
+  justify-self: start;
+  align-self: center;
   border: 0;
   background: transparent;
   color: #77736c;
