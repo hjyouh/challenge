@@ -73,7 +73,7 @@
     password.value = emptyIfDefault(profile.password, ["123456"]);
     originalPassword = password.value;
     autoLogin.checked = Boolean(profile.autoLogin);
-    emojiPicker.textContent = `${profile.emoji} 이모지 선택 ▽`;
+    emojiPicker.textContent = `${profile.emoji} 이모지 선택`;
     if (fullInstagramId && DC.instagramValid(fullInstagramId)) {
       instagramVerified = true;
       validateInstagramButton.className = "valid-button valid";

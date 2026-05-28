@@ -70,7 +70,7 @@
     const maxNickW = rows.reduce((max, row) => {
       return Math.max(max, nickPx(shortName(row.nickname || row.instagramId || row.id)));
     }, 60);
-    list.style.setProperty("--nick-col", Math.ceil(maxNickW) + 8 + "px");
+    list.style.setProperty("--nick-col", Math.min(Math.ceil(maxNickW) + 8, 138) + "px");
     list.innerHTML = rows
       .map((row) => {
         const fullName = row.nickname || row.instagramId || row.id;
@@ -78,7 +78,8 @@
           <span class="rank-grade">${row.grade}</span>
           <span class="rank-num">${row.rank}등</span>
           <button class="rank-name" type="button" data-full-name="${escapeHtml(fullName)}">${escapeHtml(shortName(fullName))}</button>
-          <span class="rank-stat">${row.total}번중 ${row.done}번 출석 ${row.percent}%</span>
+          <span class="rank-attend">${row.total}번중 ${row.done}번 출석</span>
+          <span class="rank-pct">${row.percent}%</span>
         </article>`;
       })
       .join("");

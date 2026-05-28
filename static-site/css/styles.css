@@ -901,7 +901,7 @@ body[data-page="ranking"] .phone {
 
 .ranking-list {
   display: grid;
-  grid-template-columns: 22px 32px var(--nick-col, 110px) auto;
+  grid-template-columns: 22px 32px var(--nick-col, 110px) 80px 15px;
   column-gap: 3px;
   justify-content: center;
   max-width: 100%;
@@ -980,10 +980,16 @@ body[data-page="ranking"] .rank-num {
   font-size: 12px;
 }
 
-body[data-page="ranking"] .rank-stat {
+body[data-page="ranking"] .rank-attend {
   white-space: nowrap;
   text-align: right;
-  padding-left: 4px;
+  padding: 0 3px;
+  font-size: 12px;
+}
+
+body[data-page="ranking"] .rank-pct {
+  white-space: nowrap;
+  text-align: right;
   font-size: 12px;
 }
 
@@ -1027,7 +1033,7 @@ body[data-page="my"] .phone {
 
 .profile-row {
   display: grid;
-  grid-template-columns: 65px minmax(0, 1fr) 115px;
+  grid-template-columns: 65px minmax(0, 1fr) 103px;
   align-items: center;
   gap: 8px;
   min-height: 30px;
@@ -1099,7 +1105,7 @@ body[data-page="my"] .phone {
 
 .inline-check {
   display: grid;
-  grid-template-columns: 26px 1fr;
+  grid-template-columns: 14px 1fr;
   align-items: center;
   gap: 3px;
   width: 100%;
@@ -1121,9 +1127,10 @@ body[data-page="my"] .phone {
 
 .icon-action {
   color: #b8b3aa;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 1;
   padding: 0;
+  overflow: hidden;
 }
 
 .text-action {
@@ -1140,7 +1147,7 @@ body[data-page="my"] .phone {
 
 .action-stack {
   display: grid;
-  grid-template-columns: 26px 1fr;
+  grid-template-columns: 14px 1fr;
   align-items: center;
   gap: 4px;
   width: 100%;
