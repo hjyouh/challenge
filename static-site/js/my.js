@@ -10,6 +10,7 @@
   const autoLogin = document.getElementById("autoLogin");
   const emojiPicker = document.getElementById("emojiPicker");
   const emojiMenu = document.getElementById("emojiMenu");
+  const emojiArrow = document.getElementById("emojiArrow");
   const installToggle = document.getElementById("installToggle");
   const installDetail = document.getElementById("installDetail");
   let emojiIndex = Math.max(0, DC.emojiSet.indexOf(profile.emoji));
@@ -117,7 +118,7 @@
       button.addEventListener("click", () => {
         profile.emoji = button.dataset.emoji;
         emojiIndex = Math.max(0, DC.emojiSet.indexOf(profile.emoji));
-        emojiPicker.textContent = `${profile.emoji} 이모지 선택  ▽`;
+        emojiPicker.textContent = `${profile.emoji} 이모지 선택`;
         emojiMenu.classList.remove("open");
         DC.saveProfile(profile);
       });
@@ -129,6 +130,7 @@
     emojiMenu.classList.toggle("open");
     updateEmojiScrollLine();
   });
+  emojiArrow.addEventListener("click", () => emojiPicker.click());
 
   nickname.addEventListener("focus", function () { this.value = fullNickname; });
   nickname.addEventListener("input", function () { fullNickname = this.value; });

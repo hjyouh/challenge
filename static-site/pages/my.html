@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-title" content="디인챌" />
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/images/angel-icon.png" />
-    <link rel="stylesheet" href="../css/styles.css?v=my24" />
+    <link rel="stylesheet" href="../css/styles.css?v=my25" />
     <meta property="og:title" content="디인챌 마이페이지" />
     <meta property="og:description" content="천사님 인스타 챌린지 출석 체크" />
     <meta property="og:image" content="https://angelsinstachallenge.vercel.app/assets/images/og-image.png" />
@@ -51,8 +51,12 @@
         <div class="profile-row">
           <label for="emojiPicker">이모지</label>
           <div class="emoji-select-wrap">
-            <button class="line-select" id="emojiPicker" type="button">이모지 선택  ▽</button>
+            <button class="line-select" id="emojiPicker" type="button">이모지 선택</button>
             <div class="emoji-menu" id="emojiMenu"></div>
+          </div>
+          <div class="action-stack">
+            <button class="icon-action" id="emojiArrow" type="button" aria-label="이모지 선택">▽</button>
+            <span></span>
           </div>
         </div>
         <div class="profile-row">
@@ -114,6 +118,6 @@
     <script src="../js/imported-data.js?v=data2"></script>
     <script src="../js/common.js?v=common3"></script>
     <script src="../js/auth-guard.js?v=auth2"></script>
-    <script src="../js/my.js?v=my18"></script>
+    <script src="../js/my.js?v=my19"></script>
   </body>
 </html>
