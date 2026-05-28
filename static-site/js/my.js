@@ -132,6 +132,13 @@
   });
   emojiArrow.addEventListener("click", () => emojiPicker.click());
 
+  // 이모지 메뉴 바깥 탭 시 닫기
+  document.addEventListener("click", (e) => {
+    if (emojiMenu.classList.contains("open") && !emojiMenu.contains(e.target) && e.target !== emojiPicker && e.target !== emojiArrow) {
+      emojiMenu.classList.remove("open");
+    }
+  });
+
   nickname.addEventListener("focus", function () { this.value = fullNickname; });
   nickname.addEventListener("input", function () { fullNickname = this.value; });
   nickname.addEventListener("blur", function () { this.value = truncate(fullNickname, 10); });
