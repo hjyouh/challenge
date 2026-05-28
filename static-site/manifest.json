@@ -4,8 +4,8 @@
   "description": "인스타그램 챌린지 출석 체크 앱",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#161513",
+  "theme_color": "#161513",
   "orientation": "portrait",
   "icons": [
     {
