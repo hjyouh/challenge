@@ -1824,7 +1824,7 @@ th {
   width: 200px;
   height: 200px;
   object-fit: contain;
-  animation: splash-pop 1.5s cubic-bezier(0.18, 0.72, 0.18, 1) forwards;
+  animation: splash-pop 3s cubic-bezier(0.18, 0.72, 0.18, 1) forwards;
 }
 
 @keyframes splash-pop {

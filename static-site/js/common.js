@@ -253,7 +253,7 @@
     // 처음 앱 실행 시에만 1.5초 스플래시 표시
     sessionStorage.setItem("splash-shown", "1");
     const elapsed = Date.now() - splashStart;
-    const delay = Math.max(0, 1500 - elapsed);
+    const delay = Math.max(0, 3000 - elapsed);
     setTimeout(() => {
       s.classList.add("out");
       setTimeout(() => { if (s.parentNode) s.parentNode.removeChild(s); }, 380);
