@@ -801,18 +801,18 @@ body[data-page="attendance"] .pouch-card .emoji {
 body[data-page="ranking"] .phone {
   width: min(100%, 470px);
   background: #161513;
-  padding: max(76px, calc(env(safe-area-inset-top) + 60px)) 10px 132px;
+  /* 헤더(58px) + 탭바(~43px) + 여백(12px) */
+  padding: max(123px, calc(env(safe-area-inset-top) + 107px)) 10px 132px;
 }
 
 body[data-page="ranking"] .rank-switch-wrap {
-  position: sticky;
-  top: max(58px, calc(env(safe-area-inset-top) + 42px));
+  position: fixed;
+  top: max(68px, calc(env(safe-area-inset-top) + 52px));
+  left: 0;
+  right: 0;
   z-index: 9;
   background: #161513;
-  margin-left: -10px;
-  margin-right: -10px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 10px;
 }
 
 .rank-switch-wrap {
