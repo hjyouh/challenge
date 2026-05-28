@@ -70,7 +70,7 @@
     const maxNickW = rows.reduce((max, row) => {
       return Math.max(max, nickPx(shortName(row.nickname || row.instagramId || row.id)));
     }, 60);
-    list.style.setProperty("--nick-col", Math.min(Math.ceil(maxNickW) + 8, 138) + "px");
+    list.style.setProperty("--nick-col", Math.min(Math.ceil(maxNickW) + 8, 135) + "px");
     list.innerHTML = rows
       .map((row) => {
         const fullName = row.nickname || row.instagramId || row.id;

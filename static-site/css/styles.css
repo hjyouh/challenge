@@ -901,7 +901,7 @@ body[data-page="ranking"] .phone {
 
 .ranking-list {
   display: grid;
-  grid-template-columns: 22px 32px var(--nick-col, 110px) 80px 15px;
+  grid-template-columns: 22px 30px var(--nick-col, 110px) 80px 15px;
   column-gap: 3px;
   justify-content: center;
   max-width: 100%;
@@ -1033,9 +1033,10 @@ body[data-page="my"] .phone {
 
 .profile-row {
   display: grid;
-  grid-template-columns: 65px minmax(0, 1fr) 103px;
+  grid-template-columns: 80px minmax(0, 1fr) 14px 85px;
   align-items: center;
-  gap: 8px;
+  column-gap: 8px;
+  row-gap: 0;
   min-height: 30px;
 }
 
@@ -1105,10 +1106,9 @@ body[data-page="my"] .phone {
 
 .inline-check {
   display: grid;
-  grid-template-columns: 14px 1fr;
+  grid-column: 3 / span 2;
+  grid-template-columns: subgrid;
   align-items: center;
-  gap: 3px;
-  width: 100%;
   color: #77736c !important;
   font-size: 14px !important;
   font-weight: 400 !important;
@@ -1147,10 +1147,9 @@ body[data-page="my"] .phone {
 
 .action-stack {
   display: grid;
-  grid-template-columns: 14px 1fr;
+  grid-column: 3 / span 2;
+  grid-template-columns: subgrid;
   align-items: center;
-  gap: 4px;
-  width: 100%;
 }
 
 .profile-row > .inline-check,
@@ -1237,7 +1236,7 @@ body[data-page="my"] .phone {
 
 .field-status {
   min-height: 16px;
-  padding-left: 73px;
+  padding-left: 88px;
   font-size: 13px;
 }
 
