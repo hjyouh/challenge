@@ -1714,7 +1714,6 @@ body[data-page="auth"] {
   text-align: center;
   transition: color 0.2s;
   user-select: none;
-  pointer-events: none;
 }
 
 .pw-match.matched {
