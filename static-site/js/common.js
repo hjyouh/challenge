@@ -239,9 +239,17 @@
     return meRow ? meRow.rank : null;
   }
 
+  function hideSplash() {
+    const s = document.getElementById("splash");
+    if (!s) return;
+    s.classList.add("out");
+    setTimeout(() => { if (s.parentNode) s.parentNode.removeChild(s); }, 380);
+  }
+
   window.DC = {
     today,
     emojiSet,
+    hideSplash,
     dateKey,
     parseKey,
     shortDate,

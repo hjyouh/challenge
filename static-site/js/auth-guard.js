@@ -21,7 +21,7 @@
       : "./login.html";
     location.replace(path);
   } else {
-    // 인증 통과 → head에서 숨긴 페이지를 표시 (flash 방지)
-    document.documentElement.style.opacity = "";
+    // 인증 통과 → 스플래시 숨김
+    DC.hideSplash();
   }
 })();

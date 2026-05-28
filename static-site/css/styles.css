@@ -1695,9 +1695,26 @@ body[data-page="auth"] {
   border-top: 1px dashed rgba(180, 176, 168, 0.45);
   border-radius: 0 0 13px 13px;
   background: transparent;
-  color: var(--gold);
+  color: var(--green);
   cursor: pointer;
   font-weight: 800;
+}
+
+.pw-check-line {
+  grid-template-columns: 100px minmax(0, 1fr) 22px !important;
+}
+
+.pw-match {
+  font-size: 16px;
+  font-weight: 800;
+  color: transparent;
+  text-align: center;
+  transition: color 0.2s;
+  user-select: none;
+}
+
+.pw-match.matched {
+  color: var(--green);
 }
 
 .account-subheader {
@@ -1781,4 +1798,34 @@ th {
   .admin-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+/* ═══ 스플래시 화면 ═══ */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #161513;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+#splash.out {
+  opacity: 0;
+}
+
+#splash img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  animation: splash-pop 0.95s cubic-bezier(0.18, 0.72, 0.18, 1) forwards;
+}
+
+@keyframes splash-pop {
+  0%   { opacity: 0; transform: scale(0.05); }
+  65%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
 }
