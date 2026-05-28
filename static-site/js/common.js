@@ -1,4 +1,10 @@
 (function () {
+  // 이미 이번 세션에 스플래시를 표시했으면 즉시 숨김 (페이지 이동 시 검은 화면 방지)
+  if (sessionStorage.getItem("splash-shown")) {
+    var s = document.getElementById("splash");
+    if (s && s.parentNode) s.parentNode.removeChild(s);
+  }
+
   const today = new Date();
   const imported = window.DC_IMPORTED_DATA || null;
 
@@ -244,6 +250,8 @@
   function hideSplash() {
     const s = document.getElementById("splash");
     if (!s) return;
+    // 처음 앱 실행 시에만 1.5초 스플래시 표시
+    sessionStorage.setItem("splash-shown", "1");
     const elapsed = Date.now() - splashStart;
     const delay = Math.max(0, 1500 - elapsed);
     setTimeout(() => {

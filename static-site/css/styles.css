@@ -94,14 +94,14 @@ h3 {
 body[data-page="home"] .phone {
   width: min(100%, 470px);
   background: #161513;
-  padding: 0 26px 96px;
+  padding: max(78px, calc(env(safe-area-inset-top) + 62px)) 26px 96px;
 }
 
 body[data-page="attendance"] .phone {
   width: min(100%, 470px);
   min-height: auto;
   background: #161513;
-  padding: 14px 34px 160px;
+  padding: max(102px, calc(env(safe-area-inset-top) + 86px)) 34px 160px;
 }
 
 body[data-page="attendance"] {
@@ -110,7 +110,9 @@ body[data-page="attendance"] {
 
 /* ═══ 공통 페이지 헤더 ═══ */
 .page-header {
-  position: sticky;
+  position: fixed;
+  left: 0;
+  right: 0;
   top: 0;
   z-index: 10;
   display: grid;
@@ -127,22 +129,16 @@ body[data-page="attendance"] {
 }
 
 body[data-page="home"] .page-header {
-  width: calc(100% + 52px);
-  margin: 0 -26px 20px;
   padding-left: 26px;
   padding-right: 26px;
 }
 
 body[data-page="attendance"] .page-header {
-  width: calc(100% + 68px);
-  margin: -14px -34px 44px;
   padding-left: 34px;
   padding-right: 34px;
 }
 
 body[data-page="ranking"] .page-header {
-  width: calc(100% + 20px);
-  margin: -20px -10px 18px;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -158,6 +154,13 @@ body[data-page="auth"] .page-header {
 
 body[data-page="auth"] .page-header h1 {
   color: #FFC000;
+}
+
+body[data-page="my"] .page-header {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
 }
 
 .mission-meta {
@@ -798,7 +801,7 @@ body[data-page="attendance"] .pouch-card .emoji {
 body[data-page="ranking"] .phone {
   width: min(100%, 470px);
   background: #161513;
-  padding: 20px 10px 132px;
+  padding: max(76px, calc(env(safe-area-inset-top) + 60px)) 10px 132px;
 }
 
 .rank-switch-wrap {
@@ -1711,6 +1714,7 @@ body[data-page="auth"] {
   text-align: center;
   transition: color 0.2s;
   user-select: none;
+  pointer-events: none;
 }
 
 .pw-match.matched {
@@ -1818,14 +1822,14 @@ th {
 }
 
 #splash img {
-  width: 160px;
-  height: 160px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
-  animation: splash-pop 0.95s cubic-bezier(0.18, 0.72, 0.18, 1) forwards;
+  animation: splash-pop 1.5s cubic-bezier(0.18, 0.72, 0.18, 1) forwards;
 }
 
 @keyframes splash-pop {
-  0%   { opacity: 0; transform: scale(0.05); }
-  65%  { opacity: 1; transform: scale(1.1); }
+  0%   { opacity: 0; transform: scale(0.1); }
+  55%  { opacity: 1; transform: scale(1.08); }
   100% { opacity: 1; transform: scale(1); }
 }
