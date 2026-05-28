@@ -796,23 +796,46 @@ body[data-page="attendance"] .pouch-card .emoji {
   height: 62px;
 }
 
-/* ranking-header → .page-header 로 통합됨 */
+/* ranking: flex 레이아웃 — 헤더/탭바 완전 고정, 리스트만 스크롤 */
+
+body[data-page="ranking"] {
+  overflow: hidden;
+  height: 100dvh;
+}
 
 body[data-page="ranking"] .phone {
+  display: flex;
+  flex-direction: column;
   width: min(100%, 470px);
+  height: 100dvh;
   background: #161513;
-  /* 헤더(58px) + 탭바(~43px) + 여백(12px) */
-  padding: max(123px, calc(env(safe-area-inset-top) + 107px)) 10px 132px;
+  padding: 0;
+  overflow: hidden;
+}
+
+body[data-page="ranking"] .page-header {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  flex-shrink: 0;
 }
 
 body[data-page="ranking"] .rank-switch-wrap {
-  position: fixed;
-  top: max(68px, calc(env(safe-area-inset-top) + 52px));
-  left: 0;
-  right: 0;
-  z-index: 9;
-  background: #161513;
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  flex-shrink: 0;
   padding: 0 10px;
+}
+
+body[data-page="ranking"] #rankingList {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 10px calc(96px + env(safe-area-inset-bottom));
+  -webkit-overflow-scrolling: touch;
 }
 
 .rank-switch-wrap {
@@ -1835,8 +1858,8 @@ th {
 }
 
 #splash img {
-  width: 200px;
-  height: 200px;
+  width: 160px;
+  height: 160px;
   object-fit: contain;
   animation: splash-pop 3s cubic-bezier(0.18, 0.72, 0.18, 1) forwards;
 }
