@@ -801,7 +801,7 @@ body[data-page="ranking"] .phone {
 
 .rank-switch-wrap {
   position: relative;
-  margin: 0 0 18px;
+  margin: 0 0 6px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.18);
 }
 
@@ -914,7 +914,7 @@ body[data-page="ranking"] .rank-card {
   align-items: center;
   gap: 3px;
   margin-top: 0;
-  padding: 4px 0;
+  padding: 8px 0;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -1026,7 +1026,7 @@ body[data-page="my"] .phone {
 
 .profile-row {
   display: grid;
-  grid-template-columns: 70px minmax(0, 1fr) auto;
+  grid-template-columns: 70px minmax(0, 1fr) 130px;
   align-items: center;
   gap: 8px;
   min-height: 30px;
@@ -1098,14 +1098,13 @@ body[data-page="my"] .phone {
 
 .inline-check {
   display: grid;
-  grid-template-columns: 26px auto;
+  grid-template-columns: 26px 1fr;
   align-items: center;
   gap: 3px;
+  width: 100%;
   color: #77736c !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  white-space: nowrap;
-  justify-self: start;
 }
 
 .inline-check input {
@@ -1139,11 +1138,10 @@ body[data-page="my"] .phone {
 
 .action-stack {
   display: grid;
-  grid-template-columns: 26px auto;
+  grid-template-columns: 26px 1fr;
   align-items: center;
   gap: 4px;
-  min-width: 0;
-  justify-self: start;
+  width: 100%;
 }
 
 .profile-row > .inline-check,
