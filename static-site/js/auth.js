@@ -86,7 +86,7 @@
     // iOS "강력한 암호" 팝업 방지: type=password 대신 text + -webkit-text-security:disc
     const isPw = type === "password";
     const inputType = isPw ? "text" : type;
-    const pwExtra = isPw ? ' style="-webkit-text-security:disc" autocomplete="off" data-form-type="other"' : "";
+    const pwExtra = isPw ? ' style="-webkit-text-security:disc" autocomplete="one-time-code" data-form-type="other"' : "";
     return `<label class="auth-field" for="${id}"><span>${label}</span><input id="${id}" type="${inputType}" placeholder="${placeholder}" value="${value}" autocapitalize="${autocapitalize}" autocorrect="off" spellcheck="false"${pwExtra} /></label>`;
   }
 
@@ -239,8 +239,8 @@
       </div>
       <div class="account-popup" id="createForm">
         <label class="account-line" for="createLoginId"><span>로그인 ID</span><input id="createLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false" /></label>
-        <label class="account-line" for="createPassword"><span>비밀번호</span><input id="createPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocapitalize="none" autocorrect="off" autocomplete="off" data-form-type="other" /></label>
-        <label class="account-line pw-check-line" for="createPasswordConfirm"><span>비밀번호 확인</span><input id="createPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocapitalize="none" autocorrect="off" autocomplete="off" data-form-type="other" /><span class="pw-match" id="pwMatchIcon">✓</span></label>
+        <label class="account-line" for="createPassword"><span>비밀번호</span><input id="createPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocapitalize="none" autocorrect="off" autocomplete="one-time-code" data-form-type="other" /></label>
+        <label class="account-line pw-check-line" for="createPasswordConfirm"><span>비밀번호 확인</span><input id="createPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocapitalize="none" autocorrect="off" autocomplete="one-time-code" data-form-type="other" /><span class="pw-match" id="pwMatchIcon">✓</span></label>
         <div class="account-line readonly-account"><span>닉네임</span><span class="readonly-value">${member.nickname}</span></div>
         <div class="account-line readonly-account"><span>인스타그램 ID</span><span class="readonly-value">${member.instagramId || "-"}</span></div>
         <label class="account-check check-first"><input id="createAuto" type="checkbox" checked /><span>자동로그인</span></label>
@@ -334,8 +334,8 @@
       <div class="account-popup" id="newForm">
         <p class="account-question">계정을 생성하시겠습니까?</p>
         <label class="account-line" for="newLoginId"><span>로그인 ID</span><input id="newLoginId" type="text" placeholder="login_id" autocomplete="off" /></label>
-        <label class="account-line" for="newPassword"><span>비밀번호</span><input id="newPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="off" data-form-type="other" /></label>
-        <label class="account-line pw-check-line" for="newPasswordConfirm"><span>비밀번호 확인</span><input id="newPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="off" data-form-type="other" /><span class="pw-match" id="newPwMatchIcon">✓</span></label>
+        <label class="account-line" for="newPassword"><span>비밀번호</span><input id="newPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="one-time-code" data-form-type="other" /></label>
+        <label class="account-line pw-check-line" for="newPasswordConfirm"><span>비밀번호 확인</span><input id="newPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="one-time-code" data-form-type="other" /><span class="pw-match" id="newPwMatchIcon">✓</span></label>
         <label class="account-line" for="newNickname"><span>닉네임</span><input id="newNickname" type="text" placeholder="닉네임" autocomplete="off" /></label>
         <label class="account-line" for="newInstagram"><span>인스타그램 ID</span><input id="newInstagram" type="text" placeholder="instagram_id" autocomplete="off" /></label>
         <label class="account-check check-first"><input id="newAuto" type="checkbox" checked /><span>자동로그인</span></label>
