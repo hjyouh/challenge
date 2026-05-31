@@ -2,13 +2,7 @@
   const panel = document.getElementById("authPanel");
   const accountsKey = "deinchal-login-accounts";
   const sessionKey = "deinchal-auth-session";
-  const resetForTest = true;
-
-  if (resetForTest) {
-    localStorage.removeItem(accountsKey);
-    localStorage.removeItem(sessionKey);
-    localStorage.removeItem("deinchal-profile");
-  }
+  const resetForTest = false;
 
   function accounts() {
     return JSON.parse(localStorage.getItem(accountsKey) || "[]");
@@ -134,7 +128,23 @@
       </div>
     `;
     bindTextChoice('[data-choice="yes"]', renderFind);
-    bindTextChoice('[data-choice="no"]', renderLogin);
+    bindTextChoice('[data-choice="no"]', renderReturning);
+  }
+
+  // 처음접속 N → 기존 계정 있나?
+  function renderReturning() {
+    panel.innerHTML = `
+      <div class="login-popup">
+        <h2>기존 계정이 있나요?</h2>
+        <p>이전에 만드신 로그인 ID와<br />비밀번호가 있으면 '예'를 선택하세요.</p>
+        <div class="popup-actions">
+          <span class="text-choice" data-choice="no" role="button" tabindex="0">아니오</span>
+          <span class="text-choice" data-choice="yes" role="button" tabindex="0">예</span>
+        </div>
+      </div>
+    `;
+    bindTextChoice('[data-choice="yes"]', renderLogin);
+    bindTextChoice('[data-choice="no"]', renderNewAccount);
   }
 
   function renderFind(message = "") {
@@ -385,5 +395,10 @@
 
   localStorage.removeItem(sessionKey);
   DC.hideSplash();
-  renderStart();
+  // 계정이 있으면 처음접속 화면 없이 바로 로그인으로
+  if (accounts().length > 0) {
+    renderLogin();
+  } else {
+    renderStart();
+  }
 })();
