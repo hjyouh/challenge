@@ -1593,6 +1593,41 @@ body[data-page="auth"] {
   accent-color: var(--green);
 }
 
+/* 로그인 3버튼 한 줄 */
+.login-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.login-btn {
+  flex: 1;
+  min-height: 40px;
+  padding: 10px 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(180, 176, 168, 0.3);
+  background: transparent;
+  color: #b8b3aa;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.login-btn-primary {
+  background: rgba(250, 204, 21, 0.2);
+  border-color: transparent;
+  color: #77736c;
+  cursor: default;
+}
+
+.login-btn-primary.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0f172a;
+  cursor: pointer;
+}
+
 .candidate-list {
   display: grid;
   gap: 8px;

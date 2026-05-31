@@ -296,12 +296,27 @@
         ${field("loginId", "로그인 ID", "login_id")}
         ${field("loginPassword", "비밀번호", "비밀번호", "password")}
         <label class="auth-check"><input id="loginAuto" type="checkbox" checked /> 자동로그인</label>
-        <button class="primary" type="button" id="loginSubmit">로그인</button>
-        <button class="secondary" id="backStart" type="button">처음으로</button>
+        <div class="login-actions">
+          <button class="login-btn" id="backStart" type="button">처음으로</button>
+          <button class="login-btn login-btn-primary" id="loginSubmit" type="button" disabled>로그인</button>
+          <button class="login-btn" id="goNewAccount" type="button">계정 생성</button>
+        </div>
       </div>
     `;
+    const submit = document.getElementById("loginSubmit");
+    const updateActive = () => {
+      const hasId = Boolean(document.getElementById("loginId").value.trim());
+      const hasPw = Boolean(document.getElementById("loginPassword").value.trim());
+      submit.disabled = !(hasId && hasPw);
+      submit.classList.toggle("active", hasId && hasPw);
+    };
+    document.getElementById("loginId").addEventListener("input", updateActive);
+    document.getElementById("loginPassword").addEventListener("input", updateActive);
+    updateActive();
     document.getElementById("backStart").addEventListener("click", () => renderStart());
+    document.getElementById("goNewAccount").addEventListener("click", () => renderNewAccount());
     document.getElementById("loginSubmit").addEventListener("click", () => {
+      if (submit.disabled) return;
       const loginId = document.getElementById("loginId").value.trim();
       const password = document.getElementById("loginPassword").value.trim();
       const account = accounts().find((item) => item.loginId === loginId && item.password === password);
