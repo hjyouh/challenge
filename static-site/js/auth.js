@@ -292,17 +292,16 @@
         <p>이미 만든 로그인 ID와 비밀번호로 접속합니다.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
       </div>
-      <form class="auth-form" id="loginForm" autocomplete="off">
+      <div class="auth-form" id="loginForm">
         ${field("loginId", "로그인 ID", "login_id")}
         ${field("loginPassword", "비밀번호", "비밀번호", "password")}
         <label class="auth-check"><input id="loginAuto" type="checkbox" checked /> 자동로그인</label>
-        <button class="primary" type="submit">로그인</button>
+        <button class="primary" type="button" id="loginSubmit">로그인</button>
         <button class="secondary" id="backStart" type="button">처음으로</button>
-      </form>
+      </div>
     `;
     document.getElementById("backStart").addEventListener("click", () => renderStart());
-    document.getElementById("loginForm").addEventListener("submit", (event) => {
-      event.preventDefault();
+    document.getElementById("loginSubmit").addEventListener("click", () => {
       const loginId = document.getElementById("loginId").value.trim();
       const password = document.getElementById("loginPassword").value.trim();
       const account = accounts().find((item) => item.loginId === loginId && item.password === password);
