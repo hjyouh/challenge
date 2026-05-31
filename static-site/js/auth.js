@@ -153,7 +153,7 @@
         <h2>기존 계정 찾기</h2>
         <p>그동안 사용하신 닉네임 또는<br />인스타그램 ID를 입력해 주세요.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
-        <form class="auth-form" id="findForm">
+        <form class="auth-form" id="findForm" autocomplete="off">
           ${field("findNickname", "닉네임", "")}
           ${field("findInstagram", "인스타그램 ID", "")}
           <div class="find-actions">
