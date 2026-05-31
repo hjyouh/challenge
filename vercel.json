@@ -1,4 +1,12 @@
 {
   "framework": null,
-  "outputDirectory": "static-site"
+  "outputDirectory": "static-site",
+  "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    }
+  ]
 }
