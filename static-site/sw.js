@@ -1,4 +1,4 @@
-const CACHE = 'deinchal-v2';
+const CACHE = 'deinchal-v3';
 
 const PRECACHE = [
   '/',
