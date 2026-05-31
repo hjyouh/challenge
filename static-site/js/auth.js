@@ -87,7 +87,7 @@
     const isPw = type === "password";
     const inputType = isPw ? "text" : type;
     const pwExtra = isPw ? ' style="-webkit-text-security:disc" autocomplete="off" data-form-type="other"' : "";
-    return `<label class="auth-field" for="${id}"><span>${label}</span><input id="${id}" type="${inputType}" placeholder="${placeholder}" value="${value}" autocapitalize="${autocapitalize}" autocorrect="off" autocomplete="off" spellcheck="false"${pwExtra} /></label>`;
+    return `<label class="auth-field" for="${id}"><span>${label}</span><input id="${id}" type="${inputType}" placeholder="${placeholder}" value="${value}" autocapitalize="${autocapitalize}" autocorrect="off" spellcheck="false"${pwExtra} /></label>`;
   }
 
   function fitSubName() {
