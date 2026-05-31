@@ -237,15 +237,15 @@
         <p class="sub-question">이 계정으로 생성하시겠습니까?</p>
         <p class="sub-name"><span>${member.nickname}</span> / <span>@${member.instagramId || "-"}</span></p>
       </div>
-      <form class="account-popup" id="createForm">
-        <label class="account-line" for="createLoginId"><span>로그인 ID</span><input id="createLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" spellcheck="false" /></label>
+      <div class="account-popup" id="createForm">
+        <label class="account-line" for="createLoginId"><span>로그인 ID</span><input id="createLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false" /></label>
         <label class="account-line" for="createPassword"><span>비밀번호</span><input id="createPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocapitalize="none" autocorrect="off" autocomplete="off" data-form-type="other" /></label>
         <label class="account-line pw-check-line" for="createPasswordConfirm"><span>비밀번호 확인</span><input id="createPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocapitalize="none" autocorrect="off" autocomplete="off" data-form-type="other" /><span class="pw-match" id="pwMatchIcon">✓</span></label>
         <div class="account-line readonly-account"><span>닉네임</span><span class="readonly-value">${member.nickname}</span></div>
         <div class="account-line readonly-account"><span>인스타그램 ID</span><span class="readonly-value">${member.instagramId || "-"}</span></div>
         <label class="account-check check-first"><input id="createAuto" type="checkbox" checked /><span>자동로그인</span></label>
-        <button class="account-submit" id="createSubmit" type="submit" disabled>계정생성</button>
-      </form>
+        <button class="account-submit" id="createSubmit" type="button" disabled>계정생성</button>
+      </div>
     `;
     requestAnimationFrame(fitSubName);
     const requiredIds = ["createLoginId", "createPassword", "createPasswordConfirm"];
@@ -262,8 +262,7 @@
     };
     requiredIds.forEach((id) => document.getElementById(id).addEventListener("input", updateActive));
     updateActive();
-    document.getElementById("createForm").addEventListener("submit", (event) => {
-      event.preventDefault();
+    document.getElementById("createSubmit").addEventListener("click", () => {
       const loginId = document.getElementById("createLoginId").value.trim();
       const password = document.getElementById("createPassword").value.trim();
       if (submit.disabled || !loginId || !password) return;
@@ -318,16 +317,16 @@
 
   function renderNewAccount() {
     panel.innerHTML = `
-      <form class="account-popup" id="newForm" autocomplete="off">
+      <div class="account-popup" id="newForm">
         <p class="account-question">계정을 생성하시겠습니까?</p>
-        <label class="account-line" for="newLoginId"><span>로그인 ID</span><input id="newLoginId" type="text" placeholder="login_id" /></label>
+        <label class="account-line" for="newLoginId"><span>로그인 ID</span><input id="newLoginId" type="text" placeholder="login_id" autocomplete="off" /></label>
         <label class="account-line" for="newPassword"><span>비밀번호</span><input id="newPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="off" data-form-type="other" /></label>
         <label class="account-line pw-check-line" for="newPasswordConfirm"><span>비밀번호 확인</span><input id="newPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="off" data-form-type="other" /><span class="pw-match" id="newPwMatchIcon">✓</span></label>
-        <label class="account-line" for="newNickname"><span>닉네임</span><input id="newNickname" type="text" placeholder="닉네임" /></label>
-        <label class="account-line" for="newInstagram"><span>인스타그램 ID</span><input id="newInstagram" type="text" placeholder="instagram_id" /></label>
+        <label class="account-line" for="newNickname"><span>닉네임</span><input id="newNickname" type="text" placeholder="닉네임" autocomplete="off" /></label>
+        <label class="account-line" for="newInstagram"><span>인스타그램 ID</span><input id="newInstagram" type="text" placeholder="instagram_id" autocomplete="off" /></label>
         <label class="account-check check-first"><input id="newAuto" type="checkbox" checked /><span>자동로그인</span></label>
-        <button class="account-submit" id="newSubmit" type="submit" disabled>계정생성</button>
-      </form>
+        <button class="account-submit" id="newSubmit" type="button" disabled>계정생성</button>
+      </div>
       <div id="candidateList" class="candidate-list"></div>
     `;
     const requiredIds = ["newLoginId", "newPassword", "newPasswordConfirm", "newNickname", "newInstagram"];
@@ -343,8 +342,7 @@
     };
     requiredIds.forEach((id) => document.getElementById(id).addEventListener("input", updateActive));
     updateActive();
-    document.getElementById("newForm").addEventListener("submit", (event) => {
-      event.preventDefault();
+    document.getElementById("newSubmit").addEventListener("click", () => {
       const nickname = document.getElementById("newNickname").value.trim();
       const instagramId = document.getElementById("newInstagram").value.trim();
       const result = findMembers(nickname, instagramId);
