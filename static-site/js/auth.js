@@ -380,11 +380,19 @@
   }
 
   // 키보드 올라올 때: phone 높이 = visual viewport (헤더 고정 유지)
+  // 키보드 닫혀있을 때: auth-panel overflow hidden → Safari 주소창 pill 방지
+  // 키보드 열려있을 때: auth-panel overflow auto → 긴 폼 스크롤 허용
   const phone = document.querySelector(".auth-phone");
+  const authPanelEl = document.getElementById("authPanel");
   if (phone && window.visualViewport) {
     const updateHeight = () => {
       requestAnimationFrame(() => {
-        phone.style.height = window.visualViewport.height + "px";
+        const vvh = window.visualViewport.height;
+        phone.style.height = vvh + "px";
+        const keyboardOpen = window.innerHeight > vvh + 150;
+        if (authPanelEl) {
+          authPanelEl.style.overflowY = keyboardOpen ? "auto" : "hidden";
+        }
         window.scrollTo(0, 0);
       });
     };
