@@ -1161,6 +1161,16 @@ body[data-page="ranking"] .rank-pct {
   user-select: none;
 }
 
+.insta-check {
+  font-size: 15px;
+  font-weight: 900;
+  min-width: 18px;
+  text-align: center;
+  align-self: center;
+}
+.insta-check.valid  { color: var(--green); }
+.insta-check.invalid { color: var(--red); }
+
 .rank-empty-msg {
   grid-column: 1 / -1;
   text-align: center;

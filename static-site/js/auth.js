@@ -351,15 +351,26 @@
     });
   }
 
+  function isKnownInstagram(id) {
+    if (!id) return false;
+    return Object.values(window.DC_IMPORTED_DATA?.months || {}).some((month) =>
+      month.members.some((m) => normalize(m.instagramId) === normalize(id))
+    );
+  }
+
   function renderNewAccount() {
     panel.innerHTML = `
       <form class="account-popup" id="newForm" autocomplete="off">
         <p class="account-question">계정을 생성하시겠습니까?</p>
-        <label class="account-line" for="newLoginId"><span>로그인 ID</span><input id="newLoginId" type="text" placeholder="login_id" /></label>
+        <label class="account-line" for="newLoginId"><span>로그인 ID</span><input id="newLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" /></label>
         <label class="account-line" for="newPassword"><span>비밀번호</span><input id="newPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="current-password" data-form-type="other" /></label>
         <label class="account-line pw-check-line" for="newPasswordConfirm"><span>비밀번호 확인</span><input id="newPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="current-password" data-form-type="other" /><span class="pw-match" id="newPwMatchIcon">✓</span></label>
         <label class="account-line" for="newNickname"><span>닉네임</span><input id="newNickname" type="text" placeholder="닉네임" /></label>
-        <label class="account-line" for="newInstagram"><span>인스타그램 ID</span><input id="newInstagram" type="text" placeholder="instagram_id" /></label>
+        <label class="account-line" for="newInstagram">
+          <span>@인스타그램 ID</span>
+          <input id="newInstagram" type="text" placeholder="instagram_id" autocapitalize="none" autocorrect="off" spellcheck="false" />
+          <span id="instaCheck" class="insta-check"></span>
+        </label>
         <label class="account-check check-first"><input id="newAuto" type="checkbox" checked /><span>자동로그인</span></label>
         <button class="account-submit" id="newSubmit" type="button" disabled>계정생성</button>
       </form>
@@ -368,6 +379,16 @@
     bindBack(renderReturning);
     const requiredIds = ["newLoginId", "newPassword", "newPasswordConfirm", "newNickname", "newInstagram"];
     const submit = document.getElementById("newSubmit");
+    const instaCheck = document.getElementById("instaCheck");
+
+    const checkInsta = () => {
+      const id = document.getElementById("newInstagram").value.trim();
+      if (!id) { instaCheck.textContent = ""; instaCheck.className = "insta-check"; return; }
+      const known = isKnownInstagram(id);
+      instaCheck.textContent = known ? "✓" : "✗";
+      instaCheck.className = `insta-check ${known ? "valid" : "invalid"}`;
+    };
+
     const updateActive = () => {
       const pw = document.getElementById("newPassword").value;
       const pw2 = document.getElementById("newPasswordConfirm").value;
@@ -377,11 +398,22 @@
       const icon = document.getElementById("newPwMatchIcon");
       if (icon) icon.classList.toggle("matched", matched);
     };
+
     requiredIds.forEach((id) => document.getElementById(id).addEventListener("input", updateActive));
+    document.getElementById("newInstagram").addEventListener("input", () => { checkInsta(); updateActive(); });
     updateActive();
+
     document.getElementById("newSubmit").addEventListener("click", () => {
       const nickname = document.getElementById("newNickname").value.trim();
       const instagramId = document.getElementById("newInstagram").value.trim();
+      const candidateList = document.getElementById("candidateList");
+
+      // 인스타그램 ID 시스템 존재 여부 확인
+      if (!isKnownInstagram(instagramId)) {
+        candidateList.innerHTML = `<p class="auth-message">해당 인스타그램 계정이 시스템에 등록되어 있지 않습니다.<br/>계정 찾기로 본인 계정을 먼저 확인해 주세요.</p>`;
+        return;
+      }
+
       const result = findMembers(nickname, instagramId);
       if (result.rows.length) {
         renderCandidates({ type: "similar", rows: result.rows });

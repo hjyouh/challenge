@@ -217,8 +217,24 @@
   instagramId.addEventListener("input", function () {
     fullInstagramId = this.value;
     markInstagramPending();
+    // 실시간 검증
+    const id = this.value.trim();
+    if (!id) return;
+    const valid = DC.instagramValid(id);
+    const known = !window.DC_IMPORTED_DATA || Object.values(window.DC_IMPORTED_DATA.months || {}).some((month) =>
+      month.members.some((member) => member.instagramId === id)
+    );
+    if (valid && known) {
+      instagramVerified = true;
+      validateInstagramButton.className = "valid-button valid";
+      instagramStatus.className = "field-status valid";
+      instagramStatus.textContent = "";
+    }
   });
-  instagramId.addEventListener("blur", function () { this.value = truncate(fullInstagramId, 20); });
+  instagramId.addEventListener("blur", function () {
+    this.value = truncate(fullInstagramId, 20);
+    if (fullInstagramId.trim()) validateInstagram();
+  });
   validateInstagramButton.addEventListener("click", validateInstagram);
   installToggle.addEventListener("click", () => {
     const open = installDetail.classList.toggle("open");
