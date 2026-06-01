@@ -75,8 +75,8 @@
       .map((row) => {
         const fullName = row.nickname || row.instagramId || row.id;
         return `<article class="rank-card ${row.isMe || row.id === "me" ? "me" : ""}">
-          <span class="rank-grade">${row.grade}</span>
           <span class="rank-num">${row.rank}등</span>
+          <span class="rank-grade">${row.grade}</span>
           <button class="rank-name" type="button" data-full-name="${escapeHtml(fullName)}">${escapeHtml(shortName(fullName))}</button>
           <span class="rank-attend">${row.total}번중 ${row.done}번 출석</span>
           <span class="rank-pct">${row.percent}%</span>
