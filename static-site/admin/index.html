@@ -539,11 +539,18 @@
       }
 
       if (!rows.length) {
+        // 미션 날짜가 있는지 확인 (오늘 이전)
+        const todayKey = DC.dateKey(DC.today);
+        const mDates = DC.missionDates(DC.today.getFullYear(), DC.today.getMonth())
+          .filter(k => k <= todayKey);
+        const emptyMsg = mDates.length > 0
+          ? '아직 참여자가 없습니다.'
+          : '이달의 미션이 아직 시작되지 않았습니다.';
         mc.innerHTML = `
           ${inlineTabsHtml('attendance')}
           <div class="rank-tabs-wrap">${tabHtml}</div>
           ${attendHeaderHtml}
-          <div class="empty">이달의 미션이 아직 시작되지 않았습니다.</div>`;
+          <div class="empty">${emptyMsg}</div>`;
         return;
       }
 
