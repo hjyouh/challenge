@@ -171,7 +171,9 @@
     DC.saveProfile(profile);
     nickname.value = truncate(profile.nickname, 10);
     instagramId.value = truncate(profile.instagramId, 20);
-    instagramStatus.textContent = "저장되었습니다.";
+    instagramStatus.textContent = "✅ 닉네임이 저장되었습니다.";
+    instagramStatus.className = "field-status valid";
+    setTimeout(() => { instagramStatus.textContent = ""; instagramStatus.className = "field-status"; }, 2500);
   });
   changePassword.addEventListener("click", () => {
     if (changePassword.disabled) return;
@@ -179,6 +181,9 @@
     DC.saveProfile(profile);
     originalPassword = password.value;
     updatePasswordAction();
+    instagramStatus.textContent = "✅ 비밀번호가 변경되었습니다.";
+    instagramStatus.className = "field-status valid";
+    setTimeout(() => { instagramStatus.textContent = ""; instagramStatus.className = "field-status"; }, 2500);
   });
   document.getElementById("logoutDemo").addEventListener("click", () => {
     profile.autoLogin = false;
