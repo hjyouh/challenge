@@ -52,6 +52,10 @@ body[data-page="my"] {
   height: 100dvh;
 }
 
+body[data-page="ranking"] {
+  overflow-x: hidden;
+}
+
 button,
 input {
   font: inherit;
@@ -941,9 +945,9 @@ body[data-page="ranking"] #rankingList {
 
 .ranking-list {
   display: grid;
-  grid-template-columns: 30px 22px var(--nick-col, 110px) 80px 15px;
-  column-gap: 3px;
-  justify-content: center;
+  grid-template-columns: 26px 18px var(--nick-col, 90px) 1fr 42px;
+  column-gap: 2px;
+  width: min(100%, 400px);
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -1041,6 +1045,13 @@ body[data-page="ranking"] .rank-pct {
   font-size: 15px;
   font-weight: 700;
   line-height: 1.6;
+}
+
+.rank-section-divider {
+  grid-column: 1 / -1;
+  height: 1px;
+  margin: 4px 0;
+  background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.2), transparent);
 }
 
 .rank-fade-line {

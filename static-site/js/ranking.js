@@ -68,9 +68,8 @@
   function render() {
     const rows = DC.assignRanks(currentRows());
     if (rows.length === 0) {
-      const monthNum = mode === "month" ? DC.today.getMonth() + 1 : selectedYear;
       const msg = mode === "month"
-        ? `아직 ${DC.today.getMonth() + 1}월의 미션이 시작되지 않았어요`
+        ? "아직 이달의 미션이 시작되지 않았습니다"
         : `${selectedYear}년의 미션 데이터가 없어요`;
       list.innerHTML = `<p class="rank-empty-msg">${msg}</p>`;
       return;
@@ -78,13 +77,16 @@
     const maxNickW = rows.reduce((max, row) => {
       return Math.max(max, nickPx(shortName(row.nickname || row.instagramId || row.id)));
     }, 60);
-    list.style.setProperty("--nick-col", Math.min(Math.ceil(maxNickW) + 8, 135) + "px");
+    list.style.setProperty("--nick-col", Math.min(Math.ceil(maxNickW) + 8, 120) + "px");
     list.innerHTML = rows
-      .map((row) => {
+      .map((row, i) => {
         const fullName = row.nickname || row.instagramId || row.id;
-        return `<article class="rank-card ${row.isMe || row.id === "me" ? "me" : ""}">
+        const divider = i > 0 && i % 10 === 0
+          ? `<div class="rank-section-divider"></div>`
+          : "";
+        return `${divider}<article class="rank-card ${row.isMe || row.id === "me" ? "me" : ""}">
           <span class="rank-num">${row.rank}등</span>
-          <span class="rank-grade">${row.grade}</span>
+          <span class="rank-grade">${row.emoji || "🙂"}</span>
           <button class="rank-name" type="button" data-full-name="${escapeHtml(fullName)}">${escapeHtml(shortName(fullName))}</button>
           <span class="rank-attend">${row.total}번중 ${row.done}번 출석</span>
           <span class="rank-pct">${row.percent}%</span>

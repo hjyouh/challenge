@@ -165,10 +165,11 @@
         month.members.forEach((member) => {
           const nickKey = member.nickname || member.instagramId || member.id;
           if (!memberMap.has(nickKey)) {
+            const globalMember = (imported.members || []).find((m) => m.id === member.id);
             memberMap.set(nickKey, {
               id: member.id,
               memberIds: [],
-              emoji: "🙂",
+              emoji: member.emoji || globalMember?.emoji || "🙂",
               nickname: member.nickname,
               instagramId: member.instagramId,
             });
