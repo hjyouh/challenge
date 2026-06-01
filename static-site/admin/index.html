@@ -140,7 +140,7 @@
       border-bottom: 1px solid #f1f5f9;
       font-size: 14px;
     }
-    .row-actions { display: flex; align-items: center; gap: 6px; }
+    .row-actions { display: flex; align-items: center; gap: 14px; }
     .delete-btn {
       background: none; border: none; cursor: pointer; padding: 2px 4px;
       color: #ef4444; font-size: 13px; font-weight: 700; opacity: 0.4;
@@ -429,9 +429,11 @@
       const attendMap = {};
       attendRows.forEach(r => { attendMap[r.instagramId] = r; });
 
+      const tr = (s, n) => s && s.length > n ? s.slice(0, n) + '…' : (s || '');
+
       const headerHtml = `
         <div class="col-header">
-          <span>ID</span><span>닉네임</span><span>Instagram ID @</span><span></span><span></span>
+          <span>ID</span><span>닉네임</span><span style="white-space:nowrap">Instagram ID @</span><span></span><span></span>
         </div>`;
 
       function attendBadge(a) {
@@ -444,9 +446,9 @@
       function rowHtml(a) {
         if (!a) return '';
         return `<div class="member-row">
-          <span class="col-id">${esc(a.login_id)}</span>
-          <span class="col-nick">${esc(a.nickname || '-')}</span>
-          <span class="col-insta">${a.instagram_id ? '@'+esc(a.instagram_id) : '-'}</span>
+          <span class="col-id" title="${esc(a.login_id)}">${esc(tr(a.login_id, 12))}</span>
+          <span class="col-nick" title="${esc(a.nickname||'')}">${esc(tr(a.nickname, 12) || '-')}</span>
+          <span class="col-insta" title="${a.instagram_id||''}">${a.instagram_id ? '@'+esc(tr(a.instagram_id, 14)) : '-'}</span>
           <span>${attendBadge(a)}</span>
           <span class="row-actions">
             <button class="reset-btn" title="비밀번호 초기화" onclick="resetPassword('${esc(a.login_id)}')">
