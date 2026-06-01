@@ -115,16 +115,25 @@
     });
   }
 
-  function backBtn(handler) {
-    return `<button class="auth-back-btn" type="button">&#8249;</button>`;
+  const backBtn = document.getElementById("authBackBtn");
+  let backHandler = null;
+
+  function showBack(handler) {
+    backHandler = handler;
+    backBtn.hidden = false;
+    backBtn.onclick = handler;
   }
 
-  function bindBack(handler) {
-    const btn = panel.querySelector(".auth-back-btn");
-    if (btn) btn.addEventListener("click", handler);
+  function hideBack() {
+    backBtn.hidden = true;
+    backBtn.onclick = null;
+    backHandler = null;
   }
+
+  function bindBack(handler) { showBack(handler); }
 
   function renderStart(message = "") {
+    hideBack();
     panel.innerHTML = `
       <div class="login-popup">
         <h2>처음 접속하시는 것입니까?</h2>
@@ -144,16 +153,15 @@
   function renderReturning() {
     panel.innerHTML = `
       <div class="login-popup">
-        ${backBtn()}
         <h2>기존 계정이 있나요?</h2>
         <p>이전에 만드신 로그인 ID와<br />비밀번호가 있으면 '예'를 선택하세요.</p>
         <div class="popup-actions">
-          <span class="text-choice" data-choice="no" role="button" tabindex="0">아니오</span>
+          <span class="text-choice" data-choice="no" role="button" tabindex="0">계정 생성</span>
           <span class="text-choice" data-choice="yes" role="button" tabindex="0">예</span>
         </div>
       </div>
     `;
-    bindBack(renderStart);
+    showBack(renderStart);
     bindTextChoice('[data-choice="yes"]', renderLogin);
     bindTextChoice('[data-choice="no"]', renderNewAccount);
   }
@@ -161,7 +169,6 @@
   function renderFind(message = "") {
     panel.innerHTML = `
       <div class="login-popup find-popup">
-        ${backBtn()}
         <h2>기존 계정 찾기</h2>
         <p>그동안 사용하신 닉네임 또는<br />인스타그램 ID를 입력해 주세요.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
@@ -247,7 +254,6 @@
   function renderCreate(member) {
     panel.innerHTML = `
       <div class="account-subheader">
-        ${backBtn()}
         <p class="sub-question">이 계정으로 생성하시겠습니까?</p>
         <p class="sub-name"><span>${member.nickname}</span> / <span>@${member.instagramId || "-"}</span></p>
       </div>
@@ -303,7 +309,6 @@
   function renderLogin(message = "") {
     panel.innerHTML = `
       <div class="auth-copy">
-        ${backBtn()}
         <h2>로그인</h2>
         <p>이미 만든 로그인 ID와 비밀번호로 접속합니다.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
@@ -349,7 +354,6 @@
   function renderNewAccount() {
     panel.innerHTML = `
       <form class="account-popup" id="newForm" autocomplete="off">
-        ${backBtn()}
         <p class="account-question">계정을 생성하시겠습니까?</p>
         <label class="account-line" for="newLoginId"><span>로그인 ID</span><input id="newLoginId" type="text" placeholder="login_id" /></label>
         <label class="account-line" for="newPassword"><span>비밀번호</span><input id="newPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="current-password" data-form-type="other" /></label>
