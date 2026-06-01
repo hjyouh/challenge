@@ -71,7 +71,7 @@
     .main-content { margin-left: 220px; flex: 1; padding: 28px 36px; overflow-y: auto; min-height: 100vh; background: #ffffff; }
 
     /* ── Tab header ── */
-    .tab-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; color: #0f172a; }
+    .tab-title { font-size: 16px; font-weight: 700; margin-bottom: 20px; color: #0f172a; }
 
     /* ── Rank switch tabs ── */
     .rank-tabs-wrap {
@@ -248,12 +248,19 @@
 
 <div id="toast"></div>
 
-<script src="../js/imported-data.js?v=data2"></script>
-<script src="../js/common.js?v=common11"></script>
+<script src="../js/supabase-data.js?v=sb1"></script>
+<script src="../js/common.js?v=common12"></script>
 <script>
 (function () {
   const ADMIN_KEY = 'aW5uaTEhc29uZ3dvbw==';
-  const ACCOUNTS_KEY = 'deinchal-login-accounts';
+  const SB_URL    = 'https://rlzbwdvkpjfhxnxkblfg.supabase.co';
+  const SB_KEY    = 'sb_publishable_S50LJ8UgfRXDXybLl2IkcA_NpI2ipw0';
+
+  function sbFetch(path) {
+    return fetch(`${SB_URL}/rest/v1/${path}`, {
+      headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+    }).then(r => r.json());
+  }
 
   /* ── Auth ── */
   function doLogin() {
@@ -304,29 +311,24 @@
     if (tab === 'attendance') renderAttendance('month');
   }
 
-  /* ── Accounts from localStorage ── */
-  function getAccounts() {
-    return JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]');
-  }
-  function saveAccounts(list) {
-    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(list));
-  }
-
-  function resetPassword(loginId) {
-    const list = getAccounts();
-    const idx = list.findIndex(a => a.loginId === loginId);
-    if (idx < 0) { showToast('계정을 찾을 수 없습니다.'); return; }
-    list[idx].password = '123456';
-    saveAccounts(list);
-    showToast(`✅ ${loginId} 비밀번호가 123456으로 초기화되었습니다.`);
+  /* ── Password reset via Supabase ── */
+  async function resetPassword(loginId) {
+    try {
+      await fetch(`${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}`, {
+        method: 'PATCH',
+        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: '123456' }),
+      });
+      showToast(`✅ ${loginId} 비밀번호 123456으로 초기화`);
+    } catch { showToast('오류가 발생했습니다.'); }
   }
 
-  /* ── Tab 1: 사용자 ── */
-  function renderUsers() {
+  /* ── Tab 1: 사용자 (Supabase) ── */
+  async function renderUsers() {
     const mc = document.getElementById('mainContent');
-    const accounts = getAccounts().slice().sort((a, b) =>
-      (a.loginId || '').localeCompare(b.loginId || '', 'en')
-    );
+    mc.innerHTML = `<div class="tab-title">👤 사용자</div><div class="loading">불러오는 중...</div>`;
+
+    const accounts = await sbFetch('accounts?select=login_id,nickname,instagram_id&order=login_id');
 
     const headerHtml = `
       <div class="col-header">
@@ -334,12 +336,12 @@
       </div>`;
 
     function rowHtml(a) {
-      if (!a) return `<div class="member-row" style="visibility:hidden"><span>-</span><span></span><span></span><span></span></div>`;
+      if (!a) return '';
       return `<div class="member-row">
-        <span class="col-id">${esc(a.loginId)}</span>
+        <span class="col-id">${esc(a.login_id)}</span>
         <span class="col-nick">${esc(a.nickname || '-')}</span>
-        <span class="col-insta">${a.instagramId ? '@' + esc(a.instagramId) : '-'}</span>
-        <button class="reset-btn" title="비밀번호 초기화 (123456)" onclick="resetPassword('${esc(a.loginId)}')">
+        <span class="col-insta">${a.instagram_id ? '@'+esc(a.instagram_id) : '-'}</span>
+        <button class="reset-btn" title="비밀번호 초기화" onclick="resetPassword('${esc(a.login_id)}')">
           <img src="../assets/images/reset.png" alt="reset" />
         </button>
       </div>`;
@@ -350,15 +352,9 @@
       return;
     }
 
-    // 3등분
     const total = accounts.length;
-    const col = Math.ceil(total / 3);
-    const cols = [accounts.slice(0, col), accounts.slice(col, col*2), accounts.slice(col*2)];
-
-    // 모바일: 10개마다 구분선
-    function mobileRows(list) {
-      return list.map((a, i) => rowHtml(a) + (i > 0 && (i+1) % 10 === 0 ? '<div class="sep-line"></div>' : '')).join('');
-    }
+    const col   = Math.ceil(total / 3);
+    const cols  = [accounts.slice(0, col), accounts.slice(col, col*2), accounts.slice(col*2)];
 
     mc.innerHTML = `
       <div class="tab-title">👤 사용자 (${total}명)</div>
@@ -366,87 +362,93 @@
         ${cols.map(list => `
           <div class="col-panel">
             ${headerHtml}
-            ${list.map(a => rowHtml(a)).join('')}
+            ${list.map((a,i) => rowHtml(a) + (i>0 && (i+1)%10===0 ? '<div class="sep-line"></div>':'')).join('')}
           </div>`).join('')}
       </div>
     `;
   }
 
-  /* ── Tab 2: 출석 현황 ── */
+  /* ── Tab 2: 출석현황 (DC data) ── */
   let attendMode = 'month';
-  let attendYear = DC.today.getFullYear();
+  let attendYear = new Date().getFullYear();
 
   function attendYears() {
-    const s = new Set([DC.today.getFullYear()]);
+    const s = new Set([new Date().getFullYear()]);
     Object.values(window.DC_IMPORTED_DATA?.months || {}).forEach(m => s.add(m.year));
-    return Array.from(s).sort((a,b) => b - a);
+    return Array.from(s).sort((a,b) => b-a);
   }
 
   function renderAttendance(mode, year) {
     attendMode = mode || attendMode;
-    if (year) attendYear = year;
+    if (year) attendYear = Number(year);
 
-    const rows = DC.assignRanks(
-      attendMode === 'month' ? DC.userRows('month') : DC.userRows('year', attendYear)
-    );
+    const mc = document.getElementById('mainContent');
 
-    const tabs = [
-      { mode: 'month', label: '이달의 랭킹', count: DC.userRows('month').length },
-      ...attendYears().map(y => ({ mode: 'year', year: y, label: String(y), count: DC.userRows('year', y).length }))
-    ];
+    // DC_IMPORTED_DATA 로드 대기
+    const doRender = () => {
+      const rows = DC.assignRanks(
+        attendMode === 'month' ? DC.userRows('month') : DC.userRows('year', attendYear)
+      );
 
-    const tabHtml = tabs.map(t => {
-      const active = t.mode === attendMode && (t.mode === 'month' || t.year === attendYear);
-      return `<button class="rank-tab ${active ? 'active' : ''}"
-        onclick="renderAttendance('${t.mode}'${t.year ? ', ' + t.year : ''})">${t.label} (${t.count}명)</button>`;
-    }).join('');
+      const tabs = [
+        { mode:'month', label:'이달의 랭킹', count: DC.userRows('month').length },
+        ...attendYears().map(y => ({ mode:'year', year:y, label:String(y), count: DC.userRows('year',y).length }))
+      ];
 
-    function attendRowHtml(r) {
-      const cls = r.percent >= 80 ? 'pct-green' : r.percent >= 50 ? 'pct-yellow' : 'pct-gray';
-      return `<div class="attend-row">
-        <span style="color:#94a3b8;font-size:12px">${r.rank}등</span>
-        <span>${r.emoji || '🙂'}</span>
-        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.nickname || r.instagramId)}</span>
-        <span style="color:#64748b;font-size:12px">${r.total}번중 ${r.done}번</span>
-        <span><span class="pct-badge ${cls}">${r.percent}%</span></span>
+      const tabHtml = tabs.map(t => {
+        const active = t.mode===attendMode && (t.mode==='month' || t.year===attendYear);
+        return `<button class="rank-tab ${active?'active':''}"
+          onclick="renderAttendance('${t.mode}'${t.year?','+t.year:''})">${t.label} (${t.count}명)</button>`;
+      }).join('');
+
+      const headerHtml = `<div class="attend-header">
+        <span>등수</span><span>이모지</span><span>닉네임</span><span>출석</span><span>%</span>
       </div>`;
-    }
 
-    const headerHtml = `<div class="attend-header">
-      <span>등수</span><span>이모지</span><span>닉네임</span><span>출석</span><span>%</span>
-    </div>`;
+      function rowHtml(r) {
+        const cls = r.percent>=80?'pct-green':r.percent>=50?'pct-yellow':'pct-gray';
+        return `<div class="attend-row">
+          <span style="color:#94a3b8">${r.rank}등</span>
+          <span>${r.emoji||'🙂'}</span>
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.nickname||r.instagramId)}</span>
+          <span style="color:#64748b;font-size:13px">${r.total}번중 ${r.done}번</span>
+          <span><span class="pct-badge ${cls}">${r.percent}%</span></span>
+        </div>`;
+      }
 
-    let gridHtml = '';
-    if (!rows.length) {
-      gridHtml = `<div class="empty">이달의 미션이 아직 시작되지 않았습니다.</div>`;
-    } else {
-      const col = Math.ceil(rows.length / 3);
-      const cols = [rows.slice(0, col), rows.slice(col, col*2), rows.slice(col*2)];
-      gridHtml = `<div class="three-col">
-        ${cols.map(list => `
-          <div class="col-panel">
-            ${headerHtml}
-            ${list.map(r => attendRowHtml(r)).join('')}
-          </div>`).join('')}
-      </div>`;
-    }
+      let gridHtml = '';
+      if (!rows.length) {
+        gridHtml = `<div class="empty">이달의 미션이 아직 시작되지 않았습니다.</div>`;
+      } else {
+        const col  = Math.ceil(rows.length / 3);
+        const cols = [rows.slice(0,col), rows.slice(col,col*2), rows.slice(col*2)];
+        gridHtml = `<div class="three-col">
+          ${cols.map(list => `<div class="col-panel">${headerHtml}${list.map(rowHtml).join('')}</div>`).join('')}
+        </div>`;
+      }
 
-    document.getElementById('mainContent').innerHTML = `
-      <div class="tab-title">📊 출석 현황</div>
-      <div class="rank-tabs-wrap">${tabHtml}</div>
-      ${gridHtml}
-    `;
+      mc.innerHTML = `
+        <div class="tab-title">📊 출석 현황</div>
+        <div class="rank-tabs-wrap">${tabHtml}</div>
+        ${gridHtml}
+      `;
+    };
+
+    if (window.DC_IMPORTED_DATA) { doRender(); }
+    else if (window.DC_DATA_READY) {
+      mc.innerHTML = `<div class="tab-title">📊 출석 현황</div><div class="loading">데이터 로딩 중...</div>`;
+      window.DC_DATA_READY.then(doRender);
+    } else { doRender(); }
   }
 
   /* ── Helpers ── */
   function esc(s) {
-    return String(s || '').replace(/[&<>"']/g, c =>
-      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+    return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   }
 
   /* ── Expose globals ── */
-  window.doLogin        = doLogin;
-  window.doLogout       = doLogout;
+  window.doLogin          = doLogin;
+  window.doLogout         = doLogout;
   window.showTab        = showTab;
   window.resetPassword  = resetPassword;
   window.renderAttendance = renderAttendance;

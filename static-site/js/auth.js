@@ -575,10 +575,16 @@
 
   localStorage.removeItem(sessionKey);
   DC.hideSplash();
-  // 계정이 있으면 처음접속 화면 없이 바로 로그인으로
+  // 로컬에 계정 있으면 바로 로그인
   if (accounts().length > 0) {
     renderLogin();
   } else {
-    renderStart();
+    // Supabase에 계정이 있는지 확인 후 결정
+    fetch(`${SB_URL}/rest/v1/accounts?select=login_id&limit=1`, {
+      headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+    }).then(r => r.json()).then(rows => {
+      if (rows.length > 0) renderLogin();
+      else renderStart();
+    }).catch(() => renderStart());
   }
 })();
