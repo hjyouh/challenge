@@ -115,6 +115,15 @@
     });
   }
 
+  function backBtn(handler) {
+    return `<button class="auth-back-btn" type="button">&#8249;</button>`;
+  }
+
+  function bindBack(handler) {
+    const btn = panel.querySelector(".auth-back-btn");
+    if (btn) btn.addEventListener("click", handler);
+  }
+
   function renderStart(message = "") {
     panel.innerHTML = `
       <div class="login-popup">
@@ -122,7 +131,7 @@
         <p>기존 챌린지 명단에서<br />본인 계정을 먼저 찾습니다.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
         <div class="popup-actions">
-          <span class="text-choice" data-choice="no" role="button" tabindex="0">계정 생성</span>
+          <span class="text-choice" data-choice="no" role="button" tabindex="0">아니오</span>
           <span class="text-choice" data-choice="yes" role="button" tabindex="0">예</span>
         </div>
       </div>
@@ -135,14 +144,16 @@
   function renderReturning() {
     panel.innerHTML = `
       <div class="login-popup">
+        ${backBtn()}
         <h2>기존 계정이 있나요?</h2>
         <p>이전에 만드신 로그인 ID와<br />비밀번호가 있으면 '예'를 선택하세요.</p>
         <div class="popup-actions">
-          <span class="text-choice" data-choice="no" role="button" tabindex="0">계정 생성</span>
+          <span class="text-choice" data-choice="no" role="button" tabindex="0">아니오</span>
           <span class="text-choice" data-choice="yes" role="button" tabindex="0">예</span>
         </div>
       </div>
     `;
+    bindBack(renderStart);
     bindTextChoice('[data-choice="yes"]', renderLogin);
     bindTextChoice('[data-choice="no"]', renderNewAccount);
   }
@@ -150,6 +161,7 @@
   function renderFind(message = "") {
     panel.innerHTML = `
       <div class="login-popup find-popup">
+        ${backBtn()}
         <h2>기존 계정 찾기</h2>
         <p>그동안 사용하신 닉네임 또는<br />인스타그램 ID를 입력해 주세요.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
@@ -164,6 +176,7 @@
       </div>
       <div id="candidateList" class="candidate-list"></div>
     `;
+    bindBack(renderStart);
     const submitFind = () => {
       const result = findMembers(
         document.getElementById("findNickname").value,
@@ -234,6 +247,7 @@
   function renderCreate(member) {
     panel.innerHTML = `
       <div class="account-subheader">
+        ${backBtn()}
         <p class="sub-question">이 계정으로 생성하시겠습니까?</p>
         <p class="sub-name"><span>${member.nickname}</span> / <span>@${member.instagramId || "-"}</span></p>
       </div>
@@ -248,6 +262,7 @@
       </form>
     `;
     requestAnimationFrame(fitSubName);
+    bindBack(renderFind);
     const requiredIds = ["createLoginId", "createPassword", "createPasswordConfirm"];
     const submit = document.getElementById("createSubmit");
     const updateActive = () => {
@@ -288,6 +303,7 @@
   function renderLogin(message = "") {
     panel.innerHTML = `
       <div class="auth-copy">
+        ${backBtn()}
         <h2>로그인</h2>
         <p>이미 만든 로그인 ID와 비밀번호로 접속합니다.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
@@ -313,6 +329,7 @@
     document.getElementById("loginId").addEventListener("input", updateActive);
     document.getElementById("loginPassword").addEventListener("input", updateActive);
     updateActive();
+    bindBack(renderReturning);
     document.getElementById("backStart").addEventListener("click", () => renderStart());
     document.getElementById("goNewAccount").addEventListener("click", () => renderNewAccount());
     document.getElementById("loginSubmit").addEventListener("click", () => {
@@ -332,6 +349,7 @@
   function renderNewAccount() {
     panel.innerHTML = `
       <form class="account-popup" id="newForm" autocomplete="off">
+        ${backBtn()}
         <p class="account-question">계정을 생성하시겠습니까?</p>
         <label class="account-line" for="newLoginId"><span>로그인 ID</span><input id="newLoginId" type="text" placeholder="login_id" /></label>
         <label class="account-line" for="newPassword"><span>비밀번호</span><input id="newPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="current-password" data-form-type="other" /></label>
@@ -343,6 +361,7 @@
       </form>
       <div id="candidateList" class="candidate-list"></div>
     `;
+    bindBack(renderReturning);
     const requiredIds = ["newLoginId", "newPassword", "newPasswordConfirm", "newNickname", "newInstagram"];
     const submit = document.getElementById("newSubmit");
     const updateActive = () => {

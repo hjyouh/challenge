@@ -1586,7 +1586,23 @@ body[data-page="auth"] {
   gap: 10px;
 }
 
+.auth-back-btn {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  background: none;
+  border: none;
+  color: #8e8a84;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-family: inherit;
+}
+.auth-back-btn:active { color: #ffffff; }
+
 .login-popup {
+  position: relative;
   display: grid;
   width: min(100%, 370px);
   border: 1px solid rgba(180, 176, 168, 0.85);
@@ -1686,6 +1702,7 @@ body[data-page="auth"] {
 }
 
 .auth-copy {
+  position: relative;
   display: grid;
   gap: 10px;
   width: 100%;
@@ -1820,6 +1837,7 @@ body[data-page="auth"] {
 }
 
 .account-popup {
+  position: relative;
   display: grid;
   gap: 10px;
   border: 1px solid rgba(180, 176, 168, 0.76);
