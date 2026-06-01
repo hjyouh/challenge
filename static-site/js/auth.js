@@ -437,8 +437,9 @@
       const id = document.getElementById("newInstagram").value.trim();
       if (!id) { instaCheck.textContent = ""; instaCheck.className = "insta-check"; return; }
       const known = isKnownInstagram(id);
-      instaCheck.textContent = known ? "✓" : "✗";
-      instaCheck.className = `insta-check ${known ? "valid" : "invalid"}`;
+      // 기존 회원이면 ✓ 표시, 신규면 아무것도 표시 안 함
+      instaCheck.textContent = known ? "✓" : "";
+      instaCheck.className = `insta-check ${known ? "valid" : ""}`;
     };
 
     const updateActive = () => {
