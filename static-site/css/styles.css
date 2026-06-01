@@ -28,6 +28,8 @@
   box-sizing: border-box;
 }
 
+[hidden] { display: none !important; }
+
 html,
 body {
   overflow-x: clip;
@@ -152,8 +154,7 @@ body[data-page="auth"] .page-header {
   top: 0;
   z-index: 10;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   padding-top: max(52px, calc(env(safe-area-inset-top) + 20px));
   padding-bottom: 14px;
@@ -163,16 +164,12 @@ body[data-page="auth"] .page-header {
 
 body[data-page="auth"] .page-header h1 {
   color: #FFC000;
-  flex: 1;
   text-align: center;
   white-space: nowrap;
   font-size: 20px;
 }
 
-.auth-header-spacer {
-  width: 36px;
-  flex-shrink: 0;
-}
+.auth-header-spacer { display: none; }
 
 body[data-page="my"] .page-header {
   position: relative;
@@ -1611,9 +1608,11 @@ body[data-page="auth"] {
 }
 
 .auth-back-btn {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
   width: 36px;
   height: 36px;
-  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
