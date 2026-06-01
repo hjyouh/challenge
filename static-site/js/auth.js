@@ -254,12 +254,10 @@
     });
   }
 
-  function renderCandidates(result) {
+  function renderCandidates(result, prefilled) {
     const target = document.getElementById("candidateList");
     if (!result.rows.length) {
-      target.innerHTML = `
-        <p class="auth-message">계정을 찾지 못했습니다. 다시 입력하거나 새 계정을 생성해 주세요.</p>
-      `;
+      target.innerHTML = `<p class="auth-message">계정을 찾지 못했습니다.</p>`;
       return;
     }
     target.innerHTML = `
@@ -274,36 +272,106 @@
     target.querySelectorAll(".candidate-row").forEach((button) => {
       button.addEventListener("click", () => {
         const member = result.rows[Number(button.dataset.index)];
-        renderCreate(member);
+        renderConfirm(member, prefilled);
       });
     });
   }
 
-  function renderCreate(member) {
+  // 신규 계정 확인 팝업
+  function renderConfirmNew(member, prefilled) {
     panel.innerHTML = `
-      <div class="account-subheader">
-        <p class="sub-question">이 계정으로 생성하시겠습니까?</p>
-        <p class="sub-name"><span>${member.nickname}</span> / <span>@${member.instagramId || "-"}</span></p>
+      <div class="login-popup">
+        <h2 style="font-size:16px;margin-bottom:10px">입력하신 정보로 계정을 생성하시겠습니까?</h2>
+        <p style="color:var(--gold);font-size:15px;font-weight:800;margin-bottom:6px">
+          ${member.nickname} / @${member.instagramId || "-"}
+        </p>
+        <p style="color:#8e8a84;font-size:13px;margin-bottom:20px">ID: ${prefilled?.loginId || ""}</p>
+        <div class="popup-actions">
+          <span class="text-choice" id="confirmNo"  role="button" tabindex="0">아니오</span>
+          <span class="text-choice" id="confirmYes" role="button" tabindex="0">예</span>
+        </div>
+        <p id="confirmMsg" class="auth-message" style="margin-top:12px"></p>
       </div>
-      <form class="account-popup" id="createForm" autocomplete="off">
-        <label class="account-line" for="createLoginId"><span>로그인 ID</span><input id="createLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" spellcheck="false" /></label>
-        <label class="account-line" for="createPassword"><span>비밀번호</span><input id="createPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocapitalize="none" autocorrect="off" autocomplete="current-password" data-form-type="other" /></label>
-        <label class="account-line pw-check-line" for="createPasswordConfirm"><span>비밀번호 확인</span><input id="createPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocapitalize="none" autocorrect="off" autocomplete="current-password" data-form-type="other" /><span class="pw-match" id="pwMatchIcon">✓</span></label>
-        <div class="account-line readonly-account"><span>닉네임</span><span class="readonly-value">${member.nickname}</span></div>
-        <div class="account-line readonly-account"><span>인스타그램 ID</span><span class="readonly-value">${member.instagramId || "-"}</span></div>
-        <label class="account-check check-first"><input id="createAuto" type="checkbox" checked /><span>자동로그인</span></label>
-        <button class="account-submit" id="createSubmit" type="button" disabled>계정생성</button>
-      </form>
     `;
+    showBack(renderNewAccount);
+    document.getElementById("confirmNo").addEventListener("click", () => renderNewAccount());
+    document.getElementById("confirmYes").addEventListener("click", async () => {
+      const yesBtn = document.getElementById("confirmYes");
+      yesBtn.textContent = "생성 중...";
+      const account = {
+        loginId:     prefilled?.loginId || "",
+        password:    prefilled?.password || "",
+        nickname:    member.nickname,
+        instagramId: member.instagramId || "",
+        memberIds:   [],
+        emoji:       "😀",
+      };
+      try {
+        await sbSaveAccount(account);
+        cacheAccounts([...accounts(), account]);
+        setProfile(account, prefilled?.autoLogin ?? true);
+        goHome();
+      } catch {
+        document.getElementById("confirmMsg").textContent = "계정 생성 중 오류가 발생했습니다.";
+      }
+    });
+  }
+
+  // 예/아니오 확인 팝업 (이미 입력한 정보 재사용)
+  function renderConfirm(member, prefilled) {
+    panel.innerHTML = `
+      <div class="login-popup">
+        <h2 style="font-size:16px;margin-bottom:10px">이 계정으로 생성하시겠습니까?</h2>
+        <p style="color:var(--gold);font-size:15px;font-weight:800;margin-bottom:20px">
+          ${member.nickname} / @${member.instagramId || "-"}
+        </p>
+        <div class="popup-actions">
+          <span class="text-choice" id="confirmNo"  role="button" tabindex="0">아니오</span>
+          <span class="text-choice" id="confirmYes" role="button" tabindex="0">예</span>
+        </div>
+        <p id="confirmMsg" class="auth-message" style="margin-top:12px"></p>
+      </div>
+    `;
+    showBack(renderNewAccount);
+    document.getElementById("confirmNo").addEventListener("click", () => renderNewAccount());
+    document.getElementById("confirmYes").addEventListener("click", async () => {
+      const yesBtn = document.getElementById("confirmYes");
+      yesBtn.textContent = "생성 중...";
+      const account = {
+        loginId:     prefilled?.loginId || "",
+        password:    prefilled?.password || "",
+        nickname:    member.nickname,
+        instagramId: member.instagramId || "",
+        memberIds:   member.memberIds || [],
+        emoji:       member.emoji || "😀",
+      };
+      try {
+        await sbSaveAccount(account);
+        cacheAccounts([account]);
+        setProfile(account, prefilled?.autoLogin ?? true);
+        goHome();
+      } catch {
+        document.getElementById("confirmMsg").textContent = "계정 생성 중 오류가 발생했습니다.";
+      }
+    });
+  }
+
+  function renderCreate(member, prefilled) {
+    // renderConfirm으로 대체 — 이미 입력한 정보 재사용
+    renderConfirm(member, prefilled);
+  }
+
+  function _renderCreateOld(member) {
+    panel.innerHTML = ``;
     requestAnimationFrame(fitSubName);
     bindBack(renderFind);
     const requiredIds = ["createLoginId", "createPassword", "createPasswordConfirm"];
     const submit = document.getElementById("createSubmit");
     const updateActive = () => {
-      const pw = document.getElementById("createPassword").value;
-      const pw2 = document.getElementById("createPasswordConfirm").value;
+      const pw = document.getElementById("createPassword")?.value || "";
+      const pw2 = document.getElementById("createPasswordConfirm")?.value || "";
       const matched = pw.length > 0 && pw === pw2;
-      const ready = requiredIds.every((id) => document.getElementById(id).value.trim()) && matched;
+      const ready = requiredIds.every((id) => document.getElementById(id)?.value.trim()) && matched;
       submit.disabled = !ready;
       submit.classList.toggle("active", ready);
       const icon = document.getElementById("pwMatchIcon");
@@ -463,31 +531,19 @@
       const instagramId = document.getElementById("newInstagram").value.trim();
 
       // 비슷한 기존 계정이 있으면 "이 계정이 맞나요?" 표시
+      const prefilled = {
+        loginId:  document.getElementById("newLoginId").value.trim(),
+        password: document.getElementById("newPassword").value.trim(),
+        autoLogin: document.getElementById("newAuto").checked,
+      };
       const result = findMembers(nickname, instagramId);
       if (result.rows.length) {
-        renderCandidates({ type: "similar", rows: result.rows });
+        renderCandidates({ type: "similar", rows: result.rows }, prefilled);
         return;
       }
-      const account = {
-        loginId: document.getElementById("newLoginId").value.trim(),
-        password: document.getElementById("newPassword").value.trim(),
-        nickname,
-        instagramId,
-        memberIds: [],
-        createdAt: new Date().toISOString(),
-      };
-      if (submit.disabled || !account.loginId || !account.password || !account.nickname) return;
-      submit.disabled = true;
-      submit.textContent = '생성 중...';
-      sbSaveAccount(account).then(() => {
-        cacheAccounts([...accounts(), account]);
-        setProfile(account, document.getElementById("newAuto").checked);
-        goHome();
-      }).catch(() => {
-        submit.disabled = false;
-        submit.textContent = '계정생성';
-        document.getElementById("candidateList").innerHTML = '<p class="auth-message">계정 생성 중 오류가 발생했습니다.</p>';
-      });
+      // 비슷한 계정 없음 → 입력 정보로 확인 팝업
+      const newMember = { nickname, instagramId, memberIds: [], emoji: "😀" };
+      renderConfirmNew(newMember, prefilled);
     });
   }
 
