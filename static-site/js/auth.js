@@ -272,8 +272,62 @@
     target.querySelectorAll(".candidate-row").forEach((button) => {
       button.addEventListener("click", () => {
         const member = result.rows[Number(button.dataset.index)];
-        renderConfirm(member, prefilled);
+        // prefilled 없으면 loginId/비밀번호 입력 단계 먼저
+        if (prefilled) {
+          renderConfirm(member, prefilled);
+        } else {
+          renderSetCredentials(member);
+        }
       });
+    });
+  }
+
+  // 기존 계정 찾기 경로: loginId/비밀번호 입력 후 계정 생성
+  function renderSetCredentials(member) {
+    panel.innerHTML = `
+      <div class="login-popup">
+        <h2 style="font-size:15px;margin-bottom:8px">로그인 정보를 설정해 주세요</h2>
+        <p style="color:var(--gold);font-size:14px;font-weight:800;margin-bottom:16px">
+          ${member.nickname} / @${member.instagramId || "-"}
+        </p>
+        <form class="auth-form" id="credForm" autocomplete="off">
+          ${field("credLoginId", "로그인 ID", "login_id")}
+          ${field("credPassword", "비밀번호", "비밀번호", "password")}
+          ${field("credPasswordConfirm", "비밀번호 확인", "비밀번호 확인", "password")}
+          <label class="auth-check"><input id="credAuto" type="checkbox" checked /> 자동로그인</label>
+        </form>
+        <p id="credMsg" class="auth-message" style="margin-top:8px"></p>
+        <div class="popup-actions" style="margin-top:16px">
+          <span class="text-choice" id="credBack" role="button" tabindex="0">뒤로</span>
+          <span class="text-choice" id="credNext" role="button" tabindex="0">다음</span>
+        </div>
+      </div>
+    `;
+    showBack(renderFind);
+
+    const updateState = () => {
+      const pw  = document.getElementById("credPassword").value;
+      const pw2 = document.getElementById("credPasswordConfirm").value;
+      const matched = pw.length > 0 && pw === pw2;
+      const hasId = Boolean(document.getElementById("credLoginId").value.trim());
+      const next = document.getElementById("credNext");
+      next.classList.toggle("ready", hasId && matched);
+    };
+    ["credLoginId","credPassword","credPasswordConfirm"].forEach(id =>
+      document.getElementById(id).addEventListener("input", updateState)
+    );
+    updateState();
+
+    document.getElementById("credBack").addEventListener("click", renderFind);
+    document.getElementById("credNext").addEventListener("click", () => {
+      const loginId = document.getElementById("credLoginId").value.trim();
+      const password = document.getElementById("credPassword").value.trim();
+      const pw2 = document.getElementById("credPasswordConfirm").value.trim();
+      if (!loginId) { document.getElementById("credMsg").textContent = "로그인 ID를 입력해 주세요."; return; }
+      if (!password) { document.getElementById("credMsg").textContent = "비밀번호를 입력해 주세요."; return; }
+      if (password !== pw2) { document.getElementById("credMsg").textContent = "비밀번호가 일치하지 않습니다."; return; }
+      const prefilled = { loginId, password, autoLogin: document.getElementById("credAuto").checked };
+      renderConfirm(member, prefilled);
     });
   }
 
