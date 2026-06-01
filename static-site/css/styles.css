@@ -153,7 +153,7 @@ body[data-page="auth"] .page-header {
   z-index: 10;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   padding-top: max(52px, calc(env(safe-area-inset-top) + 20px));
   padding-bottom: 14px;
@@ -165,6 +165,8 @@ body[data-page="auth"] .page-header h1 {
   color: #FFC000;
   flex: 1;
   text-align: center;
+  white-space: nowrap;
+  font-size: 20px;
 }
 
 .auth-header-spacer {
