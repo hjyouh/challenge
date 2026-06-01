@@ -133,13 +133,20 @@
 
     .member-row {
       display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 60px 28px;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 60px 56px;
       align-items: center;
       gap: 6px;
       padding: 9px 12px;
       border-bottom: 1px solid #f1f5f9;
       font-size: 14px;
     }
+    .row-actions { display: flex; align-items: center; gap: 6px; }
+    .delete-btn {
+      background: none; border: none; cursor: pointer; padding: 2px 4px;
+      color: #ef4444; font-size: 13px; font-weight: 700; opacity: 0.4;
+      line-height: 1;
+    }
+    .delete-btn:hover { opacity: 1; }
     .member-row:last-child { border-bottom: none; }
     .member-row:hover { background: #f8fafc; }
     .member-row .col-id    { color: #0f172a; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -148,7 +155,7 @@
 
     .col-header {
       display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 60px 28px;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 60px 56px;
       gap: 6px;
       padding: 8px 12px;
       background: #f8fafc;
@@ -383,6 +390,18 @@
     } catch { showToast('오류가 발생했습니다.'); }
   }
 
+  async function deleteAccount(loginId) {
+    if (!confirm(`"${loginId}" 계정을 삭제할까요?`)) return;
+    try {
+      await fetch(`${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}`, {
+        method: 'DELETE',
+        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
+      });
+      showToast(`🗑️ ${loginId} 계정 삭제됨`);
+      renderUsers();
+    } catch { showToast('삭제 중 오류가 발생했습니다.'); }
+  }
+
   /* ── Inline tab bar HTML ── */
   function inlineTabsHtml(active) {
     return `<div class="inline-tabs">
@@ -412,7 +431,7 @@
 
       const headerHtml = `
         <div class="col-header">
-          <span>ID</span><span>닉네임</span><span>Instagram ID @</span><span>출석</span><span></span>
+          <span>ID</span><span>닉네임</span><span>Instagram ID @</span><span></span><span></span>
         </div>`;
 
       function attendBadge(a) {
@@ -429,9 +448,12 @@
           <span class="col-nick">${esc(a.nickname || '-')}</span>
           <span class="col-insta">${a.instagram_id ? '@'+esc(a.instagram_id) : '-'}</span>
           <span>${attendBadge(a)}</span>
-          <button class="reset-btn" title="비밀번호 초기화" onclick="resetPassword('${esc(a.login_id)}')">
-            <img src="../assets/images/reset.png" alt="reset" />
-          </button>
+          <span class="row-actions">
+            <button class="reset-btn" title="비밀번호 초기화" onclick="resetPassword('${esc(a.login_id)}')">
+              <img src="../assets/images/reset.png" alt="reset" />
+            </button>
+            <button class="delete-btn" title="계정 삭제" onclick="deleteAccount('${esc(a.login_id)}')">✕</button>
+          </span>
         </div>`;
       }
 
@@ -551,8 +573,9 @@
   /* ── Expose globals ── */
   window.doLogin          = doLogin;
   window.doLogout         = doLogout;
-  window.showTab        = showTab;
-  window.resetPassword  = resetPassword;
+  window.showTab          = showTab;
+  window.resetPassword    = resetPassword;
+  window.deleteAccount    = deleteAccount;
   window.renderAttendance = renderAttendance;
 })();
 </script>
