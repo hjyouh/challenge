@@ -13,7 +13,7 @@
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/images/angel-icon.png" />
     <style>html,body{background:#161513}#splash{position:fixed;inset:0;z-index:9999;background:#161513;display:flex;align-items:center;justify-content:center;pointer-events:none}</style>
-    <link rel="stylesheet" href="../css/styles.css?v=my35" />
+    <link rel="stylesheet" href="../css/styles.css?v=my36" />
     <meta property="og:title" content="디인챌 마이페이지" />
     <meta property="og:description" content="천사님 인스타 챌린지 출석 체크" />
     <meta property="og:image" content="https://angelsinstachallenge.vercel.app/assets/images/og-image.png" />
@@ -38,18 +38,18 @@
         </div>
         <div class="profile-row">
           <label for="password">비밀번호</label>
-          <input id="password" class="line-input" type="text" style="-webkit-text-security:disc" placeholder="xxxx" autocomplete="off" autocorrect="off" data-form-type="other" />
+          <input id="password" class="line-input" type="text" style="-webkit-text-security:disc" placeholder="xxxx" autocomplete="off" autocorrect="off" data-form-type="other" readonly />
           <div class="action-stack">
             <button id="togglePassword" class="icon-action" type="button" aria-label="비밀번호 보기"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-            <button class="text-action" id="changePassword" type="button">비밀번호 변경</button>
+            <button class="text-action active" id="changePassword" type="button">비밀번호 변경</button>
           </div>
         </div>
         <div class="profile-row">
           <label for="nickname">닉네임</label>
-          <input id="nickname" class="line-input" type="text" placeholder="닉네임" />
+          <input id="nickname" class="line-input" type="text" placeholder="닉네임" readonly />
           <div class="action-stack">
             <span></span>
-            <button class="text-action" id="saveProfile" type="button">닉네임 변경</button>
+            <button class="text-action active" id="saveProfile" type="button">닉네임 변경</button>
           </div>
         </div>
         <div class="profile-row">
@@ -113,6 +113,42 @@
       </section>
 
     </main>
+
+    <!-- 비밀번호 변경 모달 -->
+    <div id="pwModalOverlay" class="modal-overlay" aria-hidden="true">
+      <div class="modal-box">
+        <h3 class="modal-title">비밀번호 변경</h3>
+        <div class="modal-body">
+          <label class="modal-label">새 비밀번호</label>
+          <input id="newPw" class="modal-input" type="password" placeholder="새 비밀번호 입력" autocomplete="new-password" />
+          <label class="modal-label">비밀번호 확인</label>
+          <input id="confirmPw" class="modal-input" type="password" placeholder="비밀번호 재입력" autocomplete="new-password" />
+        </div>
+        <p id="pwMsg" class="modal-msg"></p>
+        <div class="modal-footer">
+          <button id="cancelPwModal" class="modal-btn-cancel" type="button">취소</button>
+          <button id="confirmPwBtn" class="modal-btn-confirm" type="button" disabled>비밀번호 변경</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 닉네임 변경 모달 -->
+    <div id="nickModalOverlay" class="modal-overlay" aria-hidden="true">
+      <div class="modal-box">
+        <h3 class="modal-title">닉네임 변경</h3>
+        <div class="modal-body">
+          <p id="nickModalDesc" class="modal-desc"></p>
+          <label class="modal-label">새 닉네임</label>
+          <input id="newNick" class="modal-input" type="text" placeholder="새 닉네임 입력" />
+        </div>
+        <p id="nickMsg" class="modal-msg"></p>
+        <div class="modal-footer">
+          <button id="cancelNickModal" class="modal-btn-cancel" type="button">취소</button>
+          <button id="confirmNickBtn" class="modal-btn-confirm" type="button" disabled>닉네임 변경</button>
+        </div>
+      </div>
+    </div>
+
     <nav class="bottom-nav">
       <a href="../index.html"><img class="nav-icon" src="../assets/images/home.png" alt="" />홈</a>
       <a href="./attendance.html"><img class="nav-icon" src="../assets/images/attendance.png" alt="" />출석부</a>
@@ -122,6 +158,6 @@
     <script src="../js/imported-data.js?v=data2"></script>
     <script src="../js/common.js?v=common11"></script>
     <script src="../js/auth-guard.js?v=auth4"></script>
-    <script src="../js/my.js?v=my23"></script>
+    <script src="../js/my.js?v=my24"></script>
   </body>
 </html>

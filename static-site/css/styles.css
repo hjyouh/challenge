@@ -1039,9 +1039,126 @@ body[data-page="ranking"] .rank-pct {
 
 .pouch-empty-msg {
   padding: 16px 0 8px;
-  color: #8a8f98;
+  color: var(--gold);
   font-size: 14px;
+  font-weight: 900;
   text-align: center;
+}
+
+/* ── 모달 오버레이 ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay[aria-hidden="true"] { display: none; }
+
+.modal-box {
+  background: #26231f;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 24px 20px 20px;
+  width: min(100%, 320px);
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 900;
+  color: #f8fafc;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8a8f98;
+  margin-top: 6px;
+}
+
+.modal-input {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(180, 176, 168, 0.5);
+  background: transparent;
+  color: #f8fafc;
+  font-size: 16px;
+  font-family: inherit;
+  padding: 4px 0 5px;
+  outline: 0;
+}
+
+.modal-desc {
+  font-size: 14px;
+  color: #d1d5db;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.modal-desc strong { color: var(--gold); }
+
+.modal-msg {
+  min-height: 18px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  margin: 10px 0 2px;
+}
+.modal-msg.error { color: var(--red); }
+.modal-msg.success { color: var(--green); }
+
+.modal-footer {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal-btn-cancel,
+.modal-btn-confirm {
+  flex: 1;
+  height: 46px;
+  border: 0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.modal-btn-cancel {
+  background: rgba(255, 255, 255, 0.07);
+  color: #94a3b8;
+}
+
+.modal-btn-confirm {
+  background: rgba(250, 204, 21, 0.12);
+  color: #4b5563;
+  cursor: default;
+}
+
+.modal-btn-confirm:not(:disabled) {
+  background: var(--gold);
+  color: #161513;
+  cursor: pointer;
+}
+
+/* readonly 필드 */
+.line-input[readonly] {
+  color: #b8b3aa;
+  border-bottom-color: rgba(180, 176, 168, 0.25);
+  cursor: default;
+  user-select: none;
 }
 
 .rank-empty-msg {

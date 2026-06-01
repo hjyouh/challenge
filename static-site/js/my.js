@@ -82,13 +82,6 @@
     } else {
       markInstagramPending();
     }
-    updatePasswordAction();
-  }
-
-  function updatePasswordAction() {
-    const changed = password.value !== originalPassword;
-    changePassword.classList.toggle("active", changed);
-    changePassword.disabled = !changed;
   }
 
   function markInstagramPending() {
@@ -139,9 +132,86 @@
     }
   });
 
-  nickname.addEventListener("focus", function () { this.value = fullNickname; });
-  nickname.addEventListener("input", function () { fullNickname = this.value; });
-  nickname.addEventListener("blur", function () { this.value = truncate(fullNickname, 10); });
+  // ── 비밀번호 변경 모달 ──────────────────────────────────
+  const pwOverlay = document.getElementById("pwModalOverlay");
+  const newPwEl = document.getElementById("newPw");
+  const confirmPwEl = document.getElementById("confirmPw");
+  const pwMsg = document.getElementById("pwMsg");
+  const confirmPwBtn = document.getElementById("confirmPwBtn");
+
+  function openPwModal() {
+    newPwEl.value = ""; confirmPwEl.value = "";
+    pwMsg.textContent = ""; pwMsg.className = "modal-msg";
+    confirmPwBtn.disabled = true;
+    pwOverlay.setAttribute("aria-hidden", "false");
+    setTimeout(() => newPwEl.focus(), 50);
+  }
+  function closePwModal() { pwOverlay.setAttribute("aria-hidden", "true"); }
+
+  function checkPwMatch() {
+    const v1 = newPwEl.value, v2 = confirmPwEl.value;
+    if (!v1) { pwMsg.textContent = ""; confirmPwBtn.disabled = true; return; }
+    if (v1 === v2) {
+      pwMsg.textContent = "✅ 비밀번호가 일치합니다"; pwMsg.className = "modal-msg success";
+      confirmPwBtn.disabled = false;
+    } else {
+      pwMsg.textContent = v2 ? "비밀번호가 다릅니다" : ""; pwMsg.className = "modal-msg error";
+      confirmPwBtn.disabled = true;
+    }
+  }
+  newPwEl.addEventListener("input", checkPwMatch);
+  confirmPwEl.addEventListener("input", checkPwMatch);
+  document.getElementById("cancelPwModal").addEventListener("click", closePwModal);
+  confirmPwBtn.addEventListener("click", () => {
+    if (confirmPwBtn.disabled) return;
+    profile.password = newPwEl.value;
+    DC.saveProfile(profile);
+    password.value = profile.password;
+    password.style.webkitTextSecurity = "disc";
+    pwMsg.textContent = "비밀번호가 변경되었습니다."; pwMsg.className = "modal-msg success";
+    confirmPwBtn.disabled = true;
+    setTimeout(closePwModal, 1200);
+  });
+  pwOverlay.addEventListener("click", (e) => { if (e.target === pwOverlay) closePwModal(); });
+
+  // ── 닉네임 변경 모달 ──────────────────────────────────
+  const nickOverlay = document.getElementById("nickModalOverlay");
+  const newNickEl = document.getElementById("newNick");
+  const nickMsg = document.getElementById("nickMsg");
+  const confirmNickBtn = document.getElementById("confirmNickBtn");
+  const nickModalDesc = document.getElementById("nickModalDesc");
+
+  function openNickModal() {
+    nickModalDesc.innerHTML = `닉네임 <strong>${(profile.nickname || "닉네임").replace(/</g,"&lt;")}</strong>을(를) 변경하시겠습니까?`;
+    newNickEl.value = ""; nickMsg.textContent = ""; nickMsg.className = "modal-msg";
+    confirmNickBtn.disabled = true;
+    nickOverlay.setAttribute("aria-hidden", "false");
+    setTimeout(() => newNickEl.focus(), 50);
+  }
+  function closeNickModal() { nickOverlay.setAttribute("aria-hidden", "true"); }
+
+  newNickEl.addEventListener("input", () => {
+    const v = newNickEl.value.trim();
+    confirmNickBtn.disabled = !v;
+    nickMsg.textContent = "";
+  });
+  document.getElementById("cancelNickModal").addEventListener("click", closeNickModal);
+  confirmNickBtn.addEventListener("click", () => {
+    const v = newNickEl.value.trim();
+    if (!v) return;
+    profile.nickname = v;
+    fullNickname = v;
+    DC.saveProfile(profile);
+    nickname.value = truncate(v, 10);
+    nickMsg.textContent = "닉네임이 변경되었습니다."; nickMsg.className = "modal-msg success";
+    confirmNickBtn.disabled = true;
+    setTimeout(closeNickModal, 1200);
+  });
+  nickOverlay.addEventListener("click", (e) => { if (e.target === nickOverlay) closeNickModal(); });
+
+  // ── 기존 버튼 → 모달 오픈 ──────────────────────────
+  changePassword.addEventListener("click", openPwModal);
+  document.getElementById("saveProfile").addEventListener("click", openNickModal);
 
   instagramId.addEventListener("focus", function () { this.value = fullInstagramId; });
   instagramId.addEventListener("input", function () {
@@ -161,30 +231,10 @@
     const hidden = password.style.webkitTextSecurity === "disc" || !password.style.webkitTextSecurity;
     password.style.webkitTextSecurity = hidden ? "none" : "disc";
   });
-  password.addEventListener("input", updatePasswordAction);
-  document.getElementById("saveProfile").addEventListener("click", () => {
-    if (!instagramVerified && !validateInstagram()) return;
-    profile.userId = userId.value.trim();
-    profile.nickname = fullNickname.trim() || "닉네임";
-    profile.instagramId = fullInstagramId.trim();
-    profile.autoLogin = autoLogin.checked;
-    DC.saveProfile(profile);
-    nickname.value = truncate(profile.nickname, 10);
-    instagramId.value = truncate(profile.instagramId, 20);
-    instagramStatus.textContent = "✅ 닉네임이 저장되었습니다.";
-    instagramStatus.className = "field-status valid";
-    setTimeout(() => { instagramStatus.textContent = ""; instagramStatus.className = "field-status"; }, 2500);
-  });
-  changePassword.addEventListener("click", () => {
-    if (changePassword.disabled) return;
-    profile.password = password.value || "123456";
-    DC.saveProfile(profile);
-    originalPassword = password.value;
-    updatePasswordAction();
-    instagramStatus.textContent = "✅ 비밀번호가 변경되었습니다.";
-    instagramStatus.className = "field-status valid";
-    setTimeout(() => { instagramStatus.textContent = ""; instagramStatus.className = "field-status"; }, 2500);
-  });
+  // autoLogin / userId 변경 즉시 저장
+  autoLogin.addEventListener("change", () => { profile.autoLogin = autoLogin.checked; DC.saveProfile(profile); });
+  userId.addEventListener("blur", () => { profile.userId = userId.value.trim(); DC.saveProfile(profile); });
+
   document.getElementById("logoutDemo").addEventListener("click", () => {
     profile.autoLogin = false;
     DC.saveProfile(profile);
