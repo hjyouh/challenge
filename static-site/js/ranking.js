@@ -67,6 +67,14 @@
 
   function render() {
     const rows = DC.assignRanks(currentRows());
+    if (rows.length === 0) {
+      const monthNum = mode === "month" ? DC.today.getMonth() + 1 : selectedYear;
+      const msg = mode === "month"
+        ? `아직 ${DC.today.getMonth() + 1}월의 미션이 시작되지 않았어요`
+        : `${selectedYear}년의 미션 데이터가 없어요`;
+      list.innerHTML = `<p class="rank-empty-msg">${msg}</p>`;
+      return;
+    }
     const maxNickW = rows.reduce((max, row) => {
       return Math.max(max, nickPx(shortName(row.nickname || row.instagramId || row.id)));
     }, 60);

@@ -804,36 +804,39 @@ body[data-page="ranking"] {
 }
 
 body[data-page="ranking"] .phone {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: min(100%, 470px);
-  height: auto;
+  height: 100vh;
+  height: 100svh;
   background: #161513;
-  padding: 0 0 calc(96px + env(safe-area-inset-bottom));
-  overflow: visible;
+  padding: 0;
+  overflow: hidden;
 }
 
 body[data-page="ranking"] .page-header {
-  position: sticky;
-  top: 0;
+  position: relative;
+  top: auto;
   left: auto;
   right: auto;
   flex-shrink: 0;
 }
 
 body[data-page="ranking"] .rank-switch-wrap {
-  position: sticky;
-  top: max(58px, calc(env(safe-area-inset-top) + 49px));
-  z-index: 9;
+  position: relative;
+  top: auto;
   left: auto;
   right: auto;
   flex-shrink: 0;
   padding: 0 10px;
-  background: #1e1c1a;
 }
 
 body[data-page="ranking"] #rankingList {
-  overflow-y: visible;
-  padding: 8px 10px 0;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 10px calc(96px + env(safe-area-inset-bottom));
 }
 
 .rank-switch-wrap {
@@ -1028,6 +1031,16 @@ body[data-page="ranking"] .rank-pct {
   white-space: nowrap;
   text-align: right;
   font-size: 12px;
+}
+
+.rank-empty-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #8a8f98;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
 }
 
 .rank-fade-line {
