@@ -1,5 +1,15 @@
 (function () {
-  // TEST_RESET 비활성화 — 프로필/출석 데이터 유지
+  // ── TEST RESET ───────────────────────────────────────────
+  // 앱을 완전히 종료 후 재실행하면 처음(로그인) 화면으로
+  const TEST_RESET = true;
+  if (TEST_RESET && !sessionStorage.getItem("deinchal-session-started")) {
+    sessionStorage.setItem("deinchal-session-started", "1");
+    localStorage.removeItem("deinchal-login-accounts");
+    localStorage.removeItem("deinchal-auth-session");
+    localStorage.removeItem("deinchal-profile");
+    localStorage.removeItem("deinchal-checks");
+  }
+  // ────────────────────────────────────────────────────────
 
   const profile = DC.profile();
   const session = JSON.parse(localStorage.getItem("deinchal-auth-session") || "null");
