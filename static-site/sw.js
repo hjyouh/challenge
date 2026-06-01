@@ -1,4 +1,4 @@
-const CACHE = 'deinchal-v3';
+const CACHE = 'deinchal-v4';
 
 // 이미지만 선캐시 (HTML은 항상 네트워크에서 받아옴)
 const PRECACHE = [
