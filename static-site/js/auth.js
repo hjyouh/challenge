@@ -367,7 +367,7 @@
         <label class="account-line pw-check-line" for="newPasswordConfirm"><span>비밀번호 확인</span><input id="newPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="current-password" data-form-type="other" /><span class="pw-match" id="newPwMatchIcon">✓</span></label>
         <label class="account-line" for="newNickname"><span>닉네임</span><input id="newNickname" type="text" placeholder="닉네임" /></label>
         <label class="account-line" for="newInstagram">
-          <span>@인스타그램 ID</span>
+          <span>인스타그램 ID @</span>
           <input id="newInstagram" type="text" placeholder="instagram_id" autocapitalize="none" autocorrect="off" spellcheck="false" />
           <span id="instaCheck" class="insta-check"></span>
         </label>
