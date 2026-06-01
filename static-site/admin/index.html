@@ -385,13 +385,12 @@
   }
 
   async function deleteAccount(loginId) {
-    if (!confirm(`"${loginId}" 계정을 삭제할까요?`)) return;
     try {
       await fetch(`${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}`, {
         method: 'DELETE',
         headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
       });
-      showToast(`🗑️ ${loginId} 계정 삭제됨`);
+      showToast(`🗑️ ${loginId} 삭제됨`);
       renderUsers();
     } catch { showToast('삭제 중 오류가 발생했습니다.'); }
   }
