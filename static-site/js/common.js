@@ -6,7 +6,14 @@
   }
 
   const today = new Date();
-  const imported = window.DC_IMPORTED_DATA || null;
+  // supabase-data.js 로드 완료 후 사용 (동기 스크립트 실행 시에는 아직 null일 수 있음)
+  // DC_DATA_READY Promise가 있으면 해당 Promise 완료 후 imported 갱신
+  let imported = window.DC_IMPORTED_DATA || null;
+  if (!imported && window.DC_DATA_READY) {
+    window.DC_DATA_READY.then(() => {
+      imported = window.DC_IMPORTED_DATA || null;
+    });
+  }
 
   const demoUsers = [
     { id: "me", emoji: "😀", nickname: "나의챌린지", instagramId: "my.challenge", completedBias: 0 },

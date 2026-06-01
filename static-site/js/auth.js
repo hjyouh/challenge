@@ -1,15 +1,43 @@
 (function () {
-  const panel = document.getElementById("authPanel");
-  const accountsKey = "deinchal-login-accounts";
+  const panel      = document.getElementById("authPanel");
   const sessionKey = "deinchal-auth-session";
-  const resetForTest = false;
+  const SB_URL     = 'https://rlzbwdvkpjfhxnxkblfg.supabase.co';
+  const SB_KEY     = 'sb_publishable_S50LJ8UgfRXDXybLl2IkcA_NpI2ipw0';
 
-  function accounts() {
-    return JSON.parse(localStorage.getItem(accountsKey) || "[]");
+  // ── Supabase 계정 API ──────────────────────────────
+  async function sbGetAccounts() {
+    const r = await fetch(`${SB_URL}/rest/v1/accounts?select=*`, {
+      headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+    });
+    return r.ok ? r.json() : [];
   }
 
-  function saveAccounts(next) {
-    localStorage.setItem(accountsKey, JSON.stringify(next));
+  async function sbSaveAccount(account) {
+    const body = {
+      login_id:     account.loginId,
+      password:     account.password,
+      nickname:     account.nickname,
+      instagram_id: account.instagramId,
+      member_ids:   account.memberIds || [],
+      emoji:        account.emoji || '😀',
+    };
+    await fetch(`${SB_URL}/rest/v1/accounts?on_conflict=login_id`, {
+      method: 'POST',
+      headers: {
+        apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'resolution=merge-duplicates',
+      },
+      body: JSON.stringify(body),
+    });
+  }
+
+  // 로컬 캐시 (로그인 중 세션용)
+  function accounts() {
+    return JSON.parse(localStorage.getItem('deinchal-login-accounts') || '[]');
+  }
+  function cacheAccounts(list) {
+    localStorage.setItem('deinchal-login-accounts', JSON.stringify(list));
   }
 
   function allMembers() {
@@ -121,7 +149,7 @@
   function showBack(handler) {
     backHandler = handler;
     backBtn.hidden = false;
-    backBtn.onclick = handler;
+    backBtn.onclick = () => handler();
   }
 
   function hideBack() {
@@ -337,17 +365,41 @@
     bindBack(renderReturning);
     document.getElementById("backStart").addEventListener("click", () => renderStart());
     document.getElementById("goNewAccount").addEventListener("click", () => renderNewAccount());
-    document.getElementById("loginSubmit").addEventListener("click", () => {
+    document.getElementById("loginSubmit").addEventListener("click", async () => {
       if (submit.disabled) return;
-      const loginId = document.getElementById("loginId").value.trim();
+      const loginId  = document.getElementById("loginId").value.trim();
       const password = document.getElementById("loginPassword").value.trim();
-      const account = accounts().find((item) => item.loginId === loginId && item.password === password);
-      if (!account) {
+      submit.disabled = true;
+      submit.textContent = '확인 중...';
+      try {
+        // Supabase에서 먼저 확인
+        const r = await fetch(
+          `${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}&password=eq.${encodeURIComponent(password)}&limit=1`,
+          { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } }
+        );
+        const rows = await r.json();
+        const sbAccount = rows[0];
+        if (sbAccount) {
+          const account = {
+            loginId:     sbAccount.login_id,
+            password:    sbAccount.password,
+            nickname:    sbAccount.nickname,
+            instagramId: sbAccount.instagram_id,
+            memberIds:   sbAccount.member_ids || [],
+            emoji:       sbAccount.emoji || '😀',
+          };
+          cacheAccounts([account]);
+          setProfile(account, document.getElementById("loginAuto").checked);
+          goHome();
+          return;
+        }
+        // fallback: localStorage
+        const local = accounts().find(a => a.loginId === loginId && a.password === password);
+        if (local) { setProfile(local, document.getElementById("loginAuto").checked); goHome(); return; }
         renderLogin("로그인 정보를 찾지 못했습니다. 기존 계정을 먼저 찾아 주세요.");
-        return;
+      } catch {
+        renderLogin("네트워크 오류가 발생했습니다. 다시 시도해 주세요.");
       }
-      setProfile(account, document.getElementById("loginAuto").checked);
-      goHome();
     });
   }
 
@@ -428,9 +480,17 @@
         createdAt: new Date().toISOString(),
       };
       if (submit.disabled || !account.loginId || !account.password || !account.nickname) return;
-      saveAccounts([...accounts(), account]);
-      setProfile(account, document.getElementById("newAuto").checked);
-      goHome();
+      submit.disabled = true;
+      submit.textContent = '생성 중...';
+      sbSaveAccount(account).then(() => {
+        cacheAccounts([...accounts(), account]);
+        setProfile(account, document.getElementById("newAuto").checked);
+        goHome();
+      }).catch(() => {
+        submit.disabled = false;
+        submit.textContent = '계정생성';
+        document.getElementById("candidateList").innerHTML = '<p class="auth-message">계정 생성 중 오류가 발생했습니다.</p>';
+      });
     });
   }
 
