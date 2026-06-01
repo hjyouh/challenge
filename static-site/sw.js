@@ -1,6 +1,6 @@
-const CACHE = 'deinchal-v6';
+const CACHE = 'deinchal-v7';
 
-// 이미지만 선캐시 (HTML은 항상 네트워크에서 받아옴)
+// 이미지만 선캐시
 const PRECACHE = [
   '/assets/images/angel-intro.png',
   '/assets/images/angel-icon.png',
@@ -32,29 +32,25 @@ self.addEventListener('fetch', e => {
 
   const url = new URL(e.request.url);
 
-  // ── HTML: 네트워크 우선 → 앱 업데이트 즉시 반영 ──────────────────
-  // 오프라인이면 캐시 폴백
-  if (url.pathname.endsWith('.html') || url.pathname === '/' || url.pathname.endsWith('/')) {
+  // 이미지만 캐시 우선 (자주 바뀌지 않음)
+  if (/\.(png|jpg|jpeg|gif|webp|svg|ico)(\?|$)/.test(url.pathname)) {
     e.respondWith(
-      fetch(e.request).then(res => {
-        if (res && res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
-        return res;
-      }).catch(() => caches.match(e.request))
+      caches.match(e.request).then(cached => {
+        if (cached) return cached;
+        return fetch(e.request).then(res => {
+          if (res && res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+          return res;
+        });
+      })
     );
     return;
   }
 
-  // ── CSS / JS / 이미지: 캐시 우선 → ?v=X 버전 쿼리로 최신 보장 ────
+  // HTML / JS / CSS: 네트워크 우선 → 오프라인 시 캐시 폴백
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(res => {
-        if (res && res.ok) {
-          const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
-        }
-        return res;
-      });
-    })
+    fetch(e.request).then(res => {
+      if (res && res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+      return res;
+    }).catch(() => caches.match(e.request))
   );
 });
