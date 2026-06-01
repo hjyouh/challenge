@@ -443,15 +443,12 @@
 
   function renderLogin(message = "") {
     panel.innerHTML = `
-      <div class="auth-copy">
-        <h2>로그인</h2>
-        <p>이미 만든 로그인 ID와 비밀번호로 접속합니다.</p>
+      <form class="account-popup" id="loginForm" autocomplete="off">
+        <p class="account-question">로그인</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
-      </div>
-      <form class="auth-form" id="loginForm" autocomplete="off">
-        ${field("loginId", "로그인 ID", "login_id")}
-        ${field("loginPassword", "비밀번호", "비밀번호", "password")}
-        <label class="auth-check"><input id="loginAuto" type="checkbox" checked /> 자동로그인</label>
+        <label class="account-line" for="loginId"><span>ID</span><input id="loginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" /></label>
+        <label class="account-line" for="loginPassword"><span>비번</span><input id="loginPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="current-password" data-form-type="other" /></label>
+        <label class="account-check check-first"><input id="loginAuto" type="checkbox" checked /><span>자동로그인</span></label>
         <div class="login-actions">
           <button class="login-btn" id="backStart" type="button">처음으로</button>
           <button class="login-btn login-btn-primary" id="loginSubmit" type="button" disabled>로그인</button>
