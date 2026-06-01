@@ -102,9 +102,24 @@
     .col-panel:last-child { border-right: none; }
 
     /* ── Member row ── */
+    .tab-title-row {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .tab-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 0; }
+    .attend-summary-chips {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .attend-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600;
+    }
+    .attend-chip.total  { background: #f1f5f9; color: #475569; }
+    .attend-chip.active { background: #dbeafe; color: #1d4ed8; }
+    .attend-chip.rate   { background: #dcfce7; color: #16a34a; }
+
     .member-row {
       display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 28px;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 60px 28px;
       align-items: center;
       gap: 6px;
       padding: 9px 12px;
@@ -119,7 +134,7 @@
 
     .col-header {
       display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 28px;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 60px 28px;
       gap: 6px;
       padding: 8px 12px;
       background: #f8fafc;
@@ -326,46 +341,81 @@
   /* ── Tab 1: 사용자 (Supabase) ── */
   async function renderUsers() {
     const mc = document.getElementById('mainContent');
-    mc.innerHTML = `<div class="tab-title">👤 사용자</div><div class="loading">불러오는 중...</div>`;
+    mc.innerHTML = `<div class="tab-title-row"><div class="tab-title">👤 사용자</div></div><div class="loading">불러오는 중...</div>`;
 
     const accounts = await sbFetch('accounts?select=login_id,nickname,instagram_id&order=login_id');
 
-    const headerHtml = `
-      <div class="col-header">
-        <span>ID</span><span>닉네임</span><span>Instagram ID @</span><span></span>
-      </div>`;
+    // 출석 데이터 준비 (instagram_id 기준 매핑)
+    const doRender = () => {
+      const attendRows = DC.userRows('month');
+      const attendMap = {};
+      attendRows.forEach(r => { attendMap[r.instagramId] = r; });
 
-    function rowHtml(a) {
-      if (!a) return '';
-      return `<div class="member-row">
-        <span class="col-id">${esc(a.login_id)}</span>
-        <span class="col-nick">${esc(a.nickname || '-')}</span>
-        <span class="col-insta">${a.instagram_id ? '@'+esc(a.instagram_id) : '-'}</span>
-        <button class="reset-btn" title="비밀번호 초기화" onclick="resetPassword('${esc(a.login_id)}')">
-          <img src="../assets/images/reset.png" alt="reset" />
-        </button>
-      </div>`;
-    }
+      const totalDone  = attendRows.reduce((s,r) => s + r.done, 0);
+      const totalMiss  = attendRows.reduce((s,r) => s + r.total, 0);
+      const overallPct = DC.rate(totalDone, totalMiss);
+      const activeCount = attendRows.filter(r => r.done > 0).length;
 
-    if (!accounts.length) {
-      mc.innerHTML = `<div class="tab-title">👤 사용자</div><div class="empty">등록된 계정이 없습니다.</div>`;
-      return;
-    }
+      const headerHtml = `
+        <div class="col-header">
+          <span>ID</span><span>닉네임</span><span>Instagram ID @</span><span>출석</span><span></span>
+        </div>`;
 
-    const total = accounts.length;
-    const col   = Math.ceil(total / 3);
-    const cols  = [accounts.slice(0, col), accounts.slice(col, col*2), accounts.slice(col*2)];
+      function attendBadge(a) {
+        const r = a.instagram_id ? attendMap[a.instagram_id] : null;
+        if (!r) return `<span style="color:#cbd5e1;font-size:11px">-</span>`;
+        const cls = r.percent>=80?'pct-green':r.percent>=50?'pct-yellow':'pct-gray';
+        return `<span class="pct-badge ${cls}" title="${r.total}번 중 ${r.done}번">${r.percent}%</span>`;
+      }
 
-    mc.innerHTML = `
-      <div class="tab-title">👤 사용자 (${total}명)</div>
-      <div class="three-col">
-        ${cols.map(list => `
-          <div class="col-panel">
-            ${headerHtml}
-            ${list.map((a,i) => rowHtml(a) + (i>0 && (i+1)%10===0 ? '<div class="sep-line"></div>':'')).join('')}
-          </div>`).join('')}
-      </div>
-    `;
+      function rowHtml(a) {
+        if (!a) return '';
+        return `<div class="member-row">
+          <span class="col-id">${esc(a.login_id)}</span>
+          <span class="col-nick">${esc(a.nickname || '-')}</span>
+          <span class="col-insta">${a.instagram_id ? '@'+esc(a.instagram_id) : '-'}</span>
+          <span>${attendBadge(a)}</span>
+          <button class="reset-btn" title="비밀번호 초기화" onclick="resetPassword('${esc(a.login_id)}')">
+            <img src="../assets/images/reset.png" alt="reset" />
+          </button>
+        </div>`;
+      }
+
+      if (!accounts.length) {
+        mc.innerHTML = `
+          <div class="tab-title-row">
+            <div class="tab-title">👤 사용자</div>
+          </div>
+          <div class="empty">등록된 계정이 없습니다.</div>`;
+        return;
+      }
+
+      const total = accounts.length;
+      const col   = Math.ceil(total / 3);
+      const cols  = [accounts.slice(0, col), accounts.slice(col, col*2), accounts.slice(col*2)];
+
+      mc.innerHTML = `
+        <div class="tab-title-row">
+          <div class="tab-title">👤 사용자</div>
+          <div class="attend-summary-chips">
+            <span class="attend-chip total">전체 ${total}명</span>
+            <span class="attend-chip active">출석 참여 ${activeCount}명</span>
+            <span class="attend-chip rate">이달 평균 ${overallPct}%</span>
+          </div>
+        </div>
+        <div class="three-col">
+          ${cols.map(list => `
+            <div class="col-panel">
+              ${headerHtml}
+              ${list.map((a,i) => rowHtml(a) + (i>0 && (i+1)%10===0 ? '<div class="sep-line"></div>':'')).join('')}
+            </div>`).join('')}
+        </div>
+      `;
+    };
+
+    if (window.DC_IMPORTED_DATA) { doRender(); }
+    else if (window.DC_DATA_READY) { window.DC_DATA_READY.then(doRender); }
+    else { doRender(); }
   }
 
   /* ── Tab 2: 출석현황 (DC data) ── */
