@@ -458,14 +458,8 @@
     document.getElementById("newSubmit").addEventListener("click", () => {
       const nickname = document.getElementById("newNickname").value.trim();
       const instagramId = document.getElementById("newInstagram").value.trim();
-      const candidateList = document.getElementById("candidateList");
 
-      // 인스타그램 ID 시스템 존재 여부 확인
-      if (!isKnownInstagram(instagramId)) {
-        candidateList.innerHTML = `<p class="auth-message">해당 인스타그램 계정이 시스템에 등록되어 있지 않습니다.<br/>계정 찾기로 본인 계정을 먼저 확인해 주세요.</p>`;
-        return;
-      }
-
+      // 비슷한 기존 계정이 있으면 "이 계정이 맞나요?" 표시
       const result = findMembers(nickname, instagramId);
       if (result.rows.length) {
         renderCandidates({ type: "similar", rows: result.rows });
