@@ -419,9 +419,11 @@
         <label class="account-line pw-check-line" for="newPasswordConfirm"><span>비밀번호 확인</span><input id="newPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="current-password" data-form-type="other" /><span class="pw-match" id="newPwMatchIcon">✓</span></label>
         <label class="account-line" for="newNickname"><span>닉네임</span><input id="newNickname" type="text" placeholder="닉네임" /></label>
         <label class="account-line" for="newInstagram">
-          <span>인스타그램 ID @</span>
-          <input id="newInstagram" type="text" placeholder="instagram_id" autocapitalize="none" autocorrect="off" spellcheck="false" />
-          <span id="instaCheck" class="insta-check"></span>
+          <span>인스타그램<br/>ID @</span>
+          <div class="insta-input-wrap">
+            <input id="newInstagram" type="text" placeholder="instagram_id" autocapitalize="none" autocorrect="off" spellcheck="false" />
+            <span id="instaCheck" class="insta-check"></span>
+          </div>
         </label>
         <label class="account-check check-first"><input id="newAuto" type="checkbox" checked /><span>자동로그인</span></label>
         <button class="account-submit" id="newSubmit" type="button" disabled>계정생성</button>

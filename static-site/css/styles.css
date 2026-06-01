@@ -1172,6 +1172,24 @@ body[data-page="ranking"] .rank-pct {
   user-select: none;
 }
 
+.insta-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.insta-input-wrap input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(180, 176, 168, 0.62);
+  background: transparent;
+  color: #f8fafc;
+  outline: 0;
+  font-size: 17px;
+}
+.insta-input-wrap input::placeholder { color: #8e8a84; }
+
 .insta-check {
   font-size: 15px;
   font-weight: 900;
@@ -1892,11 +1910,11 @@ body[data-page="auth"] {
 .account-line,
 .account-check {
   display: grid;
-  grid-template-columns: 100px minmax(0, 1fr);
+  grid-template-columns: 82px minmax(0, 1fr);
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   color: #8e8a84;
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.15;
 }
 
