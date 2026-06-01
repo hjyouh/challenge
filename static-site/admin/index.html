@@ -215,34 +215,51 @@
 
     /* ── Mobile ── */
     @media (max-width: 768px) {
-      .sidebar { width: 0; overflow: hidden; }
-      .main-content { margin-left: 0; padding: 16px; }
-      .mobile-nav {
-        display: flex; gap: 0; border-bottom: 2px solid #e2e8f0;
-        margin-bottom: 16px; overflow-x: auto; scrollbar-width: none;
-      }
-      .mobile-nav::-webkit-scrollbar { display: none; }
-      .mobile-nav-btn {
-        flex: 0 0 auto; padding: 8px 14px; background: none; border: none;
-        color: #94a3b8; font-size: 14px; font-weight: 700; cursor: pointer;
-        border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap;
-      }
-      .mobile-nav-btn.active { color: #d97706; border-bottom-color: #d97706; }
+      .sidebar { display: none; }
 
-      .main-content { padding-top: 0; }
-      .three-col { grid-template-columns: 1fr; overflow: visible; border-radius: 0; }
+      /* dashboard = 세로 full-height 컨테이너 */
+      #dashboard { flex-direction: column; height: 100dvh; overflow: hidden; }
+
+      /* main-wrapper = fixedHeader + 스크롤영역 세로 flex */
+      .main-wrapper {
+        display: flex; flex-direction: column;
+        flex: 1; overflow: hidden;
+      }
+
+      /* fixedHeader: 상단 고정 영역 (sticky 아님, 진짜 고정) */
+      #fixedHeader {
+        flex-shrink: 0;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      #fixedHeader .inline-tabs  { position: static; border-bottom: 2px solid #e2e8f0; }
+      #fixedHeader .rank-tabs-wrap { position: static; margin: 0; border-bottom: 2px solid #e2e8f0; }
+      #fixedHeader .attend-header  { position: static; }
+
+      /* mainContent: 스크롤 영역 */
+      .main-content {
+        margin-left: 0; padding: 0 12px 16px;
+        flex: 1; overflow-y: auto;
+      }
+
+      /* inline-tabs / rank-tabs-wrap: 모바일에서 sticky 해제 */
+      .inline-tabs    { position: static; }
+      .rank-tabs-wrap { position: static; margin: 0; }
+
+      /* 3열 → 1열 */
+      .three-col { grid-template-columns: 1fr; overflow: visible; border-radius: 0; border: none; }
       .col-panel { border-right: none; border-bottom: 1px solid #e2e8f0; }
       .col-panel:last-child { border-bottom: none; }
-      /* 모바일 1열: 2번째 이후 col-panel 헤더 숨김 */
       .col-panel:not(:first-child) .attend-header { display: none; }
-      .col-panel:not(:first-child) .col-header { display: none; }
-      /* 헤더 sticky: inline-tabs(38px) + rank-tabs(38px) 아래 고정 */
-      .col-panel:first-child .attend-header {
-        position: sticky; top: 76px; background: #f8fafc; z-index: 8;
-      }
+      .col-panel:not(:first-child) .col-header    { display: none; }
+      /* 모바일: mainContent 안의 탭/헤더는 fixedHeader가 대신하므로 숨김 */
+      .main-content .inline-tabs   { display: none; }
+      .main-content .rank-tabs-wrap { display: none; }
+      .main-content .attend-header  { display: none; }
     }
     @media (min-width: 769px) {
-      .mobile-nav { display: none; }
+      #fixedHeader { display: none; }
+      .main-wrapper { display: contents; }
     }
   </style>
 </head>
@@ -273,8 +290,11 @@
       <button class="btn-logout" onclick="doLogout()">로그아웃</button>
     </div>
   </aside>
-  <div class="main-content" id="mainContent">
-    <div class="loading">로딩 중...</div>
+  <div class="main-wrapper">
+    <div id="fixedHeader"></div>
+    <div class="main-content" id="mainContent">
+      <div class="loading">로딩 중...</div>
+    </div>
   </div>
 </div>
 
@@ -355,23 +375,32 @@
     } catch { showToast('오류가 발생했습니다.'); }
   }
 
+  /* ── Inline tab bar HTML ── */
+  function inlineTabsHtml(active) {
+    return `<div class="inline-tabs">
+      <button class="inline-tab ${active==='users'?'active':''}" onclick="showTab('users')">👤 사용자</button>
+      <button class="inline-tab ${active==='attendance'?'active':''}" onclick="showTab('attendance')">📊 출석 현황</button>
+    </div>`;
+  }
+
+  /* fixedHeader 설정 (모바일: 진짜 고정 / 데스크탑: 숨김) */
+  function setFixedHeader(html) {
+    const fh = document.getElementById('fixedHeader');
+    if (fh) fh.innerHTML = html;
+  }
+
   /* ── Tab 1: 사용자 (Supabase) ── */
   async function renderUsers() {
     const mc = document.getElementById('mainContent');
-    mc.innerHTML = `<div class="tab-title-row"><div class="tab-title">👤 사용자</div></div><div class="loading">불러오는 중...</div>`;
+    setFixedHeader(inlineTabsHtml('users'));
+    mc.innerHTML = `<div class="loading">불러오는 중...</div>`;
 
     const accounts = await sbFetch('accounts?select=login_id,nickname,instagram_id&order=login_id');
 
-    // 출석 데이터 준비 (instagram_id 기준 매핑)
     const doRender = () => {
       const attendRows = DC.userRows('month');
       const attendMap = {};
       attendRows.forEach(r => { attendMap[r.instagramId] = r; });
-
-      const totalDone  = attendRows.reduce((s,r) => s + r.done, 0);
-      const totalMiss  = attendRows.reduce((s,r) => s + r.total, 0);
-      const overallPct = DC.rate(totalDone, totalMiss);
-      const activeCount = attendRows.filter(r => r.done > 0).length;
 
       const headerHtml = `
         <div class="col-header">
@@ -399,9 +428,7 @@
       }
 
       if (!accounts.length) {
-        mc.innerHTML = `
-          ${inlineTabsHtml('users')}
-          <div class="empty">등록된 계정이 없습니다.</div>`;
+        mc.innerHTML = `${inlineTabsHtml('users')}<div class="empty">등록된 계정이 없습니다.</div>`;
         return;
       }
 
@@ -442,7 +469,6 @@
 
     const mc = document.getElementById('mainContent');
 
-    // DC_IMPORTED_DATA 로드 대기
     const doRender = () => {
       const rows = DC.assignRanks(
         attendMode === 'month' ? DC.userRows('month') : DC.userRows('year', attendYear)
@@ -459,10 +485,18 @@
           onclick="renderAttendance('${t.mode}'${t.year?','+t.year:''})">${t.label} (${t.count}명)</button>`;
       }).join('');
 
-      const headerHtml = `<div class="attend-header">
+      const attendHeaderHtml = `<div class="attend-header">
         <span>등수</span><span>이모지</span><span>닉네임</span><span>출석</span><span>%</span>
       </div>`;
 
+      /* fixedHeader: 인라인탭 + 랭킹탭 + 컬럼헤더 */
+      setFixedHeader(`
+        ${inlineTabsHtml('attendance')}
+        <div class="rank-tabs-wrap">${tabHtml}</div>
+        ${attendHeaderHtml}
+      `);
+
+      /* mainContent: 데이터 행만 */
       function rowHtml(r) {
         const cls = r.percent>=80?'pct-green':r.percent>=50?'pct-yellow':'pct-gray';
         return `<div class="attend-row">
@@ -474,37 +508,31 @@
         </div>`;
       }
 
-      let gridHtml = '';
       if (!rows.length) {
-        gridHtml = `<div class="empty">이달의 미션이 아직 시작되지 않았습니다.</div>`;
-      } else {
-        const col  = Math.ceil(rows.length / 3);
-        const cols = [rows.slice(0,col), rows.slice(col,col*2), rows.slice(col*2)];
-        gridHtml = `<div class="three-col">
-          ${cols.map(list => `<div class="col-panel">${headerHtml}${list.map(rowHtml).join('')}</div>`).join('')}
-        </div>`;
+        mc.innerHTML = `
+          ${inlineTabsHtml('attendance')}
+          <div class="rank-tabs-wrap">${tabHtml}</div>
+          ${attendHeaderHtml}
+          <div class="empty">이달의 미션이 아직 시작되지 않았습니다.</div>`;
+        return;
       }
 
+      const col  = Math.ceil(rows.length / 3);
+      const cols = [rows.slice(0,col), rows.slice(col,col*2), rows.slice(col*2)];
       mc.innerHTML = `
         ${inlineTabsHtml('attendance')}
         <div class="rank-tabs-wrap">${tabHtml}</div>
-        ${gridHtml}
-      `;
+        <div class="three-col">
+          ${cols.map(list => `<div class="col-panel">${attendHeaderHtml}${list.map(rowHtml).join('')}</div>`).join('')}
+        </div>`;
     };
 
     if (window.DC_IMPORTED_DATA) { doRender(); }
     else if (window.DC_DATA_READY) {
+      setFixedHeader(inlineTabsHtml('attendance'));
       mc.innerHTML = `${inlineTabsHtml('attendance')}<div class="loading">데이터 로딩 중...</div>`;
       window.DC_DATA_READY.then(doRender);
     } else { doRender(); }
-  }
-
-  /* ── Inline tab bar (공통) ── */
-  function inlineTabsHtml(active) {
-    return `<div class="inline-tabs">
-      <button class="inline-tab ${active==='users'?'active':''}" onclick="showTab('users')">👤 사용자</button>
-      <button class="inline-tab ${active==='attendance'?'active':''}" onclick="showTab('attendance')">📊 출석 현황</button>
-    </div>`;
   }
 
   /* ── Helpers ── */
