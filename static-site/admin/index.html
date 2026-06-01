@@ -77,7 +77,7 @@
       display: flex; align-items: center; gap: 4px;
       border-bottom: 2px solid #e2e8f0; margin-bottom: 0; padding-bottom: 0;
       position: sticky; top: 0; background: #ffffff; z-index: 10;
-      padding-top: max(env(safe-area-inset-top, 0px), 44px);
+      padding-top: env(safe-area-inset-top, 0px);
     }
     .inline-tab {
       padding: 6px 14px 8px; cursor: pointer; font-size: 14px; font-weight: 700;
@@ -90,9 +90,9 @@
     /* ── Rank switch tabs ── */
     .rank-tabs-wrap {
       display: flex; align-items: center; gap: 0;
-      border-bottom: 2px solid #e2e8f0; margin-bottom: 20px;
+      border-bottom: 2px solid #e2e8f0; margin-bottom: 20px; margin-top: 0;
       overflow-x: auto; scrollbar-width: none;
-      position: sticky; top: calc(38px + max(env(safe-area-inset-top, 0px), 44px)); background: #ffffff; z-index: 9;
+      position: sticky; top: calc(38px + env(safe-area-inset-top, 0px)); background: #ffffff; z-index: 9;
     }
     .rank-tabs-wrap::-webkit-scrollbar { display: none; }
     .rank-tab {
