@@ -68,15 +68,9 @@
   function render() {
     const rows = DC.assignRanks(currentRows());
     if (rows.length === 0) {
-      let msg;
-      if (mode === "month") {
-        const todayKey = DC.dateKey(DC.today);
-        const hasDates = DC.missionDates(DC.today.getFullYear(), DC.today.getMonth())
-          .some(k => k <= todayKey);
-        msg = hasDates ? "아직 참여자가 없습니다" : "아직 이달의 미션이 시작되지 않았습니다";
-      } else {
-        msg = `${selectedYear}년의 미션 데이터가 없어요`;
-      }
+      const msg = mode === "month"
+        ? "아직 이달의 미션이 시작되지 않았습니다"
+        : `${selectedYear}년의 미션 데이터가 없어요`;
       list.innerHTML = `<p class="rank-empty-msg">${msg}</p>`;
       return;
     }
