@@ -25,6 +25,12 @@
 
   const emojiSet = ["😀", "😇", "🧧", "🌟", "🔥", "🍀", "💛", "🎯", "🌙", "☀️", "🎁", "🪽", "🥰", "😎", "🤍", "💎", "🥇", "🥈", "🥉", "🌱", "✨", "🫶", "🙌", "🎀", "🌈", "🍯", "🍑", "🍒", "🍋", "🌷", "🌹", "🌻", "🌿", "🪄", "🎊", "🎉", "🪩", "🧡", "💚", "💙", "💜", "🤎", "🖤", "🤍", "⭐", "🌞", "🌝", "🦋", "🍭", "🧁"];
 
+  // ID 기반 결정론적 이모지 — 같은 사람은 항상 같은 이모지
+  function seedEmoji(seed) {
+    const n = [...(seed || "x")].reduce((a, c) => ((a * 31) + c.charCodeAt(0)) & 0xffff, 0);
+    return emojiSet[n % emojiSet.length];
+  }
+
   function dateKey(date) {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
   }
@@ -166,10 +172,11 @@
           const nickKey = member.nickname || member.instagramId || member.id;
           if (!memberMap.has(nickKey)) {
             const globalMember = (imported.members || []).find((m) => m.id === member.id);
+            const rawEmoji = member.emoji || (globalMember && globalMember.emoji) || "";
             memberMap.set(nickKey, {
               id: member.id,
               memberIds: [],
-              emoji: member.emoji || globalMember?.emoji || "🙂",
+              emoji: (rawEmoji && rawEmoji !== "🙂") ? rawEmoji : seedEmoji(member.id || member.instagramId || nickKey),
               nickname: member.nickname,
               instagramId: member.instagramId,
             });

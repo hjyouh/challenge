@@ -1050,8 +1050,8 @@ body[data-page="ranking"] .rank-pct {
 .rank-section-divider {
   grid-column: 1 / -1;
   height: 1px;
-  margin: 4px 0;
-  background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.2), transparent);
+  margin: 6px 0;
+  background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.5), transparent);
 }
 
 .rank-fade-line {

@@ -6,3 +6,5 @@ static-server-*.log
 .storyboard_tmp
 .env*.local
 *.tsbuildinfo
+
+.vercel
