@@ -187,10 +187,14 @@
         });
       });
       const me = currentMemberId();
+      const myProfile = profile();
       return Array.from(memberMap.values())
         .map((member) => {
           const stat = importedGroupStats(member.memberIds, dates);
-          return { ...member, ...stat, grade: rankGrade(stat.percent), isMe: member.memberIds.includes(me) };
+          const isMe = member.memberIds.includes(me);
+          // 현재 사용자는 로컬 프로필 이모지 우선 사용
+          const finalEmoji = isMe && myProfile.emoji ? myProfile.emoji : member.emoji;
+          return { ...member, emoji: finalEmoji, ...stat, grade: rankGrade(stat.percent), isMe };
         })
         .sort((a, b) => b.percent - a.percent || b.done - a.done || a.nickname.localeCompare(b.nickname, "ko"));
     }

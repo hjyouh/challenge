@@ -959,7 +959,7 @@ body[data-page="ranking"] .rank-card {
   grid-template-columns: subgrid;
   align-items: center;
   margin-top: 0;
-  padding: 12px 0;
+  padding: 7px 0;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -1051,7 +1051,7 @@ body[data-page="ranking"] .rank-pct {
   grid-column: 1 / -1;
   height: 1px;
   margin: 6px 0;
-  background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(203, 213, 225, 0.7), transparent);
 }
 
 .rank-fade-line {
