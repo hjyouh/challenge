@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>디인챌 어드민</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -230,17 +230,24 @@
       #fixedHeader {
         flex-shrink: 0;
         background: #fff;
-        border-bottom: 1px solid #e2e8f0;
       }
-      #fixedHeader .inline-tabs  { position: static; border-bottom: 2px solid #e2e8f0; }
-      #fixedHeader .rank-tabs-wrap { position: static; margin: 0; border-bottom: 2px solid #e2e8f0; }
-      #fixedHeader .attend-header  { position: static; }
+      #fixedHeader .inline-tabs    { position: static; margin: 0; border-bottom: 2px solid #e2e8f0; }
+      #fixedHeader .rank-tabs-wrap { position: static; margin: 0; padding: 0; border-bottom: 2px solid #e2e8f0; }
+      #fixedHeader .attend-header  { position: static; margin: 0; }
 
       /* mainContent: 스크롤 영역 */
       .main-content {
         margin-left: 0; padding: 0 12px 16px;
         flex: 1; overflow-y: auto;
       }
+
+      /* 모바일 폰트 크기 */
+      body { font-size: 16px; }
+      .attend-row { font-size: 16px; }
+      .member-row { font-size: 16px; }
+      .rank-tab   { font-size: 15px; }
+      .inline-tab { font-size: 15px; }
+      .attend-header { font-size: 12px; }
 
       /* inline-tabs / rank-tabs-wrap: 모바일에서 sticky 해제 */
       .inline-tabs    { position: static; }
