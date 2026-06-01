@@ -77,7 +77,7 @@
       display: flex; align-items: center; gap: 4px;
       border-bottom: 2px solid #e2e8f0; margin-bottom: 0; padding-bottom: 0;
       position: sticky; top: 0; background: #ffffff; z-index: 10;
-      padding-top: env(safe-area-inset-top, 0px);
+      padding-top: 0;
     }
     .inline-tab {
       padding: 6px 14px 8px; cursor: pointer; font-size: 14px; font-weight: 700;
@@ -92,7 +92,7 @@
       display: flex; align-items: center; gap: 0;
       border-bottom: 2px solid #e2e8f0; margin-bottom: 20px; margin-top: 0;
       overflow-x: auto; scrollbar-width: none;
-      position: sticky; top: calc(38px + env(safe-area-inset-top, 0px)); background: #ffffff; z-index: 9;
+      position: sticky; top: 38px; background: #ffffff; z-index: 9;
     }
     .rank-tabs-wrap::-webkit-scrollbar { display: none; }
     .rank-tab {
@@ -237,6 +237,10 @@
       /* 모바일 1열: 2번째 이후 col-panel 헤더 숨김 */
       .col-panel:not(:first-child) .attend-header { display: none; }
       .col-panel:not(:first-child) .col-header { display: none; }
+      /* 헤더 sticky: inline-tabs(38px) + rank-tabs(38px) 아래 고정 */
+      .col-panel:first-child .attend-header {
+        position: sticky; top: 76px; background: #f8fafc; z-index: 8;
+      }
     }
     @media (min-width: 769px) {
       .mobile-nav { display: none; }
