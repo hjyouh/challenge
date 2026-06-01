@@ -122,7 +122,7 @@
         <p>기존 챌린지 명단에서<br />본인 계정을 먼저 찾습니다.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
         <div class="popup-actions">
-          <span class="text-choice" data-choice="no" role="button" tabindex="0">아니오</span>
+          <span class="text-choice" data-choice="no" role="button" tabindex="0">계정 생성</span>
           <span class="text-choice" data-choice="yes" role="button" tabindex="0">예</span>
         </div>
       </div>
@@ -138,7 +138,7 @@
         <h2>기존 계정이 있나요?</h2>
         <p>이전에 만드신 로그인 ID와<br />비밀번호가 있으면 '예'를 선택하세요.</p>
         <div class="popup-actions">
-          <span class="text-choice" data-choice="no" role="button" tabindex="0">아니오</span>
+          <span class="text-choice" data-choice="no" role="button" tabindex="0">계정 생성</span>
           <span class="text-choice" data-choice="yes" role="button" tabindex="0">예</span>
         </div>
       </div>
