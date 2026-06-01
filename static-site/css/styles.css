@@ -151,13 +151,25 @@ body[data-page="auth"] .page-header {
   position: sticky;
   top: 0;
   z-index: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
   padding-top: max(52px, calc(env(safe-area-inset-top) + 20px));
+  padding-bottom: 14px;
   flex-shrink: 0;
   background: #161513;
 }
 
 body[data-page="auth"] .page-header h1 {
   color: #FFC000;
+  flex: 1;
+  text-align: center;
+}
+
+.auth-header-spacer {
+  width: 36px;
+  flex-shrink: 0;
 }
 
 body[data-page="my"] .page-header {
@@ -1597,20 +1609,24 @@ body[data-page="auth"] {
 }
 
 .auth-back-btn {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
-  color: #8e8a84;
-  font-size: 30px;
-  line-height: 1;
   cursor: pointer;
-  padding: 4px 8px;
-  font-family: inherit;
+  padding: 4px;
+  opacity: 0.6;
 }
-.auth-back-btn:active { color: #ffffff; }
+.auth-back-btn img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+.auth-back-btn:active { opacity: 1; }
 
 .login-popup {
   position: relative;
