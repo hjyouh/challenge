@@ -75,9 +75,8 @@
 
     .inline-tabs {
       display: flex; align-items: center; gap: 4px;
-      border-bottom: 2px solid #e2e8f0; margin-bottom: 0; padding-bottom: 0;
+      border-bottom: 2px solid #e2e8f0; margin: 0; padding: 0;
       position: sticky; top: 0; background: #ffffff; z-index: 10;
-      padding-top: 0;
     }
     .inline-tab {
       padding: 6px 14px 8px; cursor: pointer; font-size: 14px; font-weight: 700;
@@ -231,7 +230,7 @@
       .mobile-nav-btn.active { color: #d97706; border-bottom-color: #d97706; }
 
       .main-content { padding-top: 0; }
-      .three-col { grid-template-columns: 1fr; }
+      .three-col { grid-template-columns: 1fr; overflow: visible; border-radius: 0; }
       .col-panel { border-right: none; border-bottom: 1px solid #e2e8f0; }
       .col-panel:last-child { border-bottom: none; }
       /* 모바일 1열: 2번째 이후 col-panel 헤더 숨김 */
