@@ -14,257 +14,200 @@
       min-height: 100vh;
     }
 
-    /* ── Login ──────────────────────────────── */
+    /* ── Login ── */
     #loginScreen {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; min-height: 100vh;
     }
-
     .login-box {
-      background: #1e293b;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 48px;
-      width: 380px;
-      text-align: center;
+      background: #1e293b; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 48px; width: 380px; text-align: center;
     }
-
     .login-box h1 { font-size: 22px; margin-bottom: 6px; }
     .login-box p  { color: #94a3b8; font-size: 14px; margin-bottom: 32px; }
-
     .login-box input {
-      width: 100%;
-      background: #0f172a;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 8px;
-      padding: 12px 16px;
-      color: #f1f5f9;
-      font-size: 16px;
-      margin-bottom: 12px;
-      outline: none;
+      width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px; padding: 12px 16px; color: #f1f5f9; font-size: 16px;
+      margin-bottom: 12px; outline: none;
     }
     .login-box input:focus { border-color: #facc15; }
-
     .login-box button {
-      width: 100%;
-      background: #facc15;
-      color: #0f172a;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
+      width: 100%; background: #facc15; color: #0f172a; border: none;
+      border-radius: 8px; padding: 12px; font-size: 16px; font-weight: 700; cursor: pointer;
     }
     .login-box button:hover { background: #fde047; }
-
     .login-error { color: #ef4444; font-size: 13px; margin-top: 12px; min-height: 20px; }
 
-    /* ── Dashboard layout ───────────────────── */
+    /* ── Dashboard layout ── */
     #dashboard { display: flex; min-height: 100vh; }
 
     .sidebar {
-      width: 220px;
-      background: #1e293b;
+      width: 200px; background: #1e293b;
       border-right: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0;
     }
-
-    .sidebar-brand {
-      padding: 24px 20px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .sidebar-brand h1 { font-size: 15px; font-weight: 700; }
-    .sidebar-brand p  { color: #64748b; font-size: 12px; margin-top: 4px; }
+    .sidebar-brand { padding: 20px 16px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-brand h1 { font-size: 14px; font-weight: 700; }
+    .sidebar-brand p  { color: #64748b; font-size: 11px; margin-top: 3px; }
 
     .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px 20px;
-      cursor: pointer;
-      color: #94a3b8;
-      font-size: 14px;
-      border-left: 3px solid transparent;
-      user-select: none;
-      transition: all 0.12s;
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 16px; cursor: pointer; color: #94a3b8; font-size: 13px;
+      border-left: 3px solid transparent; user-select: none; transition: all 0.12s;
     }
     .nav-item:hover  { background: rgba(255,255,255,0.04); color: #e2e8f0; }
     .nav-item.active { color: #facc15; border-left-color: #facc15; background: rgba(250,204,21,0.07); }
 
-    .sidebar-footer {
-      margin-top: auto;
-      padding: 16px 20px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
+    .sidebar-footer { margin-top: auto; padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08); }
     .btn-logout {
-      width: 100%;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #94a3b8;
-      border-radius: 8px;
-      padding: 8px;
-      cursor: pointer;
-      font-size: 13px;
+      width: 100%; background: transparent; border: 1px solid rgba(255,255,255,0.12);
+      color: #94a3b8; border-radius: 8px; padding: 7px; cursor: pointer; font-size: 12px;
     }
     .btn-logout:hover { background: rgba(255,255,255,0.05); color: #f1f5f9; }
 
-    .main-content {
-      margin-left: 220px;
-      flex: 1;
-      padding: 36px 40px;
-      overflow-y: auto;
-      min-height: 100vh;
-    }
+    .main-content { margin-left: 200px; flex: 1; padding: 28px 32px; overflow-y: auto; min-height: 100vh; }
 
-    /* ── Stats cards ────────────────────────── */
-    .stats-grid {
+    /* ── Tab header ── */
+    .tab-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+
+    /* ── Rank switch tabs (출석현황) ── */
+    .rank-tabs-wrap {
+      display: flex; align-items: center; gap: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .rank-tabs-wrap::-webkit-scrollbar { display: none; }
+    .rank-tab {
+      flex: 0 0 auto; padding: 8px 18px 10px; cursor: pointer;
+      color: #64748b; font-size: 14px; font-weight: 700;
+      border-bottom: 2px solid transparent; white-space: nowrap;
+      background: none; border-top: none; border-left: none; border-right: none;
+    }
+    .rank-tab:hover { color: #e2e8f0; }
+    .rank-tab.active { color: #22c55e; border-bottom-color: #22c55e; }
+
+    /* ── 3-column grid ── */
+    .three-col {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .stat-card {
-      background: #1e293b;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 20px 22px;
-    }
-    .stat-card p        { color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
-    .stat-card strong   { font-size: 30px; font-weight: 700; }
-
-    /* ── Panel / Table ──────────────────────── */
-    .panel {
-      background: #1e293b;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
     }
+    .col-panel { border-right: 1px solid rgba(255,255,255,0.08); }
+    .col-panel:last-child { border-right: none; }
 
-    .panel-header {
-      display: flex;
+    /* ── Row items ── */
+    .member-row {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 28px;
       align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .panel-header h2 { font-size: 14px; font-weight: 700; }
-
-    .table-wrap { overflow-x: auto; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-
-    th {
-      background: #111827;
-      color: #64748b;
-      font-size: 11px;
-      font-weight: 600;
-      text-align: left;
-      padding: 10px 16px;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      white-space: nowrap;
-    }
-
-    td {
-      padding: 12px 16px;
+      gap: 6px;
+      padding: 9px 12px;
       border-bottom: 1px solid rgba(255,255,255,0.04);
-      color: #cbd5e1;
-    }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(255,255,255,0.02); }
-
-    /* ── Badge ──────────────────────────────── */
-    .badge {
-      display: inline-block;
-      padding: 2px 9px;
-      border-radius: 99px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .badge-green  { background: rgba(34,197,94,.15);  color: #22c55e; }
-    .badge-yellow { background: rgba(250,204,21,.15); color: #facc15; }
-    .badge-gray   { background: rgba(148,163,184,.12); color: #94a3b8; }
-
-    /* ── Buttons ────────────────────────────── */
-    .btn {
-      padding: 6px 14px;
-      border-radius: 6px;
       font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: opacity .12s;
     }
-    .btn:hover { opacity: .82; }
-    .btn-primary   { background: #facc15; color: #0f172a; }
-    .btn-secondary { background: rgba(255,255,255,.1); color: #f1f5f9; }
+    .member-row:last-child { border-bottom: none; }
+    .member-row:hover { background: rgba(255,255,255,0.02); }
+    .member-row .col-id    { color: #f1f5f9; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .member-row .col-nick  { color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .member-row .col-insta { color: #64748b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    /* ── Notice ─────────────────────────────── */
-    .notice {
-      background: rgba(250,204,21,.07);
-      border: 1px solid rgba(250,204,21,.2);
-      border-radius: 8px;
-      padding: 11px 16px;
+    .col-header {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr) 28px;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #111827;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: .05em;
+    }
+
+    .sep-line {
+      grid-column: 1 / -1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(148,163,184,0.25), transparent);
+    }
+
+    .reset-btn {
+      background: none; border: none; cursor: pointer; padding: 2px; opacity: 0.5;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .reset-btn:hover { opacity: 1; }
+    .reset-btn img { width: 16px; height: 16px; filter: invert(1); }
+
+    /* ── Attendance row ── */
+    .attend-row {
+      display: grid;
+      grid-template-columns: 32px 22px minmax(0,1fr) 80px 38px;
+      align-items: center;
+      gap: 4px;
+      padding: 7px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
       font-size: 13px;
-      color: #fde68a;
-      margin-bottom: 18px;
+    }
+    .attend-row:last-child { border-bottom: none; }
+    .attend-row:hover { background: rgba(255,255,255,0.02); }
+
+    .attend-header {
+      display: grid;
+      grid-template-columns: 32px 22px minmax(0,1fr) 80px 38px;
+      gap: 4px;
+      padding: 7px 12px;
+      background: #111827;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
     }
 
-    .tab-title { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+    .pct-badge {
+      display: inline-block; padding: 1px 7px; border-radius: 99px;
+      font-size: 11px; font-weight: 700;
+    }
+    .pct-green  { background: rgba(34,197,94,.15);  color: #22c55e; }
+    .pct-yellow { background: rgba(250,204,21,.15); color: #facc15; }
+    .pct-gray   { background: rgba(148,163,184,.12); color: #94a3b8; }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #1e293b; border: 1px solid rgba(255,255,255,0.12);
+      color: #f1f5f9; padding: 10px 20px; border-radius: 8px; font-size: 13px;
+      opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 999;
+    }
+    #toast.show { opacity: 1; }
 
     .loading { color: #64748b; padding: 60px; text-align: center; }
-    .empty   { color: #475569; padding: 48px; text-align: center; font-size: 14px; }
+    .empty   { color: #475569; padding: 40px; text-align: center; font-size: 13px; }
 
-    /* ── Modal ──────────────────────────────── */
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.55);
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .sidebar { width: 0; overflow: hidden; }
+      .main-content { margin-left: 0; padding: 16px; }
+      .mobile-nav {
+        display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 16px; overflow-x: auto; scrollbar-width: none;
+      }
+      .mobile-nav::-webkit-scrollbar { display: none; }
+      .mobile-nav-btn {
+        flex: 0 0 auto; padding: 8px 14px; background: none; border: none;
+        color: #64748b; font-size: 13px; font-weight: 700; cursor: pointer;
+        border-bottom: 2px solid transparent; white-space: nowrap;
+      }
+      .mobile-nav-btn.active { color: #facc15; border-bottom-color: #facc15; }
+
+      .three-col { grid-template-columns: 1fr; }
+      .col-panel { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .col-panel:last-child { border-bottom: none; }
     }
-    .overlay.open { display: flex; }
-
-    .modal {
-      background: #1e293b;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      padding: 32px;
-      width: 400px;
+    @media (min-width: 769px) {
+      .mobile-nav { display: none; }
     }
-    .modal h3 { font-size: 17px; margin-bottom: 6px; }
-    .modal p  { color: #64748b; font-size: 13px; margin-bottom: 22px; }
-
-    .modal input {
-      width: 100%;
-      background: #0f172a;
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 8px;
-      padding: 10px 14px;
-      color: #f1f5f9;
-      font-size: 14px;
-      margin-bottom: 8px;
-      outline: none;
-    }
-    .modal input:focus { border-color: #facc15; }
-
-    .modal-actions { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
-    .modal-msg { margin-top: 10px; font-size: 13px; min-height: 18px; }
   </style>
 </head>
 <body>
 
-<!-- ① 로그인 화면 -->
+<!-- 로그인 화면 -->
 <div id="loginScreen">
   <div class="login-box">
     <h1>🔐 디인챌 관리자</h1>
@@ -276,54 +219,39 @@
   </div>
 </div>
 
-<!-- ② 대시보드 -->
+<!-- 대시보드 -->
 <div id="dashboard" style="display:none">
   <aside class="sidebar">
     <div class="sidebar-brand">
       <h1>디인챌 어드민</h1>
       <p>천사님 인스타 챌린지</p>
     </div>
-    <div class="nav-item active" id="nav-attendance" onclick="showTab('attendance')">📊 출석 현황</div>
-    <div class="nav-item"        id="nav-accounts"   onclick="showTab('accounts')">👤 사용자 계정</div>
-    <div class="nav-item"        id="nav-members"    onclick="showTab('members')">📋 멤버 목록</div>
+    <div class="nav-item active" id="nav-users"      onclick="showTab('users')">👤 사용자</div>
+    <div class="nav-item"        id="nav-attendance" onclick="showTab('attendance')">📊 출석 현황</div>
     <div class="sidebar-footer">
       <button class="btn-logout" onclick="doLogout()">로그아웃</button>
     </div>
   </aside>
   <div class="main-content" id="mainContent">
+    <!-- 모바일 네비 -->
+    <div class="mobile-nav">
+      <button class="mobile-nav-btn active" onclick="showTab('users')">👤 사용자</button>
+      <button class="mobile-nav-btn"        onclick="showTab('attendance')">📊 출석 현황</button>
+    </div>
     <div class="loading">로딩 중...</div>
   </div>
 </div>
 
-<!-- ③ 비밀번호 리셋 모달 -->
-<div class="overlay" id="resetOverlay">
-  <div class="modal">
-    <h3>비밀번호 리셋</h3>
-    <p id="resetDesc"></p>
-    <input type="password" id="newPwd"        placeholder="새 비밀번호" />
-    <input type="password" id="newPwdConfirm" placeholder="비밀번호 확인" />
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">취소</button>
-      <button class="btn btn-primary"   onclick="doReset()">변경 완료</button>
-    </div>
-    <div class="modal-msg" id="resetMsg"></div>
-  </div>
-</div>
+<div id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="../js/imported-data.js?v=data2"></script>
-<script src="../js/common.js?v=data2"></script>
+<script src="../js/common.js?v=common11"></script>
 <script>
 (function () {
-  /* ── Supabase ──────────────────────────────────── */
-  const SB_URL = 'https://rlzbwdvkpjfhxnxkblfg.supabase.co';
-  const SB_KEY = 'sb_publishable_S50LJ8UgfRXDXybLl2IkcA_NpI2ipw0';
-  const db = window.supabase.createClient(SB_URL, SB_KEY);
-
-  /* ── Auth ──────────────────────────────────────── */
-  // btoa('inni1!songwoo')
   const ADMIN_KEY = 'aW5uaTEhc29uZ3dvbw==';
+  const ACCOUNTS_KEY = 'deinchal-login-accounts';
 
+  /* ── Auth ── */
   function doLogin() {
     const v = document.getElementById('adminPwd').value;
     try {
@@ -331,7 +259,7 @@
         sessionStorage.setItem('dc-admin', '1');
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('dashboard').style.display  = 'flex';
-        showTab('attendance');
+        showTab('users');
         return;
       }
     } catch(_) {}
@@ -346,206 +274,178 @@
   if (sessionStorage.getItem('dc-admin') === '1') {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('dashboard').style.display  = 'flex';
-    setTimeout(() => showTab('attendance'), 0);
+    setTimeout(() => showTab('users'), 0);
   }
 
-  /* ── Navigation ────────────────────────────────── */
+  /* ── Toast ── */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  /* ── Navigation ── */
+  let currentTab = 'users';
   function showTab(tab) {
-    ['attendance','accounts','members'].forEach(t => {
-      document.getElementById('nav-' + t).classList.toggle('active', t === tab);
+    currentTab = tab;
+    ['users','attendance'].forEach(t => {
+      const el = document.getElementById('nav-' + t);
+      if (el) el.classList.toggle('active', t === tab);
     });
-    if (tab === 'attendance') renderAttendance();
-    if (tab === 'accounts')   renderAccounts();
-    if (tab === 'members')    renderMembers();
+    document.querySelectorAll('.mobile-nav-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', ['users','attendance'][i] === tab);
+    });
+    if (tab === 'users')      renderUsers();
+    if (tab === 'attendance') renderAttendance('month');
   }
 
-  /* ── Tab 1: 출석 현황 (hardcoded) ─────────────── */
-  function renderAttendance() {
-    const rows  = DC.assignRanks(DC.userRows('month'));
-    const total = rows.reduce((s, r) => s + r.total, 0);
-    const done  = rows.reduce((s, r) => s + r.done,  0);
-    const rate  = DC.rate(done, total);
-
-    document.getElementById('mainContent').innerHTML = `
-      <div class="tab-title">📊 출석 현황</div>
-      <div class="stats-grid">
-        <div class="stat-card"><p>전체 회원</p><strong>${rows.length}명</strong></div>
-        <div class="stat-card"><p>이번 달 미션</p><strong>${rows[0]?.total || 0}회</strong></div>
-        <div class="stat-card"><p>누적 출석</p><strong>${done}회</strong></div>
-        <div class="stat-card"><p>전체 참여율</p><strong>${rate}%</strong></div>
-      </div>
-      <div class="panel">
-        <div class="panel-header"><h2>회원별 출석 현황 (이번 달)</h2></div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>등수</th><th>이모지</th><th>닉네임</th><th>인스타그램 ID</th><th>출석</th><th>출석률</th></tr>
-            </thead>
-            <tbody>
-              ${rows.map(r => `
-                <tr>
-                  <td>${r.rank}등</td>
-                  <td>${r.emoji}</td>
-                  <td>${r.nickname}</td>
-                  <td style="color:#94a3b8">@${r.instagramId}</td>
-                  <td>${r.total}번중 ${r.done}번</td>
-                  <td><span class="badge ${r.percent >= 80 ? 'badge-green' : r.percent >= 50 ? 'badge-yellow' : 'badge-gray'}">${r.percent}%</span></td>
-                </tr>`).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    `;
+  /* ── Accounts from localStorage ── */
+  function getAccounts() {
+    return JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]');
+  }
+  function saveAccounts(list) {
+    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(list));
   }
 
-  /* ── Tab 2: 사용자 계정 (Supabase) ────────────── */
-  let resetTarget = '';
+  function resetPassword(loginId) {
+    const list = getAccounts();
+    const idx = list.findIndex(a => a.loginId === loginId);
+    if (idx < 0) { showToast('계정을 찾을 수 없습니다.'); return; }
+    list[idx].password = '123456';
+    saveAccounts(list);
+    showToast(`✅ ${loginId} 비밀번호가 123456으로 초기화되었습니다.`);
+  }
 
-  async function renderAccounts() {
-    document.getElementById('mainContent').innerHTML = '<div class="loading">불러오는 중...</div>';
-    const { data, error } = await db.from('accounts').select('*').order('created_at', { ascending: false });
+  /* ── Tab 1: 사용자 ── */
+  function renderUsers() {
+    const mc = document.getElementById('mainContent');
+    const accounts = getAccounts().slice().sort((a, b) =>
+      (a.loginId || '').localeCompare(b.loginId || '', 'en')
+    );
 
-    if (error) {
-      document.getElementById('mainContent').innerHTML =
-        `<div class="tab-title">👤 사용자 계정</div><div class="empty">오류: ${error.message}</div>`;
+    const headerHtml = `
+      <div class="col-header">
+        <span>ID</span><span>닉네임</span><span>Instagram ID @</span><span></span>
+      </div>`;
+
+    function rowHtml(a) {
+      if (!a) return `<div class="member-row" style="visibility:hidden"><span>-</span><span></span><span></span><span></span></div>`;
+      return `<div class="member-row">
+        <span class="col-id">${esc(a.loginId)}</span>
+        <span class="col-nick">${esc(a.nickname || '-')}</span>
+        <span class="col-insta">${a.instagramId ? '@' + esc(a.instagramId) : '-'}</span>
+        <button class="reset-btn" title="비밀번호 초기화 (123456)" onclick="resetPassword('${esc(a.loginId)}')">
+          <img src="../assets/images/reset.png" alt="reset" />
+        </button>
+      </div>`;
+    }
+
+    if (!accounts.length) {
+      mc.innerHTML = `<div class="tab-title">👤 사용자</div><div class="empty">등록된 계정이 없습니다.</div>`;
       return;
     }
 
-    document.getElementById('mainContent').innerHTML = `
-      <div class="tab-title">👤 사용자 계정</div>
-      ${!data?.length ? `<div class="notice">아직 Supabase에 등록된 계정이 없습니다. 앱이 Supabase와 연결된 후 표시됩니다.</div>` : ''}
-      <div class="panel">
-        <div class="panel-header"><h2>등록 계정 (${data?.length || 0}개)</h2></div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>로그인 ID</th><th>닉네임</th><th>인스타그램 ID</th><th>가입일</th><th>관리</th></tr>
-            </thead>
-            <tbody>
-              ${data?.length ? data.map(a => `
-                <tr>
-                  <td><strong style="color:#f1f5f9">${a.login_id}</strong></td>
-                  <td>${a.nickname || '-'}</td>
-                  <td style="color:#94a3b8">${a.instagram_id ? '@' + a.instagram_id : '-'}</td>
-                  <td style="color:#64748b">${a.created_at ? new Date(a.created_at).toLocaleDateString('ko-KR') : '-'}</td>
-                  <td>
-                    <button class="btn btn-secondary"
-                      onclick="openReset('${a.login_id}','${(a.nickname||'').replace(/'/g,'\\&apos;')}')">
-                      비밀번호 리셋
-                    </button>
-                  </td>
-                </tr>`).join('')
-              : `<tr><td colspan="5" class="empty">데이터 없음</td></tr>`}
-            </tbody>
-          </table>
-        </div>
+    // 3등분
+    const total = accounts.length;
+    const col = Math.ceil(total / 3);
+    const cols = [accounts.slice(0, col), accounts.slice(col, col*2), accounts.slice(col*2)];
+
+    // 모바일: 10개마다 구분선
+    function mobileRows(list) {
+      return list.map((a, i) => rowHtml(a) + (i > 0 && (i+1) % 10 === 0 ? '<div class="sep-line"></div>' : '')).join('');
+    }
+
+    mc.innerHTML = `
+      <div class="tab-title">👤 사용자 (${total}명)</div>
+      <div class="three-col">
+        ${cols.map(list => `
+          <div class="col-panel">
+            ${headerHtml}
+            ${list.map(a => rowHtml(a)).join('')}
+          </div>`).join('')}
       </div>
     `;
   }
 
-  function openReset(loginId, nickname) {
-    resetTarget = loginId;
-    document.getElementById('resetDesc').textContent =
-      `${nickname || loginId} 계정의 비밀번호를 변경합니다.`;
-    document.getElementById('newPwd').value        = '';
-    document.getElementById('newPwdConfirm').value = '';
-    document.getElementById('resetMsg').textContent = '';
-    document.getElementById('resetMsg').style.color = '';
-    document.getElementById('resetOverlay').classList.add('open');
+  /* ── Tab 2: 출석 현황 ── */
+  let attendMode = 'month';
+  let attendYear = DC.today.getFullYear();
+
+  function attendYears() {
+    const s = new Set([DC.today.getFullYear()]);
+    Object.values(window.DC_IMPORTED_DATA?.months || {}).forEach(m => s.add(m.year));
+    return Array.from(s).sort((a,b) => b - a);
   }
 
-  function closeModal() {
-    document.getElementById('resetOverlay').classList.remove('open');
-  }
+  function renderAttendance(mode, year) {
+    attendMode = mode || attendMode;
+    if (year) attendYear = year;
 
-  async function doReset() {
-    const pwd     = document.getElementById('newPwd').value.trim();
-    const confirm = document.getElementById('newPwdConfirm').value.trim();
-    const msg     = document.getElementById('resetMsg');
+    const rows = DC.assignRanks(
+      attendMode === 'month' ? DC.userRows('month') : DC.userRows('year', attendYear)
+    );
 
-    if (!pwd)          { msg.style.color = '#ef4444'; msg.textContent = '비밀번호를 입력하세요.'; return; }
-    if (pwd !== confirm){ msg.style.color = '#ef4444'; msg.textContent = '비밀번호가 일치하지 않습니다.'; return; }
+    const tabs = [
+      { mode: 'month', label: '이달의 랭킹', count: DC.userRows('month').length },
+      ...attendYears().map(y => ({ mode: 'year', year: y, label: String(y), count: DC.userRows('year', y).length }))
+    ];
 
-    const { error } = await db.from('accounts').update({ password: pwd }).eq('login_id', resetTarget);
-    if (error) {
-      msg.style.color = '#ef4444';
-      msg.textContent = '오류: ' + error.message;
-    } else {
-      msg.style.color = '#22c55e';
-      msg.textContent = '✅ 비밀번호가 변경되었습니다!';
-      setTimeout(closeModal, 1400);
+    const tabHtml = tabs.map(t => {
+      const active = t.mode === attendMode && (t.mode === 'month' || t.year === attendYear);
+      return `<button class="rank-tab ${active ? 'active' : ''}"
+        onclick="renderAttendance('${t.mode}'${t.year ? ', ' + t.year : ''})">${t.label} (${t.count}명)</button>`;
+    }).join('');
+
+    function attendRowHtml(r) {
+      const cls = r.percent >= 80 ? 'pct-green' : r.percent >= 50 ? 'pct-yellow' : 'pct-gray';
+      return `<div class="attend-row">
+        <span style="color:#94a3b8;font-size:12px">${r.rank}등</span>
+        <span>${r.emoji || '🙂'}</span>
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.nickname || r.instagramId)}</span>
+        <span style="color:#64748b;font-size:12px">${r.total}번중 ${r.done}번</span>
+        <span><span class="pct-badge ${cls}">${r.percent}%</span></span>
+      </div>`;
     }
-  }
 
-  /* ── Tab 3: 멤버 목록 (Supabase) ──────────────── */
-  async function renderMembers() {
-    document.getElementById('mainContent').innerHTML = '<div class="loading">불러오는 중...</div>';
-    const { data, error } = await db.from('members').select('*').order('member_no');
+    const headerHtml = `<div class="attend-header">
+      <span>등수</span><span>이모지</span><span>닉네임</span><span>출석</span><span>%</span>
+    </div>`;
 
-    const localCount = window.DC_IMPORTED_DATA?.members?.length || 0;
-    const sbCount    = data?.length || 0;
+    let gridHtml = '';
+    if (!rows.length) {
+      gridHtml = `<div class="empty">이달의 미션이 아직 시작되지 않았습니다.</div>`;
+    } else {
+      const col = Math.ceil(rows.length / 3);
+      const cols = [rows.slice(0, col), rows.slice(col, col*2), rows.slice(col*2)];
+      gridHtml = `<div class="three-col">
+        ${cols.map(list => `
+          <div class="col-panel">
+            ${headerHtml}
+            ${list.map(r => attendRowHtml(r)).join('')}
+          </div>`).join('')}
+      </div>`;
+    }
 
     document.getElementById('mainContent').innerHTML = `
-      <div class="tab-title">📋 멤버 목록</div>
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-        <div class="notice" style="margin:0;flex:1">
-          로컬 데이터 <strong>${localCount}명</strong> &nbsp;|&nbsp; Supabase <strong>${sbCount}명</strong>
-          ${sbCount === 0 ? ' — 아래 버튼으로 멤버를 Supabase에 가져올 수 있습니다.' : ''}
-        </div>
-        ${sbCount === 0 ? `<button class="btn btn-primary" onclick="importMembers()">📥 멤버 가져오기</button>` : ''}
-      </div>
-      <div class="panel">
-        <div class="panel-header"><h2>멤버 목록 (${sbCount}명)</h2></div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>#</th><th>인스타그램 ID</th><th>닉네임</th><th>이모지</th></tr>
-            </thead>
-            <tbody>
-              ${sbCount ? data.map(m => `
-                <tr>
-                  <td style="color:#64748b">${m.member_no ?? '-'}</td>
-                  <td style="color:#94a3b8">@${m.instagram_id || m.id}</td>
-                  <td>${m.nickname || '-'}</td>
-                  <td>${m.emoji || '🙂'}</td>
-                </tr>`).join('')
-              : `<tr><td colspan="4" class="empty">데이터 없음</td></tr>`}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <div class="tab-title">📊 출석 현황</div>
+      <div class="rank-tabs-wrap">${tabHtml}</div>
+      ${gridHtml}
     `;
   }
 
-  async function importMembers() {
-    const raw = window.DC_IMPORTED_DATA?.members || [];
-    if (!raw.length) { alert('가져올 멤버 데이터가 없습니다.'); return; }
-
-    const rows = raw.map((m, i) => ({
-      id:          m.id,
-      member_no:   i + 1,
-      nickname:    m.nickname,
-      instagram_id: m.instagramId,
-      emoji:       m.emoji || '🙂',
-    }));
-
-    const { error } = await db.from('members').upsert(rows, { onConflict: 'id' });
-    if (error) {
-      alert('오류: ' + error.message);
-    } else {
-      alert(`✅ ${rows.length}명 가져오기 완료!`);
-      renderMembers();
-    }
+  /* ── Helpers ── */
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   }
 
-  /* ── Global exports ────────────────────────────── */
-  window.doLogin      = doLogin;
-  window.doLogout     = doLogout;
-  window.showTab      = showTab;
-  window.openReset    = openReset;
-  window.closeModal   = closeModal;
-  window.doReset      = doReset;
-  window.importMembers = importMembers;
+  /* ── Expose globals ── */
+  window.doLogin        = doLogin;
+  window.doLogout       = doLogout;
+  window.showTab        = showTab;
+  window.resetPassword  = resetPassword;
+  window.renderAttendance = renderAttendance;
 })();
 </script>
 </body>
