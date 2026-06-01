@@ -91,10 +91,14 @@
     };
     const firstRow = stats.dates.slice(0, 4);
     const secondRow = stats.dates.slice(4, 9);
-    grid.innerHTML = `
-      ${firstRow.length ? `<div class="pouch-row row-4">${firstRow.map(renderCard).join("")}</div>` : ""}
-      ${secondRow.length ? `<div class="pouch-row row-5">${secondRow.map(renderCard).join("")}</div>` : ""}
-    `;
+    if (firstRow.length === 0) {
+      grid.innerHTML = `<p class="pouch-empty-msg">아직 이달의 미션이 시작되지 않았어요</p>`;
+    } else {
+      grid.innerHTML = `
+        ${`<div class="pouch-row row-4">${firstRow.map(renderCard).join("")}</div>`}
+        ${secondRow.length ? `<div class="pouch-row row-5">${secondRow.map(renderCard).join("")}</div>` : ""}
+      `;
+    }
   }
 
   const angelEl = document.getElementById("angel");
