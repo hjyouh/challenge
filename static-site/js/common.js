@@ -140,7 +140,11 @@
   }
 
   function monthStats(year, monthIndex) {
-    const dates = missionDates(year, monthIndex);
+    const allDates = missionDates(year, monthIndex);
+    const todayKey = dateKey(today);
+    // 지난 달은 전체, 이번 달은 오늘 이전까지만
+    const isPastMonth = year < today.getFullYear() || (year === today.getFullYear() && monthIndex < today.getMonth());
+    const dates = isPastMonth ? allDates : allDates.filter((key) => key <= todayKey);
     const done = dates.filter(hasAttended).length;
     return { dates, done, total: dates.length, percent: rate(done, dates.length) };
   }
@@ -162,7 +166,7 @@
     const dates = mode === "year"
       ? Array.from({ length: monthLimit + 1 }, (_, month) => missionDates(year, month)).flat()
         .filter((key) => year < today.getFullYear() || key <= todayKeyValue)
-      : missionDates(year, today.getMonth());
+      : missionDates(year, today.getMonth()).filter((key) => key <= todayKeyValue);
     if (imported) {
       const memberMap = new Map();
       Object.values(imported.months || {}).forEach((month) => {

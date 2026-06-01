@@ -38,10 +38,13 @@
         <span>현재 순위: ${rank !== null ? rank + "등" : "-"}</span>
       </div>
       <div class="month-body">
-        <div class="pouch-grid">
-          <div class="pouch-row row-4">${stats.dates.slice(0, 4).map(renderPouch).join("")}</div>
-          <div class="pouch-row row-5">${stats.dates.slice(4, 9).map(renderPouch).join("")}</div>
-        </div>
+        ${stats.dates.length === 0
+          ? `<p class="pouch-empty-msg">아직 이달의 미션이 시작되지 않았어요</p>`
+          : `<div class="pouch-grid">
+              ${stats.dates.slice(0, 4).length ? `<div class="pouch-row row-4">${stats.dates.slice(0, 4).map(renderPouch).join("")}</div>` : ""}
+              ${stats.dates.slice(4, 9).length ? `<div class="pouch-row row-5">${stats.dates.slice(4, 9).map(renderPouch).join("")}</div>` : ""}
+            </div>`
+        }
       </div>
     </article>`;
   }

@@ -92,7 +92,7 @@
     const firstRow = stats.dates.slice(0, 4);
     const secondRow = stats.dates.slice(4, 9);
     grid.innerHTML = `
-      <div class="pouch-row row-4">${firstRow.map(renderCard).join("")}</div>
+      ${firstRow.length ? `<div class="pouch-row row-4">${firstRow.map(renderCard).join("")}</div>` : ""}
       ${secondRow.length ? `<div class="pouch-row row-5">${secondRow.map(renderCard).join("")}</div>` : ""}
     `;
   }

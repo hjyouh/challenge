@@ -1037,6 +1037,13 @@ body[data-page="ranking"] .rank-pct {
   font-size: 12px;
 }
 
+.pouch-empty-msg {
+  padding: 16px 0 8px;
+  color: #8a8f98;
+  font-size: 14px;
+  text-align: center;
+}
+
 .rank-empty-msg {
   grid-column: 1 / -1;
   text-align: center;
