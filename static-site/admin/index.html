@@ -218,11 +218,11 @@
     .pct-gray   { background: #f1f5f9; color: #94a3b8; }
 
     /* ── Password Change Modal ── */
-    #pwModal {
+    #confirmModal, #pwModal {
       display: none; position: fixed; inset: 0; z-index: 1000;
       background: rgba(0,0,0,0.45); align-items: center; justify-content: center;
     }
-    #pwModal.open { display: flex; }
+    #confirmModal.open, #pwModal.open { display: flex; }
     .pw-box {
       background: #ffffff; border: 1px solid #e2e8f0;
       border-radius: 16px; padding: 32px 28px; width: 320px; max-width: calc(100vw - 48px); text-align: center;
@@ -359,6 +359,19 @@
 
 <div id="toast"></div>
 
+<!-- 계정 삭제 확인 모달 -->
+<div id="confirmModal">
+  <div class="pw-box">
+    <h2>🗑️ 계정 삭제</h2>
+    <p id="confirmTitle"></p>
+    <p id="confirmDesc" style="color:#ef4444;font-size:12px;margin-top:6px"></p>
+    <div class="pw-box-btns" style="margin-top:20px">
+      <button class="btn-pw-cancel" onclick="closeConfirmModal()">취소</button>
+      <button style="flex:1;border:none;border-radius:8px;padding:12px;font-size:15px;font-weight:700;cursor:pointer;background:#ef4444;color:#fff" onclick="doConfirm()">삭제</button>
+    </div>
+  </div>
+</div>
+
 <!-- 비밀번호 변경 모달 -->
 <div id="pwModal">
   <div class="pw-box">
@@ -453,15 +466,38 @@
     } catch { showToast('오류가 발생했습니다.'); }
   }
 
-  async function deleteAccount(loginId) {
-    try {
-      await fetch(`${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}`, {
-        method: 'DELETE',
-        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
-      });
-      showToast(`🗑️ ${loginId} 삭제됨`);
-      renderUsers();
-    } catch { showToast('삭제 중 오류가 발생했습니다.'); }
+  function deleteAccount(loginId) {
+    openConfirmModal(
+      `"${loginId}" 계정을 삭제할까요?`,
+      '삭제하면 복구할 수 없습니다.',
+      async () => {
+        try {
+          await fetch(`${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}`, {
+            method: 'DELETE',
+            headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
+          });
+          showToast(`🗑️ ${loginId} 삭제됨`);
+          renderUsers();
+        } catch { showToast('삭제 중 오류가 발생했습니다.'); }
+      }
+    );
+  }
+
+  /* ── Confirm Modal ── */
+  let _confirmCallback = null;
+  function openConfirmModal(title, desc, callback) {
+    _confirmCallback = callback;
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmDesc').textContent = desc;
+    document.getElementById('confirmModal').classList.add('open');
+  }
+  function closeConfirmModal() {
+    document.getElementById('confirmModal').classList.remove('open');
+    _confirmCallback = null;
+  }
+  function doConfirm() {
+    closeConfirmModal();
+    if (_confirmCallback) _confirmCallback();
   }
 
   /* ── Inline tab bar HTML ── */
@@ -679,6 +715,8 @@
   window.openPwModal      = openPwModal;
   window.closePwModal     = closePwModal;
   window.doChangePw       = doChangePw;
+  window.closeConfirmModal = closeConfirmModal;
+  window.doConfirm        = doConfirm;
 })();
 </script>
 </body>
