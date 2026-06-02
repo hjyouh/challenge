@@ -9,10 +9,13 @@
   <!-- v20260603 -->
   <title>디인챌 어드민</title>
   <style>
+    @font-face { font-family: "SUITE"; src: url("../assets/fonts/SUITE-Regular.ttf") format("truetype"); font-weight: 400; }
+    @font-face { font-family: "Poppins"; src: url("../assets/fonts/Poppins-Regular.ttf") format("truetype"); font-weight: 400; }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: "SUITE", "Poppins", Arial, sans-serif;
       background: #ffffff;
       color: #1e293b;
       font-size: 14px;
@@ -137,7 +140,7 @@
 
     .member-row {
       display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 36px 48px;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 52px;
       align-items: center;
       gap: 4px;
       padding: 7px 12px;
@@ -155,12 +158,12 @@
     .member-row:last-child { border-bottom: none; }
     .member-row:hover { background: #f8fafc; }
     .member-row .col-id    { color: #0f172a; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .member-row .col-nick  { color: #334155; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .member-row .col-insta { color: #334155; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .member-row .col-nick  { color: #0f172a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .member-row .col-insta { color: #0f172a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     .col-header {
       display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 36px 48px;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 52px;
       gap: 4px;
       padding: 7px 12px;
       background: #f8fafc;
@@ -491,7 +494,7 @@
 
       const headerHtml = `
         <div class="col-header">
-          <span>ID</span><span>닉네임</span><span style="white-space:nowrap">Instagram ID</span><span></span><span></span>
+          <span>ID</span><span>닉네임</span><span style="white-space:nowrap">Instagram ID</span><span></span>
         </div>`;
 
       setFixedHeader(inlineTabsHtml('users') + headerHtml);
@@ -505,11 +508,12 @@
 
       function rowHtml(a) {
         if (!a) return '';
+        const r = a.instagram_id ? attendMap[a.instagram_id] : null;
+        const emoji = r?.emoji || '';
         return `<div class="member-row">
           <span class="col-id" title="${esc(a.login_id)}">${esc(tr(a.login_id, 12))}</span>
-          <span class="col-nick" title="${esc(a.nickname||'')}">${esc(tr(a.nickname, 8) || '-')}</span>
+          <span class="col-nick" title="${esc(a.nickname||'')}">${emoji} ${esc(tr(a.nickname, 8) || '-')}</span>
           <span class="col-insta" title="${a.instagram_id||''}">${a.instagram_id ? esc(tr(a.instagram_id, 12)) : '-'}</span>
-          <span>${attendBadge(a)}</span>
           <span class="row-actions">
             <button class="reset-btn" title="비밀번호 초기화" onclick="resetPassword('${esc(a.login_id)}')">
               <img src="../assets/images/reset.png" alt="reset" />
