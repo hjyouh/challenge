@@ -79,7 +79,7 @@
       (insta && normalize(member.instagramId).includes(insta)) ||
       (insta && insta.includes(normalize(member.instagramId)))
     );
-    return { type: "similar", rows: similar.slice(0, 8) };
+    return { type: "similar", rows: similar };
   }
 
   function claimed(member) {
