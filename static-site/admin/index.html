@@ -440,8 +440,8 @@
         if (!a) return '';
         return `<div class="member-row">
           <span class="col-id" title="${esc(a.login_id)}">${esc(tr(a.login_id, 12))}</span>
-          <span class="col-nick" title="${esc(a.nickname||'')}">${esc(tr(a.nickname, 12) || '-')}</span>
-          <span class="col-insta" title="${a.instagram_id||''}">${a.instagram_id ? '@'+esc(tr(a.instagram_id, 14)) : '-'}</span>
+          <span class="col-nick" title="${esc(a.nickname||'')}">${esc(tr(a.nickname, 10) || '-')}</span>
+          <span class="col-insta" title="${a.instagram_id||''}">${a.instagram_id ? '@'+esc(tr(a.instagram_id, 12)) : '-'}</span>
           <span>${attendBadge(a)}</span>
           <span class="row-actions">
             <button class="reset-btn" title="비밀번호 초기화" onclick="resetPassword('${esc(a.login_id)}')">
