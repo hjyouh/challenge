@@ -253,6 +253,7 @@ body[data-page="my"] .page-header {
   width: min(400px, calc(100vw - 16px));
   font-size: 15px;
   line-height: 1.8;
+  word-break: keep-all;
 }
 
 .mission-stage.offday-done .mission-diagonal-message {
