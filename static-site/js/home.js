@@ -132,4 +132,15 @@
   });
 
   drawHome(false);
+
+  // Supabase 데이터 로드 완료 후 attended 상태 재확인
+  if (window.DC_DATA_READY) {
+    window.DC_DATA_READY.then(() => {
+      if (!attended) {
+        attended = isMission && DC.hasAttended(todayKey);
+        if (attended) sessionAttendedKey = todayKey;
+        drawHome(false);
+      }
+    });
+  }
 })();
