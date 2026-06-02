@@ -272,6 +272,7 @@
         height: 100dvh;
         overflow: hidden;
         padding-top: env(safe-area-inset-top, 0px);
+        box-sizing: border-box;
       }
 
       /* main-wrapper = fixedHeader + 스크롤영역 세로 flex */
@@ -308,9 +309,10 @@
       .col-panel:not(:first-child) .attend-header { display: none; }
       .col-panel:not(:first-child) .col-header    { display: none; }
       /* 모바일: mainContent 안의 탭/헤더는 fixedHeader가 대신하므로 숨김 */
-      .main-content .inline-tabs   { display: none; }
+      .main-content .inline-tabs    { display: none; }
       .main-content .rank-tabs-wrap { display: none; }
       .main-content .attend-header  { display: none; }
+      .main-content .col-header     { display: none; }
     }
     @media (min-width: 769px) {
       #fixedHeader { display: none; }
@@ -410,6 +412,7 @@
 
   if (sessionStorage.getItem('dc-admin') === '1') {
     document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('fixedHeader').innerHTML = inlineTabsHtml('users');
     document.getElementById('dashboard').style.display  = 'flex';
     setTimeout(() => showTab('users'), 0);
   }
@@ -493,6 +496,8 @@
         <div class="col-header">
           <span>ID</span><span>닉네임</span><span style="white-space:nowrap">Instagram ID</span><span></span><span></span>
         </div>`;
+
+      setFixedHeader(inlineTabsHtml('users') + headerHtml);
 
       function attendBadge(a) {
         const r = a.instagram_id ? attendMap[a.instagram_id] : null;
