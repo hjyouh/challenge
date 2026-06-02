@@ -457,12 +457,17 @@
   /* ── Password reset via Supabase ── */
   async function resetPassword(loginId) {
     try {
-      await fetch(`${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}`, {
+      const r = await fetch(`${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}`, {
         method: 'PATCH',
-        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
         body: JSON.stringify({ password: '123456' }),
       });
-      showToast(`✅ ${loginId} 비밀번호 123456으로 초기화`);
+      if (r.ok) {
+        showToast(`✅ ${loginId} 비밀번호 123456으로 초기화`);
+      } else {
+        const err = await r.text();
+        showToast(`❌ 초기화 실패: ${r.status} ${err.slice(0,60)}`);
+      }
     } catch { showToast('오류가 발생했습니다.'); }
   }
 
