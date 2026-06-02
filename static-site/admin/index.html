@@ -115,7 +115,7 @@
       border-radius: 10px;
       overflow: hidden;
     }
-    .col-panel { border-right: 1px solid #e2e8f0; }
+    .col-panel { border-right: 1px solid #e2e8f0; overflow-x: auto; }
     .col-panel:last-child { border-right: none; }
 
     /* ── Member row ── */
@@ -136,12 +136,13 @@
 
     .member-row {
       display: grid;
-      grid-template-columns: 96px 140px 96px 50px 56px;
+      grid-template-columns: 96px 140px 96px 50px 60px;
       align-items: center;
-      gap: 6px;
-      padding: 9px 12px;
+      gap: 4px;
+      padding: 9px 10px;
       border-bottom: 1px solid #f1f5f9;
       font-size: 14px !important;
+      min-width: 446px;
     }
     .row-actions { display: flex; align-items: center; gap: 14px; }
     .delete-btn {
@@ -158,9 +159,10 @@
 
     .col-header {
       display: grid;
-      grid-template-columns: 96px 140px 96px 50px 56px;
-      gap: 6px;
-      padding: 8px 12px;
+      grid-template-columns: 96px 140px 96px 50px 60px;
+      gap: 4px;
+      padding: 8px 10px;
+      min-width: 446px;
       background: #f8fafc;
       border-bottom: 1px solid #e2e8f0;
       font-size: 11px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
