@@ -260,7 +260,7 @@ body[data-page="my"] .page-header {
   top: 74px;
   width: 350px;
   color: var(--gold);
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.8;
   word-break: keep-all;
   transform: translateX(-50%);
