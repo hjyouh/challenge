@@ -136,7 +136,7 @@
 
     .member-row {
       display: grid;
-      grid-template-columns: 72px 120px 72px 44px 56px;
+      grid-template-columns: 72px 96px 72px 44px 56px;
       align-items: center;
       justify-items: center;
       gap: 3px;
@@ -160,7 +160,7 @@
 
     .col-header {
       display: grid;
-      grid-template-columns: 72px 120px 72px 44px 56px;
+      grid-template-columns: 72px 96px 72px 44px 56px;
       justify-items: center;
       gap: 3px;
       padding: 8px 10px;
@@ -510,7 +510,7 @@
         if (!a) return '';
         return `<div class="member-row">
           <span class="col-id" title="${esc(a.login_id)}">${esc(tr(a.login_id, 12))}</span>
-          <span class="col-nick" title="${esc(a.nickname||'')}">${esc(tr(a.nickname, 10) || '-')}</span>
+          <span class="col-nick" title="${esc(a.nickname||'')}">${esc(tr(a.nickname, 8) || '-')}</span>
           <span class="col-insta" title="${a.instagram_id||''}">${a.instagram_id ? esc(tr(a.instagram_id, 12)) : '-'}</span>
           <span>${attendBadge(a)}</span>
           <span class="row-actions">
