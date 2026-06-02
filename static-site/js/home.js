@@ -80,8 +80,7 @@
       // 비미션일: "오늘은 출석체크 없습니다." 항상 노란색
       // 전날 결석이면 "결석하셨네요." 추가, 출석했으면 그 줄 없음
       // 다음 출석 날짜만 노란색
-      const missedLine = !prevDone ? `${koreanDate(prevKey)}에 결석하셨네요.<br />` : "";
-      message.innerHTML = `${gold("오늘은 출석체크 없습니다.")}<br />${missedLine}${gold(koreanDate(nextKey))}에 출석해 주세요.`;
+      message.innerHTML = `${gold("오늘은 출석체크 없습니다.")}<br />${gold(koreanDate(nextKey))}에 출석해 주세요.`;
     }
 
     const renderCard = (key) => {
