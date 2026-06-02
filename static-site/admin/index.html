@@ -140,7 +140,7 @@
 
     .member-row {
       display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 52px;
+      grid-template-columns: 80px minmax(0,1fr) minmax(0,1fr) 52px;
       align-items: center;
       gap: 4px;
       padding: 7px 12px;
@@ -150,8 +150,9 @@
     .member-row .col-id, .member-row .col-nick, .member-row .col-insta { width: 100%; }
     .row-actions { display: flex; align-items: center; gap: 6px; }
     .delete-btn {
-      background: none; border: none; cursor: pointer; padding: 2px 4px;
-      color: #ef4444; font-size: 13px; font-weight: 700; opacity: 0.75;
+      background: none; border: none; cursor: pointer; padding: 4px 6px;
+      color: #ef4444; font-size: 14px; font-weight: 700; opacity: 0.85;
+      font-family: "SUITE", "Poppins", Arial, sans-serif;
       line-height: 1; flex-shrink: 0;
     }
     .delete-btn:hover { opacity: 1; }
@@ -163,7 +164,7 @@
 
     .col-header {
       display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 52px;
+      grid-template-columns: 80px minmax(0,1fr) minmax(0,1fr) 52px;
       gap: 4px;
       padding: 7px 12px;
       background: #f8fafc;
