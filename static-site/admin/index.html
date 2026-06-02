@@ -211,6 +211,42 @@
     .pct-yellow { background: #fef9c3; color: #ca8a04; }
     .pct-gray   { background: #f1f5f9; color: #94a3b8; }
 
+    /* ── Password Change Modal ── */
+    #pwModal {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.45); align-items: center; justify-content: center;
+    }
+    #pwModal.open { display: flex; }
+    .pw-box {
+      background: #ffffff; border: 1px solid #e2e8f0;
+      border-radius: 16px; padding: 32px 28px; width: 320px; max-width: calc(100vw - 48px); text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    }
+    .pw-box h2 { font-size: 18px; margin-bottom: 6px; color: #0f172a; }
+    .pw-box p  { color: #64748b; font-size: 13px; margin-bottom: 24px; }
+    .pw-box input {
+      width: 100%; background: #f8fafc; border: 1px solid #e2e8f0;
+      border-radius: 8px; padding: 12px 16px; color: #0f172a; font-size: 16px;
+      margin-bottom: 10px; outline: none;
+    }
+    .pw-box input:focus { border-color: #f59e0b; }
+    .pw-box-btns { display: flex; gap: 8px; margin-top: 4px; }
+    .pw-box-btns button {
+      flex: 1; border: none; border-radius: 8px; padding: 12px; font-size: 15px; font-weight: 700; cursor: pointer;
+    }
+    .btn-pw-cancel { background: #f1f5f9; color: #64748b; }
+    .btn-pw-cancel:hover { background: #e2e8f0; }
+    .btn-pw-confirm { background: #f59e0b; color: #ffffff; }
+    .btn-pw-confirm:hover { background: #d97706; }
+    .pw-error { color: #ef4444; font-size: 13px; margin-top: 8px; min-height: 18px; }
+
+    .btn-change-pw {
+      width: 100%; background: transparent; border: 1px solid rgba(255,255,255,0.18);
+      color: #94a3b8; border-radius: 8px; padding: 8px; cursor: pointer; font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .btn-change-pw:hover { background: rgba(255,255,255,0.06); color: #f1f5f9; }
+
     /* ── Toast ── */
     #toast {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
@@ -298,6 +334,7 @@
     <div class="nav-item active" id="nav-users"      onclick="showTab('users')">👤 사용자</div>
     <div class="nav-item"        id="nav-attendance" onclick="showTab('attendance')">📊 출석 현황</div>
     <div class="sidebar-footer">
+      <button class="btn-change-pw" onclick="openPwModal()">🔑 비밀번호 변경</button>
       <button class="btn-logout" onclick="doLogout()">로그아웃</button>
     </div>
   </aside>
@@ -310,6 +347,21 @@
 </div>
 
 <div id="toast"></div>
+
+<!-- 비밀번호 변경 모달 -->
+<div id="pwModal">
+  <div class="pw-box">
+    <h2>🔑 비밀번호 변경</h2>
+    <p>새 비밀번호를 입력해주세요</p>
+    <input type="password" id="pwNew" placeholder="새 비밀번호" onkeydown="if(event.key==='Enter') doChangePw()" />
+    <input type="password" id="pwConfirm" placeholder="비밀번호 확인" onkeydown="if(event.key==='Enter') doChangePw()" />
+    <div class="pw-error" id="pwError"></div>
+    <div class="pw-box-btns">
+      <button class="btn-pw-cancel" onclick="closePwModal()">취소</button>
+      <button class="btn-pw-confirm" onclick="doChangePw()">변경</button>
+    </div>
+  </div>
+</div>
 
 <script src="../js/imported-data.js?v=data1"></script>
 <script src="../js/supabase-data.js?v=sb1"></script>
@@ -330,7 +382,9 @@
   function doLogin() {
     const v = document.getElementById('adminPwd').value;
     try {
-      if (btoa(v) === ADMIN_KEY) {
+      const saved = localStorage.getItem('dc-admin-pw');
+      const ok = btoa(v) === ADMIN_KEY || (saved && btoa(v) === saved);
+      if (ok) {
         sessionStorage.setItem('dc-admin', '1');
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('dashboard').style.display  = 'flex';
@@ -575,6 +629,31 @@
     return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   }
 
+  /* ── Password Change ── */
+  function openPwModal() {
+    document.getElementById('pwNew').value = '';
+    document.getElementById('pwConfirm').value = '';
+    document.getElementById('pwError').textContent = '';
+    document.getElementById('pwModal').classList.add('open');
+    setTimeout(() => document.getElementById('pwNew').focus(), 50);
+  }
+
+  function closePwModal() {
+    document.getElementById('pwModal').classList.remove('open');
+  }
+
+  function doChangePw() {
+    const pw1 = document.getElementById('pwNew').value;
+    const pw2 = document.getElementById('pwConfirm').value;
+    const err = document.getElementById('pwError');
+    if (!pw1) { err.textContent = '새 비밀번호를 입력해주세요.'; return; }
+    if (pw1.length < 4) { err.textContent = '비밀번호는 4자 이상이어야 합니다.'; return; }
+    if (pw1 !== pw2) { err.textContent = '비밀번호가 일치하지 않습니다.'; return; }
+    localStorage.setItem('dc-admin-pw', btoa(pw1));
+    closePwModal();
+    showToast('✅ 비밀번호가 변경되었습니다.');
+  }
+
   /* ── Expose globals ── */
   window.doLogin          = doLogin;
   window.doLogout         = doLogout;
@@ -582,6 +661,9 @@
   window.resetPassword    = resetPassword;
   window.deleteAccount    = deleteAccount;
   window.renderAttendance = renderAttendance;
+  window.openPwModal      = openPwModal;
+  window.closePwModal     = closePwModal;
+  window.doChangePw       = doChangePw;
 })();
 </script>
 </body>
