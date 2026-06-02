@@ -257,12 +257,13 @@ body[data-page="my"] .page-header {
 }
 
 .mission-stage.offday-done .mission-diagonal-message {
-  top: 130px;
-  width: 190px;
-  color: #ef4444;
-  font-size: 22px;
-  line-height: 1.2;
-  transform: translateX(-50%) rotate(-18deg);
+  top: 74px;
+  width: min(400px, calc(100vw - 16px));
+  color: var(--gold);
+  font-size: 15px;
+  line-height: 1.8;
+  word-break: keep-all;
+  transform: translateX(-50%);
 }
 
 .mission-stage.offday-missed .mission-diagonal-message {
