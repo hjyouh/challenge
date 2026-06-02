@@ -250,8 +250,8 @@ body[data-page="my"] .page-header {
 
 .mission-stage.offday .mission-diagonal-message {
   top: 74px;
-  width: min(330px, calc(100vw - 70px));
-  line-height: 1.35;
+  width: min(400px, calc(100vw - 16px));
+  line-height: 1.6;
 }
 
 .mission-stage.offday-done .mission-diagonal-message {
