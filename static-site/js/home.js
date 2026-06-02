@@ -23,6 +23,11 @@
   }
 
   function drawHome(dropToday = false) {
+    // 비동기 데이터 로드 후 attended 상태 재체크
+    if (!attended) {
+      attended = isMission && DC.hasAttended(todayKey);
+      if (attended) sessionAttendedKey = todayKey;
+    }
     const stats = DC.monthStats(DC.today.getFullYear(), DC.today.getMonth());
     const prevKey = DC.dateKey(DC.previousMissionDate());
     const prevIndex = stats.dates.indexOf(prevKey);
