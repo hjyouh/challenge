@@ -6,6 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
+  <!-- v20260603 -->
   <title>디인챌 어드민</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -148,15 +149,15 @@
     .row-actions { display: flex; align-items: center; gap: 6px; }
     .delete-btn {
       background: none; border: none; cursor: pointer; padding: 2px 4px;
-      color: #ef4444; font-size: 13px; font-weight: 700; opacity: 0.4;
-      line-height: 1;
+      color: #ef4444; font-size: 13px; font-weight: 700; opacity: 0.75;
+      line-height: 1; flex-shrink: 0;
     }
     .delete-btn:hover { opacity: 1; }
     .member-row:last-child { border-bottom: none; }
     .member-row:hover { background: #f8fafc; }
-    .member-row .col-id    { color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .member-row .col-nick  { color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .member-row .col-insta { color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .member-row .col-id    { color: #0f172a !important; font-weight: 400 !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .member-row .col-nick  { color: #0f172a !important; font-weight: 400 !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .member-row .col-insta { color: #0f172a !important; font-weight: 400 !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     .col-header {
       display: grid;
@@ -176,8 +177,8 @@
     }
 
     .reset-btn {
-      background: none; border: none; cursor: pointer; padding: 2px; opacity: 0.35;
-      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer; padding: 2px; opacity: 0.75;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .reset-btn:hover { opacity: 0.9; }
     .reset-btn img { width: 16px; height: 16px; filter: none; }
