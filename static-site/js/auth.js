@@ -65,10 +65,10 @@
     return (value || "").trim().toLowerCase();
   }
 
-  function findMembers(nickname, instagramId) {
+  function findMembers(nickname, instagramId, registeredIds = new Set()) {
     const nick = normalize(nickname);
     const insta = normalize(instagramId);
-    const members = allMembers();
+    const members = allMembers().filter(m => !registeredIds.has(normalize(m.instagramId)));
     const exact = members.filter((member) =>
       (nick && normalize(member.nickname) === nick) || (insta && normalize(member.instagramId) === insta)
     );
@@ -212,11 +212,16 @@
       <div id="candidateList" class="candidate-list"></div>
     `;
     bindBack(renderStart);
-    const submitFind = () => {
-      const result = findMembers(
-        document.getElementById("findNickname").value,
-        document.getElementById("findInstagram").value
-      );
+    const submitFind = async () => {
+      const nickname   = document.getElementById("findNickname").value;
+      const instagramId = document.getElementById("findInstagram").value;
+      // Supabase에서 이미 계정이 있는 instagram_id 목록 조회
+      let registeredIds = new Set();
+      try {
+        const rows = await sbGetAccounts();
+        rows.forEach(r => { if (r.instagram_id) registeredIds.add(r.instagram_id.toLowerCase()); });
+      } catch (_) {}
+      const result = findMembers(nickname, instagramId, registeredIds);
       renderCandidates(result);
     };
     const updateFindState = () => {
