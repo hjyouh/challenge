@@ -520,7 +520,7 @@
     setFixedHeader(inlineTabsHtml('users'));
     mc.innerHTML = `<div class="loading">불러오는 중...</div>`;
 
-    const accounts = await sbFetch('accounts?select=login_id,nickname,instagram_id&order=login_id');
+    const accounts = await sbFetch('accounts?select=login_id,nickname,instagram_id,emoji&order=login_id');
 
     const doRender = () => {
       const attendRows = DC.userRows('month');
@@ -546,7 +546,7 @@
       function rowHtml(a) {
         if (!a) return '';
         const r = a.instagram_id ? attendMap[a.instagram_id] : null;
-        const emoji = r?.emoji || '';
+        const emoji = a.emoji || r?.emoji || '';
         return `<div class="member-row">
           <span class="col-id" title="${esc(a.login_id)}">${esc(tr(a.login_id, 12))}</span>
           <span class="col-nick" title="${esc(a.nickname||'')}">${emoji} ${esc(tr(a.nickname, 8) || '-')}</span>
