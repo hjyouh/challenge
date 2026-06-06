@@ -248,8 +248,21 @@ body[data-page="my"] .page-header {
   color: var(--gold);
 }
 
+/* 비미션일: 스테이지 높이 + 원 위치 축소 */
+.mission-stage.offday,
+.mission-stage.offday-done,
+.mission-stage.offday-missed {
+  min-height: 200px;
+}
+
+.mission-stage.offday .mission-circle,
+.mission-stage.offday-done .mission-circle,
+.mission-stage.offday-missed .mission-circle {
+  margin-top: 30px;
+}
+
 .mission-stage.offday .mission-diagonal-message {
-  top: 20px;
+  top: 14px;
   width: 350px;
   font-size: 15px;
   line-height: 1.8;
@@ -257,7 +270,7 @@ body[data-page="my"] .page-header {
 }
 
 .mission-stage.offday-done .mission-diagonal-message {
-  top: 20px;
+  top: 14px;
   width: 350px;
   color: var(--gold);
   font-size: 18px;
