@@ -136,8 +136,8 @@
   function positionAnimation() {
     const stageRect  = stage.getBoundingClientRect();
     const circleRect = circle.getBoundingClientRect();
-    // 천사 중심: CSS left:30px, top:0, size:92px → 중심 (76, 46) in stage coords
-    const angelCX = 30 + 46;
+    // 천사 중심: CSS left:4px, top:0, size:92px → 중심 (50, 46) in stage coords
+    const angelCX = 4 + 46;
     const angelCY = 0  + 46;
     const pouchCX = circleRect.left - stageRect.left + circleRect.width  / 2;
     const pouchCY = circleRect.top  - stageRect.top  + circleRect.height / 2;
