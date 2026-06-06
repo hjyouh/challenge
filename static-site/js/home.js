@@ -137,7 +137,6 @@
   function positionAnimation() {
     const stageRect  = stage.getBoundingClientRect();
     const circleRect = circle.getBoundingClientRect();
-    // 천사 중심: CSS left:-20px, top:0, size:92px → 중심 (-20+46=26, 46)
     const angelCX = -20 + 46;
     const angelCY = 0   + 46;
     const pouchCX = circleRect.left - stageRect.left + circleRect.width  / 2;
@@ -146,11 +145,31 @@
     const dy      = pouchCY - angelCY;
     const length  = Math.sqrt(dx * dx + dy * dy);
     const deg     = Math.atan2(dy, dx) * 180 / Math.PI;
-    // --angle을 각 엘리먼트에 직접 설정 → keyframe의 rotate(var(--angle)) 에서 사용
-    angelEl.style.setProperty("--angle", deg + "deg");
-    const arrowEl = document.getElementById("arrow");
-    arrowEl.style.setProperty("--angle", deg + "deg");
+
+    // JS에서 keyframe 직접 주입 (Safari iOS에서 var() in keyframe 미지원 대응)
+    let styleEl = document.getElementById("dc-anim-kf");
+    if (!styleEl) { styleEl = document.createElement("style"); styleEl.id = "dc-anim-kf"; document.head.appendChild(styleEl); }
+    styleEl.textContent = `
+      @keyframes angel-grow {
+        0%   { transform: rotate(${deg}deg) scale(0.15); opacity: 0; }
+        15%  { opacity: 1; }
+        80%  { transform: rotate(${deg}deg) scale(1);    opacity: 1; }
+        100% { transform: rotate(${deg}deg) scale(1);    opacity: 1; }
+      }
+      @keyframes angel-dimout {
+        0%   { transform: rotate(${deg}deg) scale(1); opacity: 1; }
+        100% { transform: rotate(${deg}deg) scale(1); opacity: 0; }
+      }
+      @keyframes arrow-shoot {
+        0%   { transform: rotate(${deg}deg) scaleX(0.02) scaleY(0.25); opacity: 0; }
+        10%  { opacity: 1; }
+        82%  { transform: rotate(${deg}deg) scaleX(1) scaleY(1); opacity: 1; }
+        100% { transform: rotate(${deg}deg) scaleX(1) scaleY(1); opacity: 0; }
+      }
+    `;
+
     document.documentElement.style.setProperty("--arrow-length", length + "px");
+    const arrowEl = document.getElementById("arrow");
     arrowEl.style.left = angelCX + "px";
     arrowEl.style.top  = (angelCY - 4) + "px";
   }

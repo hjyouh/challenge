@@ -226,6 +226,7 @@ body[data-page="my"] .page-header {
   border-radius: 0;
   border: 0;
   background: transparent;
+  padding-bottom: 20px;
 }
 
 .mission-diagonal-message {
@@ -258,7 +259,7 @@ body[data-page="my"] .page-header {
 .mission-stage.offday .mission-circle,
 .mission-stage.offday-done .mission-circle,
 .mission-stage.offday-missed .mission-circle {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .mission-stage.offday .mission-diagonal-message {
@@ -289,7 +290,7 @@ body[data-page="my"] .page-header {
   display: grid;
   width: 188px;
   height: 188px;
-  margin-top: 96px;
+  margin-top: 80px;
   place-items: center;
   border: 0;
   border-radius: 0;
@@ -349,7 +350,7 @@ body[data-page="my"] .page-header {
 .active .circle-bag,
 .done .circle-bag {
   background-image: url("../assets/images/active bag.png");
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(0.7);
 }
 
 .mission-stage.offday-missed .circle-bag {
@@ -445,8 +446,8 @@ body[data-page="my"] .page-header {
 
 @keyframes active-bag-pop {
   0%   { transform: translate(-50%, -50%) scale(0.5); }
-  50%  { transform: translate(-50%, -50%) scale(1.12); }
-  100% { transform: translate(-50%, -50%) scale(1); }
+  50%  { transform: translate(-50%, -50%) scale(0.8); }
+  100% { transform: translate(-50%, -50%) scale(0.7); }
 }
 
 .message-area,
