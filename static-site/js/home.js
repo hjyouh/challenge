@@ -108,6 +108,7 @@
   }
 
   const angelEl = document.getElementById("angel");
+  const arrowEl = document.getElementById("arrow");
   const angelColors = ["angel-yellow.png", "angel-white.png"];
   const angelKey = "deinchal-angel-color";
   const lastIdx = parseInt(localStorage.getItem(angelKey) || "0", 10);
@@ -118,58 +119,34 @@
     try {
       const s = JSON.parse(localStorage.getItem("dc-anim") || "{}");
       return {
-        angel:          Number(s.angel)          || 2,
-        arrow:          Number(s.arrow)          || 1,
-        pouchActivate:  Number(s.pouchActivate)  || 0.75,
-        pouchDrop:      Number(s.pouchDrop)      || 1.65,
+        angel:         Number(s.angel)         || 2,
+        arrow:         Number(s.arrow)         || 1,
+        pouchActivate: Number(s.pouchActivate) || 0.75,
+        pouchDrop:     Number(s.pouchDrop)     || 1.65,
       };
     } catch { return { angel: 2, arrow: 1, pouchActivate: 0.75, pouchDrop: 1.65 }; }
   }
 
   function applyAnimVars(a) {
     const root = document.documentElement;
-    root.style.setProperty("--anim-angel",          a.angel         + "s");
-    root.style.setProperty("--anim-arrow",          a.arrow         + "s");
     root.style.setProperty("--anim-pouch-activate", a.pouchActivate + "s");
     root.style.setProperty("--anim-pouch-drop",     a.pouchDrop     + "s");
   }
 
+  // 정확한 각도를 계산해 저장 (WAAPI에서 사용)
+  let _deg = 0, _arrowLen = 0;
   function positionAnimation() {
     const stageRect  = stage.getBoundingClientRect();
     const circleRect = circle.getBoundingClientRect();
-    const angelCX = -20 + 46;
-    const angelCY = 0   + 46;
+    const angelCX = -20 + 46; // left:-20px, width:92px → center x = 26
+    const angelCY = 0   + 46; // top:0px            → center y = 46
     const pouchCX = circleRect.left - stageRect.left + circleRect.width  / 2;
     const pouchCY = circleRect.top  - stageRect.top  + circleRect.height / 2;
-    const dx      = pouchCX - angelCX;
-    const dy      = pouchCY - angelCY;
-    const length  = Math.sqrt(dx * dx + dy * dy);
-    const deg     = Math.atan2(dy, dx) * 180 / Math.PI;
-
-    // JS에서 keyframe 직접 주입 (Safari iOS에서 var() in keyframe 미지원 대응)
-    let styleEl = document.getElementById("dc-anim-kf");
-    if (!styleEl) { styleEl = document.createElement("style"); styleEl.id = "dc-anim-kf"; document.head.appendChild(styleEl); }
-    styleEl.textContent = `
-      @keyframes angel-grow {
-        0%   { transform: rotate(${deg}deg) scale(0.15); opacity: 0; }
-        15%  { opacity: 1; }
-        80%  { transform: rotate(${deg}deg) scale(1);    opacity: 1; }
-        100% { transform: rotate(${deg}deg) scale(1);    opacity: 1; }
-      }
-      @keyframes angel-dimout {
-        0%   { transform: rotate(${deg}deg) scale(1); opacity: 1; }
-        100% { transform: rotate(${deg}deg) scale(1); opacity: 0; }
-      }
-      @keyframes arrow-shoot {
-        0%   { transform: rotate(${deg}deg) scaleX(0.02) scaleY(0.25); opacity: 0; }
-        10%  { opacity: 1; }
-        82%  { transform: rotate(${deg}deg) scaleX(1) scaleY(1); opacity: 1; }
-        100% { transform: rotate(${deg}deg) scaleX(1) scaleY(1); opacity: 0; }
-      }
-    `;
-
-    document.documentElement.style.setProperty("--arrow-length", length + "px");
-    const arrowEl = document.getElementById("arrow");
+    const dx = pouchCX - angelCX;
+    const dy = pouchCY - angelCY;
+    _arrowLen = Math.sqrt(dx * dx + dy * dy);
+    _deg      = Math.atan2(dy, dx) * 180 / Math.PI;
+    document.documentElement.style.setProperty("--arrow-length", _arrowLen + "px");
     arrowEl.style.left = angelCX + "px";
     arrowEl.style.top  = (angelCY - 4) + "px";
   }
@@ -183,34 +160,56 @@
     localStorage.setItem(angelKey, String(nextIdx));
     stage.classList.add("shooting");
 
-    // 화살이 복주머니에 닿는 순간 = 천사 grow + 화살 fly
-    const arrowHitMs = (anim.angel + anim.arrow) * 1000;
-    // 천사 dim out
-    setTimeout(() => angelEl.classList.add("dimout"), arrowHitMs);
-    // 화살 히트: 출석 처리 + 복주머니 즉시 active
+    const deg       = _deg;
+    const angelMs   = anim.angel * 1000;
+    const arrowMs   = anim.arrow * 1000;
+    const arrowHitMs = angelMs + arrowMs;
+
+    // ── WAAPI: 천사 grow ──────────────────────────────────
+    angelEl.getAnimations().forEach(a => a.cancel());
+    angelEl.animate([
+      { transform: `rotate(${deg}deg) scale(0.15)`, opacity: 0,   offset: 0    },
+      { transform: `rotate(${deg}deg) scale(0.15)`, opacity: 0,   offset: 0.15 },
+      { transform: `rotate(${deg}deg) scale(1)`,    opacity: 1,   offset: 0.8  },
+      { transform: `rotate(${deg}deg) scale(1)`,    opacity: 1,   offset: 1    }
+    ], { duration: angelMs, easing: "ease-out", fill: "forwards" });
+
+    // ── WAAPI: 화살 발사 (천사 완료 후 시작) ─────────────
+    arrowEl.getAnimations().forEach(a => a.cancel());
+    arrowEl.animate([
+      { transform: `rotate(${deg}deg) scaleX(0.02) scaleY(0.25)`, opacity: 0, offset: 0    },
+      { transform: `rotate(${deg}deg) scaleX(0.02) scaleY(0.25)`, opacity: 0, offset: 0.10 },
+      { transform: `rotate(${deg}deg) scaleX(1)    scaleY(1)`,    opacity: 1, offset: 0.82 },
+      { transform: `rotate(${deg}deg) scaleX(1)    scaleY(1)`,    opacity: 0, offset: 1    }
+    ], { duration: arrowMs, delay: angelMs, easing: "ease-out", fill: "forwards" });
+
+    // ── 화살 히트: 천사 dimout + 출석 처리 ───────────────
     setTimeout(() => {
+      // 천사 dimout (WAAPI)
+      angelEl.animate([
+        { transform: `rotate(${deg}deg) scale(1)`, opacity: 1 },
+        { transform: `rotate(${deg}deg) scale(1)`, opacity: 0 }
+      ], { duration: 500, easing: "ease-out", fill: "forwards" });
+
       const stats = DC.monthStats(DC.today.getFullYear(), DC.today.getMonth());
       const countedDates = stats.dates.filter((key) => key <= todayKey);
       sessionAttendedKey = countedDates[countedDates.length - 1] || todayKey;
-      if (!testMode) DC.attendToday(); // 테스트 모드에서는 DB/localStorage 저장 안 함
+      if (!testMode) DC.attendToday();
       attended = true;
-      // 복주머니 즉시 active (화살이 닿는 순간)
       circle.classList.add("active", "done");
-      // 메시지는 복주머니 activate 완료 후 표시
       setTimeout(() => {
         message.innerHTML = "오늘 출석 완료!<br />복주머니가 출석부에 전달되었습니다.";
         message.classList.add("complete");
       }, anim.pouchActivate * 1000);
-      // 복주머니 낙하는 activate + 0.5s 후
       setTimeout(() => drawHome(true), anim.pouchActivate * 1000 + 500);
     }, arrowHitMs);
 
-    // shooting 클래스 제거 (전체 애니메이션 완료 후)
+    // ── 전체 완료 후 정리 ─────────────────────────────────
     const totalMs = arrowHitMs + (anim.pouchActivate + 0.5 + anim.pouchDrop + 0.5) * 1000;
     setTimeout(() => {
       stage.classList.remove("shooting");
-      angelEl.classList.remove("dimout");
-      // 테스트 모드: 애니메이션 끝나면 자동으로 초기 상태로 리셋
+      angelEl.getAnimations().forEach(a => a.cancel());
+      arrowEl.getAnimations().forEach(a => a.cancel());
       if (testMode) {
         attended = false;
         sessionAttendedKey = "";

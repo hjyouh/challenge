@@ -220,13 +220,12 @@ body[data-page="my"] .page-header {
 .mission-stage {
   position: relative;
   display: grid;
-  min-height: 290px;
   place-items: center;
   overflow: hidden;
   border-radius: 0;
   border: 0;
   background: transparent;
-  padding-bottom: 20px;
+  padding: 75px 0 20px; /* 75px = 메시지 높이(~55px) + 여백(20px) */
 }
 
 .mission-diagonal-message {
@@ -249,17 +248,11 @@ body[data-page="my"] .page-header {
   color: var(--gold);
 }
 
-/* 비미션일: 스테이지 높이 + 원 위치 축소 */
+/* 비미션일: padding-top 줄여서 레이아웃 압축 */
 .mission-stage.offday,
 .mission-stage.offday-done,
 .mission-stage.offday-missed {
-  min-height: 200px;
-}
-
-.mission-stage.offday .mission-circle,
-.mission-stage.offday-done .mission-circle,
-.mission-stage.offday-missed .mission-circle {
-  margin-top: 20px;
+  padding-top: 65px;
 }
 
 .mission-stage.offday .mission-diagonal-message {
@@ -290,7 +283,7 @@ body[data-page="my"] .page-header {
   display: grid;
   width: 188px;
   height: 188px;
-  margin-top: 80px;
+  margin-top: 0;
   place-items: center;
   border: 0;
   border-radius: 0;
@@ -398,17 +391,7 @@ body[data-page="my"] .page-header {
   transform-origin: left center;
 }
 
-.mission-stage.shooting .angel {
-  animation: angel-grow var(--anim-angel) ease-out forwards;
-}
-
-.mission-stage.shooting .arrow {
-  animation: arrow-shoot var(--anim-arrow) ease-out var(--anim-angel) forwards;
-}
-
-.angel.dimout {
-  animation: angel-dimout 0.5s ease-out forwards !important;
-}
+/* 천사·화살 애니메이션은 WAAPI (home.js)에서 직접 제어 */
 
 .mission-stage.shooting .mission-circle.active::before,
 .mission-stage.shooting .mission-circle.active .circle-bag {
