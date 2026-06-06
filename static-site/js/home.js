@@ -1,6 +1,7 @@
 (function () {
+  const testMode = new URLSearchParams(location.search).has("test");
   const todayKey = DC.dateKey(DC.today);
-  const isMission = DC.isMissionDay(DC.today);
+  const isMission = testMode || DC.isMissionDay(DC.today);
   const circle = document.getElementById("attendanceButton");
   const stage = document.getElementById("missionStage");
   const message = document.getElementById("messageArea");
@@ -8,8 +9,8 @@
   const monthTitle = document.getElementById("monthTitle");
   const monthRate = document.getElementById("monthRate");
   const missionScore = document.getElementById("missionScore");
-  // 당일 출석 여부: localStorage에서 복원 (다른 탭 갔다 와도 큰 복주머니 유지)
-  let attended = isMission && DC.hasAttended(todayKey);
+  // 당일 출석 여부 (테스트 모드에서는 항상 미출석)
+  let attended = !testMode && isMission && DC.hasAttended(todayKey);
   let sessionAttendedKey = attended ? todayKey : "";
   let scoreTimer = null;
 
@@ -173,7 +174,7 @@
       const stats = DC.monthStats(DC.today.getFullYear(), DC.today.getMonth());
       const countedDates = stats.dates.filter((key) => key <= todayKey);
       sessionAttendedKey = countedDates[countedDates.length - 1] || todayKey;
-      DC.attendToday();
+      if (!testMode) DC.attendToday(); // 테스트 모드에서는 DB/localStorage 저장 안 함
       attended = true;
       // 복주머니 즉시 active (화살이 닿는 순간)
       circle.classList.add("active", "done");
@@ -191,6 +192,12 @@
     setTimeout(() => {
       stage.classList.remove("shooting");
       angelEl.classList.remove("dimout");
+      // 테스트 모드: 애니메이션 끝나면 자동으로 초기 상태로 리셋
+      if (testMode) {
+        attended = false;
+        sessionAttendedKey = "";
+        drawHome(false);
+      }
     }, totalMs);
   });
 
