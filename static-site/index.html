@@ -22,6 +22,74 @@
     <title>디인챌 출석 체크</title>
   </head>
   <body data-page="home">
+    <!-- 카카오톡 내 브라우저 감지 → 외부 브라우저 안내 -->
+    <script>
+    (function(){
+      var ua = navigator.userAgent;
+      if (!/KAKAOTALK|KAKAO/i.test(ua)) return;
+      var isAndroid = /Android/i.test(ua);
+      var appUrl = 'https://angelsinstachallenge.vercel.app/';
+
+      if (isAndroid) {
+        // Android: intent:// 스킴으로 기본 브라우저에서 열기
+        location.href = 'intent://' + appUrl.replace(/^https?:\/\//, '')
+          + '#Intent;scheme=https;action=android.intent.action.VIEW;end';
+        return;
+      }
+
+      // iOS: 안내 화면 표시
+      document.addEventListener('DOMContentLoaded', function() {
+        var ov = document.createElement('div');
+        ov.id = 'kakao-overlay';
+        ov.innerHTML = [
+          '<style>',
+          '#kakao-overlay{position:fixed;inset:0;z-index:99999;background:#161513;',
+          'display:flex;flex-direction:column;align-items:center;justify-content:center;',
+          'gap:20px;padding:32px;font-family:SUITE,Poppins,Arial,sans-serif;color:#f8fafc;}',
+          '#kakao-overlay .ko-icon{width:90px;height:90px;border-radius:22px;',
+          'background:#fff;display:flex;align-items:center;justify-content:center;',
+          'box-shadow:0 4px 24px rgba(0,0,0,0.4);}',
+          '#kakao-overlay .ko-btn{margin-top:8px;padding:16px 36px;background:#facc15;',
+          'color:#161513;border:none;border-radius:14px;font-size:18px;font-weight:800;',
+          'cursor:pointer;letter-spacing:-0.3px;}',
+          '#kakao-overlay .ko-hint{font-size:13px;color:#94a3b8;text-align:center;',
+          'line-height:1.7;margin-top:4px;}',
+          '#kakao-overlay .ko-title{font-size:20px;font-weight:800;color:#f8fafc;}',
+          '</style>',
+          '<div class="ko-icon">',
+          // Safari 나침반 SVG 아이콘
+          '<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">',
+          '<circle cx="28" cy="28" r="28" fill="url(#safariGrad)"/>',
+          '<defs><radialGradient id="safariGrad" cx="50%" cy="30%" r="70%">',
+          '<stop offset="0%" stop-color="#4FC3F7"/><stop offset="100%" stop-color="#0277BD"/></radialGradient></defs>',
+          '<circle cx="28" cy="28" r="22" stroke="white" stroke-width="1.5" fill="none" opacity="0.3"/>',
+          '<line x1="28" y1="6" x2="28" y2="10" stroke="white" stroke-width="2"/>',
+          '<line x1="28" y1="46" x2="28" y2="50" stroke="white" stroke-width="2"/>',
+          '<line x1="6" y1="28" x2="10" y2="28" stroke="white" stroke-width="2"/>',
+          '<line x1="46" y1="28" x2="50" y2="28" stroke="white" stroke-width="2"/>',
+          '<polygon points="28,12 32,28 28,24 24,28" fill="white"/>',
+          '<polygon points="28,44 24,28 28,32 32,28" fill="#ef4444" opacity="0.85"/>',
+          '</svg>',
+          '</div>',
+          '<div class="ko-title">Safari에서 열기</div>',
+          '<button class="ko-btn" id="koOpenBtn">외부 브라우저에서 열기</button>',
+          '<p class="ko-hint">버튼을 눌러도 열리지 않으면<br/>하단 <strong style="color:#facc15">···</strong> → <strong style="color:#facc15">Safari로 열기</strong> 를 탭해주세요</p>'
+        ].join('');
+        document.body.appendChild(ov);
+        document.getElementById('koOpenBtn').addEventListener('click', function(){
+          // 클립보드 복사 + 안내
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(appUrl).then(function(){
+              var hint = document.querySelector('#kakao-overlay .ko-hint');
+              if (hint) hint.innerHTML = '<strong style="color:#facc15">주소가 복사되었습니다!</strong><br/>Safari를 열고 주소창에 붙여넣기 해주세요<br/><span style="font-size:11px;color:#64748b">(' + appUrl + ')</span>';
+            });
+          }
+          // location.href 시도 (일부 환경에서 동작)
+          location.href = appUrl;
+        });
+      });
+    })();
+    </script>
     <div id="splash"><img src="./assets/images/angel-intro.png" alt="" /></div>
     <main class="phone">
       <header class="page-header">
