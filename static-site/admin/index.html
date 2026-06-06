@@ -344,6 +344,7 @@
     </div>
     <div class="nav-item active" id="nav-users"      onclick="showTab('users')">👤 사용자</div>
     <div class="nav-item"        id="nav-attendance" onclick="showTab('attendance')">📊 출석 현황</div>
+    <div class="nav-item"        id="nav-settings"   onclick="showTab('settings')">⚙️ 설정</div>
     <div class="sidebar-footer">
       <button class="btn-change-pw" onclick="openPwModal()">🔑 비밀번호 변경</button>
       <button class="btn-logout" onclick="doLogout()">로그아웃</button>
@@ -443,15 +444,16 @@
   let currentTab = 'users';
   function showTab(tab) {
     currentTab = tab;
-    ['users','attendance'].forEach(t => {
+    ['users','attendance','settings'].forEach(t => {
       const el = document.getElementById('nav-' + t);
       if (el) el.classList.toggle('active', t === tab);
     });
     document.querySelectorAll('.mobile-nav-btn').forEach((btn, i) => {
-      btn.classList.toggle('active', ['users','attendance'][i] === tab);
+      btn.classList.toggle('active', ['users','attendance','settings'][i] === tab);
     });
     if (tab === 'users')      renderUsers();
     if (tab === 'attendance') renderAttendance('month');
+    if (tab === 'settings')   renderSettings();
   }
 
   /* ── Password reset via Supabase ── */
@@ -510,6 +512,7 @@
     return `<div class="inline-tabs">
       <button class="inline-tab ${active==='users'?'active':''}" onclick="showTab('users')">👤 사용자</button>
       <button class="inline-tab ${active==='attendance'?'active':''}" onclick="showTab('attendance')">📊 출석 현황</button>
+      <button class="inline-tab ${active==='settings'?'active':''}" onclick="showTab('settings')">⚙️ 설정</button>
     </div>`;
   }
 
@@ -680,6 +683,124 @@
     } else { doRender(); }
   }
 
+  /* ── Tab 3: 설정 ── */
+  function renderSettings() {
+    const mc = document.getElementById('mainContent');
+    setFixedHeader(inlineTabsHtml('settings'));
+
+    const anim = (() => {
+      try { return JSON.parse(localStorage.getItem('dc-anim') || '{}'); } catch { return {}; }
+    })();
+    const v = (k, def) => anim[k] != null ? anim[k] : def;
+
+    mc.innerHTML = `
+      ${inlineTabsHtml('settings')}
+      <div style="max-width:480px;padding:20px 16px">
+
+        <h3 style="font-size:15px;font-weight:700;color:#0f172a;margin-bottom:6px">🔄 오늘 출석 초기화</h3>
+        <p style="font-size:13px;color:#64748b;margin-bottom:10px">선택한 회원의 오늘(${new Date().toLocaleDateString('ko-KR')}) 출석 기록을 DB에서 삭제합니다.<br/>로컬 브라우저 데이터도 함께 초기화됩니다.</p>
+        <div style="display:flex;gap:8px;margin-bottom:24px">
+          <select id="resetMemberSel" style="flex:1;padding:8px 10px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;background:#f8fafc;color:#0f172a">
+            <option value="">-- 회원 선택 --</option>
+          </select>
+          <button onclick="doResetToday()" style="background:#ef4444;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap">초기화</button>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #e2e8f0;margin-bottom:20px"/>
+
+        <h3 style="font-size:15px;font-weight:700;color:#0f172a;margin-bottom:6px">🎬 애니메이션 속도 설정</h3>
+        <p style="font-size:13px;color:#64748b;margin-bottom:16px">홈 화면 출석 애니메이션 각 단계의 소요 시간(초)을 설정합니다.</p>
+
+        <div id="animForm" style="display:grid;gap:14px">
+          ${animField('angel',         'a. 천사 등장 (작게→크게)',     v('angel', 2))}
+          ${animField('arrow',         'b. 화살 발사 (얇게→굵게)',     v('arrow', 1))}
+          ${animField('pouchActivate', 'c. 복주머니 Active',           v('pouchActivate', 0.75))}
+          ${animField('pouchDrop',     'd. 복주머니 출석부로 낙하',    v('pouchDrop', 1.65))}
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:20px">
+          <button onclick="saveAnimSettings()" style="background:#f59e0b;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer">저장</button>
+          <button onclick="resetAnimSettings()" style="background:#f1f5f9;color:#64748b;border:none;border-radius:8px;padding:10px 20px;font-size:14px;cursor:pointer">기본값 복원</button>
+        </div>
+      </div>
+    `;
+
+    // 회원 목록 채우기
+    if (window.DC_DATA_READY) {
+      window.DC_DATA_READY.then(() => {
+        const data = window.DC_IMPORTED_DATA;
+        const sel = document.getElementById('resetMemberSel');
+        if (!sel || !data) return;
+        (data.members || []).forEach(m => {
+          const opt = document.createElement('option');
+          opt.value = m.instagramId || m.id;
+          opt.textContent = `${m.emoji||''} ${m.nickname} (@${m.instagramId||m.id})`;
+          sel.appendChild(opt);
+        });
+      });
+    }
+  }
+
+  function animField(key, label, val) {
+    return `<div style="display:grid;grid-template-columns:1fr 90px;align-items:center;gap:10px">
+      <label style="font-size:13px;color:#334155">${label}</label>
+      <div style="display:flex;align-items:center;gap:4px">
+        <input id="anim_${key}" type="number" min="0.1" max="10" step="0.1" value="${val}"
+          style="width:60px;padding:6px 8px;border:1px solid #e2e8f0;border-radius:6px;font-size:14px;text-align:right"/>
+        <span style="font-size:13px;color:#64748b">초</span>
+      </div>
+    </div>`;
+  }
+
+  function saveAnimSettings() {
+    const keys = ['angel','arrow','pouchActivate','pouchDrop'];
+    const obj = {};
+    keys.forEach(k => {
+      const v = parseFloat(document.getElementById('anim_' + k)?.value);
+      obj[k] = isNaN(v) ? undefined : v;
+    });
+    localStorage.setItem('dc-anim', JSON.stringify(obj));
+    showToast('✅ 애니메이션 설정 저장됨');
+  }
+
+  function resetAnimSettings() {
+    localStorage.removeItem('dc-anim');
+    showToast('✅ 기본값으로 복원됨');
+    renderSettings();
+  }
+
+  async function doResetToday() {
+    const sel = document.getElementById('resetMemberSel');
+    const instagramId = sel?.value;
+    if (!instagramId) { showToast('❌ 회원을 선택하세요'); return; }
+
+    const todayKey = new Date().toISOString().slice(0, 10);
+
+    // Supabase에서 해당 회원의 오늘 출석 삭제
+    const data = window.DC_IMPORTED_DATA;
+    const member = data?.members?.find(m => (m.instagramId || m.id) === instagramId);
+    if (!member) { showToast('❌ 회원 정보를 찾을 수 없습니다'); return; }
+
+    try {
+      const r = await fetch(`${SB_URL}/rest/v1/attendance?member_id=eq.${encodeURIComponent(member.id)}&date_key=eq.${todayKey}`, {
+        method: 'DELETE',
+        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
+      });
+      if (!r.ok) throw new Error(r.status);
+
+      // 로컬 스토리지도 초기화
+      try {
+        const checks = JSON.parse(localStorage.getItem('deinchal-checks') || '[]');
+        const filtered = checks.filter(c => !(c.date === todayKey));
+        localStorage.setItem('deinchal-checks', JSON.stringify(filtered));
+      } catch(_) {}
+
+      showToast(`✅ ${instagramId} 오늘 출석 초기화 완료`);
+    } catch(e) {
+      showToast(`❌ 초기화 실패: ${e.message}`);
+    }
+  }
+
   /* ── Helpers ── */
   function esc(s) {
     return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
@@ -711,17 +832,20 @@
   }
 
   /* ── Expose globals ── */
-  window.doLogin          = doLogin;
-  window.doLogout         = doLogout;
-  window.showTab          = showTab;
-  window.resetPassword    = resetPassword;
-  window.deleteAccount    = deleteAccount;
-  window.renderAttendance = renderAttendance;
-  window.openPwModal      = openPwModal;
-  window.closePwModal     = closePwModal;
-  window.doChangePw       = doChangePw;
+  window.doLogin           = doLogin;
+  window.doLogout          = doLogout;
+  window.showTab           = showTab;
+  window.resetPassword     = resetPassword;
+  window.deleteAccount     = deleteAccount;
+  window.renderAttendance  = renderAttendance;
+  window.openPwModal       = openPwModal;
+  window.closePwModal      = closePwModal;
+  window.doChangePw        = doChangePw;
   window.closeConfirmModal = closeConfirmModal;
-  window.doConfirm        = doConfirm;
+  window.doConfirm         = doConfirm;
+  window.saveAnimSettings  = saveAnimSettings;
+  window.resetAnimSettings = resetAnimSettings;
+  window.doResetToday      = doResetToday;
 })();
 </script>
 </body>

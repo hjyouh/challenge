@@ -91,7 +91,8 @@
         const cls = done ? "attended" : past ? "absent" : "";
         const label = done ? "출석완료" : future ? "" : "결석";
         const drop = dropToday && key === sessionAttendedKey ? "drop" : "";
-        return `<div class="pouch-card ${cls} ${drop}"><span class="emoji"></span><span class="date">${DC.shortDate(key)} ${label}</span></div>`;
+        const labelHtml = label ? `<br/>${label}` : "";
+        return `<div class="pouch-card ${cls} ${drop}"><span class="emoji"></span><span class="date">${DC.shortDate(key)}${labelHtml}</span></div>`;
     };
     const firstRow = stats.dates.slice(0, 4);
     const secondRow = stats.dates.slice(4, 9);
@@ -112,11 +113,58 @@
   const nextIdx = (lastIdx + 1) % angelColors.length;
   angelEl.style.backgroundImage = `url("./assets/images/${angelColors[lastIdx]}")`;
 
+  function getAnimSec() {
+    try {
+      const s = JSON.parse(localStorage.getItem("dc-anim") || "{}");
+      return {
+        angel:          Number(s.angel)          || 2,
+        arrow:          Number(s.arrow)          || 1,
+        pouchActivate:  Number(s.pouchActivate)  || 0.75,
+        pouchDrop:      Number(s.pouchDrop)      || 1.65,
+      };
+    } catch { return { angel: 2, arrow: 1, pouchActivate: 0.75, pouchDrop: 1.65 }; }
+  }
+
+  function applyAnimVars(a) {
+    const root = document.documentElement;
+    root.style.setProperty("--anim-angel",          a.angel         + "s");
+    root.style.setProperty("--anim-arrow",          a.arrow         + "s");
+    root.style.setProperty("--anim-pouch-activate", a.pouchActivate + "s");
+    root.style.setProperty("--anim-pouch-drop",     a.pouchDrop     + "s");
+  }
+
+  function positionAnimation() {
+    const stageRect  = stage.getBoundingClientRect();
+    const circleRect = circle.getBoundingClientRect();
+    // 천사 중심: CSS left:10px, top:0, size:92px → 중심 (56, 46) in stage coords
+    const angelCX = 10 + 46;
+    const angelCY = 0  + 46;
+    const pouchCX = circleRect.left - stageRect.left + circleRect.width  / 2;
+    const pouchCY = circleRect.top  - stageRect.top  + circleRect.height / 2;
+    const dx      = pouchCX - angelCX;
+    const dy      = pouchCY - angelCY;
+    const length  = Math.sqrt(dx * dx + dy * dy);
+    const deg     = Math.atan2(dy, dx) * 180 / Math.PI;
+    const root    = document.documentElement;
+    root.style.setProperty("--angel-rotate", deg + "deg");
+    root.style.setProperty("--arrow-angle",  deg + "deg");
+    root.style.setProperty("--arrow-length", length + "px");
+  }
+
   circle.addEventListener("click", () => {
     if (!isMission || attended) return;
+    const anim = getAnimSec();
+    applyAnimVars(anim);
+    positionAnimation();
     angelEl.style.backgroundImage = `url("./assets/images/${angelColors[nextIdx]}")`;
     localStorage.setItem(angelKey, String(nextIdx));
     stage.classList.add("shooting");
+
+    // 화살이 복주머니에 닿는 순간 = 천사 grow + 화살 fly
+    const arrowHitMs = (anim.angel + anim.arrow) * 1000;
+    // 천사 dim out
+    setTimeout(() => angelEl.classList.add("dimout"), arrowHitMs);
+    // 출석 처리
     setTimeout(() => {
       const stats = DC.monthStats(DC.today.getFullYear(), DC.today.getMonth());
       const countedDates = stats.dates.filter((key) => key <= todayKey);
@@ -125,9 +173,16 @@
       attended = true;
       message.innerHTML = "오늘 출석 완료!<br />복주머니가 출석부에 전달되었습니다.";
       message.classList.add("complete");
-      setTimeout(() => drawHome(true), 500);
-    }, 3400);
-    setTimeout(() => stage.classList.remove("shooting"), 4550);
+      // 복주머니 activate 후 0.5s 뒤 낙하 시작
+      setTimeout(() => drawHome(true), anim.pouchActivate * 1000 + 500);
+    }, arrowHitMs);
+
+    // shooting 클래스 제거 (전체 애니메이션 완료 후)
+    const totalMs = arrowHitMs + (anim.pouchActivate + 0.5 + anim.pouchDrop + 0.5) * 1000;
+    setTimeout(() => {
+      stage.classList.remove("shooting");
+      angelEl.classList.remove("dimout");
+    }, totalMs);
   });
 
   drawHome(false);

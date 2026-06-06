@@ -452,8 +452,7 @@
         <p class="account-question">로그인</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
         <label class="account-line" for="loginId"><span>ID</span><input id="loginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" /></label>
-        <label class="account-line" for="loginPassword"><span>비번</span><input id="loginPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="current-password" data-form-type="other" /></label>
-        <label class="account-check check-first"><input id="loginAuto" type="checkbox" checked /><span>자동로그인</span></label>
+        <label class="account-line" for="loginPassword"><span>비번</span><input id="loginPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="off" data-form-type="other" /></label>
         <div class="login-actions">
           <button class="login-btn" id="backStart" type="button">처음으로</button>
           <button class="login-btn login-btn-primary" id="loginSubmit" type="button" disabled>로그인</button>
@@ -498,13 +497,13 @@
             emoji:       sbAccount.emoji || '😀',
           };
           cacheAccounts([account]);
-          setProfile(account, document.getElementById("loginAuto").checked);
+          setProfile(account, true);
           goHome();
           return;
         }
         // fallback: localStorage
         const local = accounts().find(a => a.loginId === loginId && a.password === password);
-        if (local) { setProfile(local, document.getElementById("loginAuto").checked); goHome(); return; }
+        if (local) { setProfile(local, true); goHome(); return; }
         renderLogin("로그인 정보를 찾지 못했습니다. 기존 계정을 먼저 찾아 주세요.");
       } catch {
         renderLogin("네트워크 오류가 발생했습니다. 다시 시도해 주세요.");
