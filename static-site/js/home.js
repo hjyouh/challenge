@@ -74,7 +74,7 @@
 
     const gold = (text) => `<span style="color:var(--gold)">${text}</span>`;
     if (isMission && !attended) {
-      message.innerHTML = "가운데 원을 눌러<br />출석체크해 주세요";
+      message.innerHTML = "회색 복주머니를 눌러<br />출석체크해 주세요";
     } else if (attended) {
       message.innerHTML = "오늘 출석 완료!<br />복주머니가 출석부에 전달되었습니다.";
     } else {
@@ -137,21 +137,20 @@
   function positionAnimation() {
     const stageRect  = stage.getBoundingClientRect();
     const circleRect = circle.getBoundingClientRect();
-    // 천사 중심: CSS left:4px, top:0, size:92px → 중심 (50, 46) in stage coords
-    const angelCX = 4 + 46;
-    const angelCY = 0  + 46;
+    // 천사 중심: CSS left:-20px, top:0, size:92px → 중심 (-20+46=26, 46)
+    const angelCX = -20 + 46;
+    const angelCY = 0   + 46;
     const pouchCX = circleRect.left - stageRect.left + circleRect.width  / 2;
     const pouchCY = circleRect.top  - stageRect.top  + circleRect.height / 2;
     const dx      = pouchCX - angelCX;
     const dy      = pouchCY - angelCY;
     const length  = Math.sqrt(dx * dx + dy * dy);
     const deg     = Math.atan2(dy, dx) * 180 / Math.PI;
-    const root    = document.documentElement;
-    root.style.setProperty("--angel-rotate", deg + "deg");
-    root.style.setProperty("--arrow-angle",  deg + "deg");
-    root.style.setProperty("--arrow-length", length + "px");
-    // 화살 시작 위치를 천사 중심으로 맞춤
+    // --angle을 각 엘리먼트에 직접 설정 → keyframe의 rotate(var(--angle)) 에서 사용
+    angelEl.style.setProperty("--angle", deg + "deg");
     const arrowEl = document.getElementById("arrow");
+    arrowEl.style.setProperty("--angle", deg + "deg");
+    document.documentElement.style.setProperty("--arrow-length", length + "px");
     arrowEl.style.left = angelCX + "px";
     arrowEl.style.top  = (angelCY - 4) + "px";
   }

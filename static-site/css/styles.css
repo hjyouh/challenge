@@ -220,7 +220,7 @@ body[data-page="my"] .page-header {
 .mission-stage {
   position: relative;
   display: grid;
-  min-height: 310px;
+  min-height: 290px;
   place-items: center;
   overflow: hidden;
   border-radius: 0;
@@ -231,7 +231,7 @@ body[data-page="my"] .page-header {
 .mission-diagonal-message {
   position: absolute;
   left: 50%;
-  top: 38px;
+  top: 12px;
   z-index: 4;
   width: 240px;
   transform: translateX(-50%);
@@ -338,7 +338,7 @@ body[data-page="my"] .page-header {
   top: 50%;
   width: 188px;
   height: 188px;
-  background: center / contain no-repeat url("../assets/images/inactive bags.png");
+  background: center / contain no-repeat url("../assets/images/inactive bag.png");
   color: transparent;
   font-size: 0;
   opacity: 1;
@@ -348,7 +348,7 @@ body[data-page="my"] .page-header {
 
 .active .circle-bag,
 .done .circle-bag {
-  background-image: url("../assets/images/active bags.png");
+  background-image: url("../assets/images/active bag.png");
   transform: translate(-50%, -50%) scale(1);
 }
 
@@ -371,7 +371,7 @@ body[data-page="my"] .page-header {
 
 .angel {
   position: absolute;
-  left: 4px;
+  left: -20px;
   top: 0;
   z-index: 3;
   width: 92px;
@@ -380,23 +380,21 @@ body[data-page="my"] .page-header {
   color: transparent;
   font-size: 0;
   opacity: 0;
-  transform: scale(0.15);
+  transform: scale(0.15); /* rotate는 JS가 --angle 변수로 keyframe에 주입 */
   transform-origin: center center;
-  rotate: var(--angel-rotate, 50deg); /* JS에서 동적으로 계산 */
 }
 
-/* 화살: JS에서 --arrow-angle, --arrow-length 동적 설정 */
+/* 화살: JS가 --angle(각도), --arrow-length, left, top 설정 */
 .arrow {
   position: absolute;
-  left: 56px;
-  top: 46px;
+  left: 26px;
+  top: 42px;
   width: var(--arrow-length, 240px);
   height: 8px;
   border-radius: 999px;
   background: linear-gradient(90deg, transparent 5%, #fde68a88 40%, #fde68a);
   opacity: 0;
   transform-origin: left center;
-  rotate: var(--arrow-angle, 55deg);
 }
 
 .mission-stage.shooting .angel {
@@ -417,31 +415,22 @@ body[data-page="my"] .page-header {
 }
 
 @keyframes angel-grow {
-  0%   { transform: scale(0.15); opacity: 0; }
+  0%   { transform: rotate(var(--angle, 50deg)) scale(0.15); opacity: 0; }
   15%  { opacity: 1; }
-  80%  { transform: scale(1);    opacity: 1; }
-  100% { transform: scale(1);    opacity: 1; }
+  80%  { transform: rotate(var(--angle, 50deg)) scale(1);    opacity: 1; }
+  100% { transform: rotate(var(--angle, 50deg)) scale(1);    opacity: 1; }
 }
 
 @keyframes angel-dimout {
-  0%   { opacity: 1; }
-  100% { opacity: 0; }
+  0%   { transform: rotate(var(--angle, 50deg)) scale(1); opacity: 1; }
+  100% { transform: rotate(var(--angle, 50deg)) scale(1); opacity: 0; }
 }
 
 @keyframes arrow-shoot {
-  0% {
-    transform: scaleX(0.02) scaleY(0.25);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  82% {
-    transform: scaleX(1) scaleY(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scaleX(1) scaleY(1);
-    opacity: 0;
-  }
+  0%   { transform: rotate(var(--angle, 55deg)) scaleX(0.02) scaleY(0.25); opacity: 0; }
+  10%  { opacity: 1; }
+  82%  { transform: rotate(var(--angle, 55deg)) scaleX(1)    scaleY(1);    opacity: 1; }
+  100% { transform: rotate(var(--angle, 55deg)) scaleX(1)    scaleY(1);    opacity: 0; }
 }
 
 @keyframes active-pop {
