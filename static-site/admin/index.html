@@ -775,9 +775,11 @@
     const instagramId = sel?.value;
     if (!instagramId) { showToast('❌ 회원을 선택하세요'); return; }
 
-    const todayKey = new Date().toISOString().slice(0, 10);
+    // 오늘이 미션일이면 오늘, 아니면 마지막 미션일
+    const targetDate = DC.isMissionDay(DC.today) ? DC.today : DC.previousMissionDate();
+    const todayKey = DC.dateKey(targetDate);
 
-    // Supabase에서 해당 회원의 오늘 출석 삭제
+    // Supabase에서 해당 회원의 출석 삭제
     const data = window.DC_IMPORTED_DATA;
     const member = data?.members?.find(m => (m.instagramId || m.id) === instagramId);
     if (!member) { showToast('❌ 회원 정보를 찾을 수 없습니다'); return; }
@@ -796,7 +798,7 @@
         localStorage.setItem('deinchal-checks', JSON.stringify(filtered));
       } catch(_) {}
 
-      showToast(`✅ ${instagramId} 오늘 출석 초기화 완료`);
+      showToast(`✅ ${instagramId} ${todayKey} 출석 초기화 완료`);
     } catch(e) {
       showToast(`❌ 초기화 실패: ${e.message}`);
     }

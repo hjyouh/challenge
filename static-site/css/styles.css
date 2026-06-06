@@ -249,7 +249,7 @@ body[data-page="my"] .page-header {
 }
 
 .mission-stage.offday .mission-diagonal-message {
-  top: 74px;
+  top: 20px;
   width: 350px;
   font-size: 15px;
   line-height: 1.8;
@@ -257,7 +257,7 @@ body[data-page="my"] .page-header {
 }
 
 .mission-stage.offday-done .mission-diagonal-message {
-  top: 74px;
+  top: 20px;
   width: 350px;
   color: var(--gold);
   font-size: 18px;

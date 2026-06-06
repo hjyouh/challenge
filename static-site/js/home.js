@@ -199,13 +199,23 @@
   // Supabase 데이터 로드 완료 후 attended 상태 재확인 + DB 동기화
   if (window.DC_DATA_READY) {
     window.DC_DATA_READY.then(() => {
-      // Admin이 DB에서 오늘 출석을 초기화했는데 localStorage에 남아 있는 경우 동기화
+      // Admin이 DB에서 출석을 초기화했는데 localStorage에 남아 있는 경우 동기화
       if (attended && isMission && !DC.hasAttendedInDB(todayKey)) {
         DC.clearTodayLocal();
         attended = false;
         sessionAttendedKey = "";
         drawHome(false);
         return;
+      }
+      // 비미션일: 이전 미션일 localStorage sync
+      if (!isMission) {
+        const prevKey = DC.dateKey(DC.previousMissionDate());
+        const prevLocal = DC.checks().some(c => c.userId === "me" && c.date === prevKey && c.status === "attended");
+        if (prevLocal && !DC.hasAttendedInDB(prevKey)) {
+          DC.saveChecks(DC.checks().filter(c => !(c.userId === "me" && c.date === prevKey)));
+          drawHome(false);
+          return;
+        }
       }
       if (!attended) {
         attended = isMission && DC.hasAttended(todayKey);
