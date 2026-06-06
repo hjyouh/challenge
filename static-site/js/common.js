@@ -123,6 +123,21 @@
     return Boolean(member?.checks?.[key]);
   }
 
+  // DB만 확인 (localStorage 무시) — Admin 초기화 후 동기화용
+  function hasAttendedInDB(key, memberId = currentMemberId()) {
+    if (!imported) return false;
+    const date = parseKey(key);
+    const month = imported.months?.[`${date.getFullYear()}-${date.getMonth() + 1}`];
+    const member = month?.members?.find((item) => item.id === memberId || item.instagramId === memberId);
+    return Boolean(member?.checks?.[key]);
+  }
+
+  // 오늘 localStorage 출석 기록 제거 (Admin 초기화 동기화용)
+  function clearTodayLocal() {
+    const key = dateKey(today);
+    saveChecks(checks().filter((item) => !(item.userId === "me" && item.date === key)));
+  }
+
   function attendToday() {
     const key = dateKey(today);
     const next = checks().filter((item) => !(item.userId === "me" && item.date === key));
@@ -300,6 +315,8 @@
     checks,
     saveChecks,
     hasAttended,
+    hasAttendedInDB,
+    clearTodayLocal,
     attendToday,
     rate,
     rankGrade,

@@ -187,9 +187,17 @@
 
   drawHome(false);
 
-  // Supabase 데이터 로드 완료 후 attended 상태 재확인
+  // Supabase 데이터 로드 완료 후 attended 상태 재확인 + DB 동기화
   if (window.DC_DATA_READY) {
     window.DC_DATA_READY.then(() => {
+      // Admin이 DB에서 오늘 출석을 초기화했는데 localStorage에 남아 있는 경우 동기화
+      if (attended && isMission && !DC.hasAttendedInDB(todayKey)) {
+        DC.clearTodayLocal();
+        attended = false;
+        sessionAttendedKey = "";
+        drawHome(false);
+        return;
+      }
       if (!attended) {
         attended = isMission && DC.hasAttended(todayKey);
         if (attended) sessionAttendedKey = todayKey;
