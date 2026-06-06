@@ -136,8 +136,8 @@
   function positionAnimation() {
     const stageRect  = stage.getBoundingClientRect();
     const circleRect = circle.getBoundingClientRect();
-    // 천사 중심: CSS left:10px, top:0, size:92px → 중심 (56, 46) in stage coords
-    const angelCX = 10 + 46;
+    // 천사 중심: CSS left:30px, top:0, size:92px → 중심 (76, 46) in stage coords
+    const angelCX = 30 + 46;
     const angelCY = 0  + 46;
     const pouchCX = circleRect.left - stageRect.left + circleRect.width  / 2;
     const pouchCY = circleRect.top  - stageRect.top  + circleRect.height / 2;
@@ -149,6 +149,10 @@
     root.style.setProperty("--angel-rotate", deg + "deg");
     root.style.setProperty("--arrow-angle",  deg + "deg");
     root.style.setProperty("--arrow-length", length + "px");
+    // 화살 시작 위치를 천사 중심으로 맞춤
+    const arrowEl = document.getElementById("arrow");
+    arrowEl.style.left = angelCX + "px";
+    arrowEl.style.top  = (angelCY - 4) + "px";
   }
 
   circle.addEventListener("click", () => {
@@ -164,16 +168,21 @@
     const arrowHitMs = (anim.angel + anim.arrow) * 1000;
     // 천사 dim out
     setTimeout(() => angelEl.classList.add("dimout"), arrowHitMs);
-    // 출석 처리
+    // 화살 히트: 출석 처리 + 복주머니 즉시 active
     setTimeout(() => {
       const stats = DC.monthStats(DC.today.getFullYear(), DC.today.getMonth());
       const countedDates = stats.dates.filter((key) => key <= todayKey);
       sessionAttendedKey = countedDates[countedDates.length - 1] || todayKey;
       DC.attendToday();
       attended = true;
-      message.innerHTML = "오늘 출석 완료!<br />복주머니가 출석부에 전달되었습니다.";
-      message.classList.add("complete");
-      // 복주머니 activate 후 0.5s 뒤 낙하 시작
+      // 복주머니 즉시 active (화살이 닿는 순간)
+      circle.classList.add("active", "done");
+      // 메시지는 복주머니 activate 완료 후 표시
+      setTimeout(() => {
+        message.innerHTML = "오늘 출석 완료!<br />복주머니가 출석부에 전달되었습니다.";
+        message.classList.add("complete");
+      }, anim.pouchActivate * 1000);
+      // 복주머니 낙하는 activate + 0.5s 후
       setTimeout(() => drawHome(true), anim.pouchActivate * 1000 + 500);
     }, arrowHitMs);
 
