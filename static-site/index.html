@@ -37,27 +37,11 @@
         return;
       }
 
-      // iOS: 안내 화면 표시
-      document.addEventListener('DOMContentLoaded', function() {
-        var ov = document.createElement('div');
-        ov.id = 'kakao-overlay';
-        ov.innerHTML = [
-          '<style>',
-          '#kakao-overlay{position:fixed;inset:0;z-index:99999;background:#161513;',
-          'display:flex;flex-direction:column;align-items:center;justify-content:center;',
-          'gap:20px;padding:32px;font-family:SUITE,Poppins,Arial,sans-serif;color:#f8fafc;}',
-          '#kakao-overlay .ko-icon{width:90px;height:90px;border-radius:22px;',
-          'background:#fff;display:flex;align-items:center;justify-content:center;',
-          'box-shadow:0 4px 24px rgba(0,0,0,0.4);}',
-          '#kakao-overlay .ko-btn{margin-top:8px;padding:16px 36px;background:#facc15;',
-          'color:#161513;border:none;border-radius:14px;font-size:18px;font-weight:800;',
-          'cursor:pointer;letter-spacing:-0.3px;}',
-          '#kakao-overlay .ko-hint{font-size:13px;color:#94a3b8;text-align:center;',
-          'line-height:1.7;margin-top:4px;}',
-          '#kakao-overlay .ko-title{font-size:20px;font-weight:800;color:#f8fafc;}',
-          '</style>',
-          '<div class="ko-icon">',
-          // Safari 나침반 SVG 아이콘
+      // iOS: 브라우저 종류 감지
+      var browserName = 'Safari';
+      var browserIcon = (function() {
+        // Safari 나침반
+        return [
           '<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">',
           '<circle cx="28" cy="28" r="28" fill="url(#safariGrad)"/>',
           '<defs><radialGradient id="safariGrad" cx="50%" cy="30%" r="70%">',
@@ -69,22 +53,72 @@
           '<line x1="46" y1="28" x2="50" y2="28" stroke="white" stroke-width="2"/>',
           '<polygon points="28,12 32,28 28,24 24,28" fill="white"/>',
           '<polygon points="28,44 24,28 28,32 32,28" fill="#ef4444" opacity="0.85"/>',
-          '</svg>',
-          '</div>',
-          '<div class="ko-title">Safari에서 열기</div>',
-          '<button class="ko-btn" id="koOpenBtn">외부 브라우저에서 열기</button>',
-          '<p class="ko-hint">버튼을 눌러도 열리지 않으면<br/>하단 <strong style="color:#facc15">···</strong> → <strong style="color:#facc15">Safari로 열기</strong> 를 탭해주세요</p>'
+          '</svg>'
+        ].join('');
+      })();
+      if (/CriOS/i.test(ua)) {
+        browserName = 'Chrome';
+        // Chrome 색상 원형 아이콘
+        browserIcon = [
+          '<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">',
+          '<circle cx="28" cy="28" r="28" fill="#fff"/>',
+          '<circle cx="28" cy="28" r="11" fill="#4285F4"/>',
+          '<path d="M28 17 A11 11 0 0 1 37.5 22.5 L28 22.5 Z" fill="#EA4335"/>',
+          '<path d="M28 17 L37.5 22.5 A11 11 0 0 1 37.5 33.5 Z" fill="#FBBC05"/>',
+          '<path d="M28 39 A11 11 0 0 1 18.5 33.5 L23.7 28 Z" fill="#34A853"/>',
+          '<path d="M28 17 A11 11 0 0 0 18.5 22.5 L28 22.5 Z" fill="#4285F4"/>',
+          '<circle cx="28" cy="28" r="8" fill="#fff"/>',
+          '<circle cx="28" cy="28" r="6.5" fill="#4285F4"/>',
+          '</svg>'
+        ].join('');
+      } else if (/FxiOS/i.test(ua)) {
+        browserName = 'Firefox';
+        browserIcon = [
+          '<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">',
+          '<circle cx="28" cy="28" r="28" fill="url(#ffGrad)"/>',
+          '<defs><radialGradient id="ffGrad" cx="40%" cy="30%" r="80%">',
+          '<stop offset="0%" stop-color="#FF9800"/><stop offset="100%" stop-color="#E53935"/></radialGradient></defs>',
+          '<circle cx="28" cy="28" r="14" fill="#4FC3F7" opacity="0.9"/>',
+          '<circle cx="28" cy="28" r="8" fill="#1565C0"/>',
+          '</svg>'
+        ].join('');
+      }
+
+      // 안내 화면 표시
+      document.addEventListener('DOMContentLoaded', function() {
+        var ov = document.createElement('div');
+        ov.id = 'kakao-overlay';
+        ov.innerHTML = [
+          '<style>',
+          '#kakao-overlay{position:fixed;inset:0;z-index:99999;background:#161513;',
+          'display:flex;flex-direction:column;align-items:center;justify-content:center;',
+          'gap:22px;padding:32px;font-family:SUITE,Poppins,Arial,sans-serif;color:#f8fafc;}',
+          '#kakao-overlay .ko-icon{width:90px;height:90px;border-radius:22px;',
+          'background:#fff;display:flex;align-items:center;justify-content:center;',
+          'box-shadow:0 4px 24px rgba(0,0,0,0.4);}',
+          '#kakao-overlay .ko-title{font-size:20px;font-weight:800;color:#f8fafc;}',
+          '#kakao-overlay .ko-link{font-size:19px;font-weight:800;color:#facc15;',
+          'cursor:pointer;text-decoration:underline;text-underline-offset:4px;',
+          'text-decoration-color:rgba(250,204,21,0.4);}',
+          '#kakao-overlay .ko-link:active{color:#fde68a;}',
+          '#kakao-overlay .ko-copied{font-size:13px;color:#22c55e;text-align:center;',
+          'line-height:1.7;min-height:40px;}',
+          '</style>',
+          '<div class="ko-icon">' + browserIcon + '</div>',
+          '<div class="ko-title">' + browserName + '에서 열기</div>',
+          '<span class="ko-link" id="koOpenLink">외부 브라우저에서 열기</span>',
+          '<div class="ko-copied" id="koCopied"></div>'
         ].join('');
         document.body.appendChild(ov);
-        document.getElementById('koOpenBtn').addEventListener('click', function(){
-          // 클립보드 복사 + 안내
+        document.getElementById('koOpenLink').addEventListener('click', function() {
           if (navigator.clipboard) {
-            navigator.clipboard.writeText(appUrl).then(function(){
-              var hint = document.querySelector('#kakao-overlay .ko-hint');
-              if (hint) hint.innerHTML = '<strong style="color:#facc15">주소가 복사되었습니다!</strong><br/>Safari를 열고 주소창에 붙여넣기 해주세요<br/><span style="font-size:11px;color:#64748b">(' + appUrl + ')</span>';
+            navigator.clipboard.writeText(appUrl).then(function() {
+              var el = document.getElementById('koCopied');
+              if (el) el.innerHTML =
+                '<strong style="color:#22c55e">✓ 주소가 복사되었습니다</strong><br/>' +
+                browserName + ' 앱을 열고 주소창에 붙여넣기 해주세요';
             });
           }
-          // location.href 시도 (일부 환경에서 동작)
           location.href = appUrl;
         });
       });
