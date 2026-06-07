@@ -330,7 +330,7 @@
   // PWA 설치 유도 팝업 (auth 페이지 제외, 미설치 + 미거절 시 자동 표시)
   if (document.body.getAttribute('data-page') !== 'auth') {
     var isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-    if (!isStandalone && !localStorage.getItem('pwa-popup-nodisplay')) {
+    if (!isStandalone && !sessionStorage.getItem('pwa-popup-nodisplay')) {
       var pwaOv = document.createElement('div');
       pwaOv.id = 'pwaOverlay';
       pwaOv.style.cssText = 'position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;';
@@ -347,7 +347,7 @@
       ].join('');
       document.body.appendChild(pwaOv);
       document.getElementById('pwaNodisplay').addEventListener('click', function() {
-        localStorage.setItem('pwa-popup-nodisplay', '1');
+        sessionStorage.setItem('pwa-popup-nodisplay', '1');
         pwaOv.remove();
       });
       document.getElementById('pwaLater').addEventListener('click', function() { pwaOv.remove(); });
