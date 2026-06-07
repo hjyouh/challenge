@@ -619,14 +619,11 @@
   // ?page=N 프리뷰 모드 (UI 수정용, 나중에 제거)
   const previewPage = new URLSearchParams(location.search).get("page");
   if (previewPage) {
-    const demoMember = { nickname: "홍길동", instagramId: "hong_gildong", memberIds: ["demo-1"], emoji: "😀" };
-    const demoPrefilled = { loginId: "hong123", password: "pass1234", autoLogin: true };
-    const demoResult = { type: "exact", rows: [demoMember] };
     const pages = {
       "1": () => renderStart(),
       "2": () => renderFind(),
-      "3": () => { renderFind(); renderCandidates(demoResult); },
-      "4": () => { renderFind(); document.getElementById("candidateList").innerHTML = '<p class="auth-message">계정을 찾지 못했습니다.</p>'; },
+      "3": () => renderFind(),
+      "4": () => renderFind(),
       "5": () => renderReturning(),
       "6": () => renderLogin(),
       "7": () => renderNewAccount(),
