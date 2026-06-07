@@ -1908,7 +1908,7 @@ body[data-page="auth"] {
 }
 
 .account-question {
-  margin-bottom: 14px;
+  margin-bottom: 6px;
   color: #8e8a84;
   font-size: 18px;
   line-height: 1.35;
@@ -1989,7 +1989,7 @@ body[data-page="auth"] {
 
 .account-submit {
   min-height: 44px;
-  margin: 22px -24px -12px;
+  margin: 10px -24px -12px;
   border: 0;
   border-top: 1px dashed rgba(180, 176, 168, 0.45);
   border-radius: 0 0 13px 13px;
@@ -2000,7 +2000,7 @@ body[data-page="auth"] {
 }
 
 .account-submit.active {
-  margin: 22px -24px -14px;
+  margin: 10px -24px -14px;
   border-top: 1px dashed rgba(180, 176, 168, 0.45);
   border-radius: 0 0 13px 13px;
   background: transparent;
