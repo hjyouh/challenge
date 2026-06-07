@@ -295,9 +295,10 @@
   function renderSetCredentials(member) {
     panel.innerHTML = `
       <form class="account-popup" id="credForm" autocomplete="off">
-        <p class="account-question">${member.nickname} / @${member.instagramId || "-"}</p>
+        <p class="account-question" style="color:var(--gold);font-weight:800">${member.nickname} / @${member.instagramId || "-"}</p>
         <label class="account-line" for="credLoginId"><span>ID</span><input id="credLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" /></label>
-        <label class="account-line" for="credPassword"><span>비번</span><input id="credPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="current-password" data-form-type="other" /></label>
+        <label class="account-line" for="credPassword"><span>비밀번호</span><input id="credPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="new-password" data-form-type="other" /></label>
+        <label class="account-line pw-check-line" for="credPasswordConfirm"><span>비밀번호 확인</span><input id="credPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="new-password" data-form-type="other" /><span class="pw-match" id="credPwMatchIcon">✓</span></label>
         <label class="account-check check-first"><input id="credAuto" type="checkbox" checked /><span>자동로그인</span></label>
         <p id="credMsg" class="auth-message"></p>
         <button class="account-submit" id="credNext" type="button" disabled>다음</button>
@@ -307,12 +308,16 @@
 
     const updateState = () => {
       const hasId = Boolean(document.getElementById("credLoginId").value.trim());
-      const hasPw = Boolean(document.getElementById("credPassword").value.trim());
+      const pw = document.getElementById("credPassword").value;
+      const pw2 = document.getElementById("credPasswordConfirm").value;
+      const matched = pw.length > 0 && pw === pw2;
       const btn = document.getElementById("credNext");
-      btn.disabled = !(hasId && hasPw);
-      btn.classList.toggle("active", hasId && hasPw);
+      btn.disabled = !(hasId && matched);
+      btn.classList.toggle("active", hasId && matched);
+      const icon = document.getElementById("credPwMatchIcon");
+      if (icon) icon.classList.toggle("matched", matched);
     };
-    ["credLoginId","credPassword"].forEach(id =>
+    ["credLoginId","credPassword","credPasswordConfirm"].forEach(id =>
       document.getElementById(id).addEventListener("input", updateState)
     );
     updateState();
