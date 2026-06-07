@@ -339,9 +339,8 @@
         '<p style="font-size:18px;font-weight:800;color:#f8fafc;line-height:1.4;margin:0 0 10px">천사님 인스타 챌린지 앱에<br/>오신 것을 환영합니다.</p>',
         '<p style="font-size:15px;color:#cbd5e1;line-height:1.5;margin:0 0 8px">앞으로 천사님 챌린지를<br/><strong style="color:#22c55e;font-weight:800">홈 화면에 아이콘을 생성하시면</strong><br/>편리하게 사용하실 수 있습니다.</p>',
         '<p style="font-size:15px;color:#cbd5e1;line-height:1.5;margin:0 0 14px">홈화면에 아이콘 설치는 <strong style="color:#22c55e;font-weight:800">주메뉴 &gt; 마이에 자세히 설명</strong>되어 있습니다. <strong style="color:#22c55e;font-weight:800">마이 메뉴에서 확인하고 설치</strong>해 주세요.</p>',
-        '<button id="pwaNodisplay" style="background:none;border:none;color:#64748b;font-size:13px;cursor:pointer;padding:4px 0;text-decoration:underline;text-underline-offset:3px;">다시보지 않기</button>',
         '<div style="display:flex;border-top:1px solid rgba(180,176,168,0.2);margin:10px -16px 0;border-radius:0 0 16px 16px;overflow:hidden;">',
-        '<button id="pwaLater" style="flex:1;background:none;border:none;border-right:1px solid rgba(180,176,168,0.2);color:#94a3b8;font-size:16px;padding:14px;cursor:pointer;">다음에</button>',
+        '<button id="pwaLater" style="flex:1;background:none;border:none;border-right:1px solid rgba(180,176,168,0.2);color:#94a3b8;font-size:16px;padding:14px;cursor:pointer;">다시보지 않기</button>',
         '<button id="pwaGo" style="flex:1;background:none;border:none;color:#64748b;font-size:16px;font-weight:800;padding:14px;cursor:pointer;" onmousedown="this.style.color=\'#22c55e\'" onmouseup="this.style.color=\'#64748b\'" ontouchstart="this.style.color=\'#22c55e\'" ontouchend="this.style.color=\'#64748b\'">마이메뉴로 이동</button>',
         '</div></div>',
       ].join('');
