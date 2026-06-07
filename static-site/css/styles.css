@@ -150,7 +150,8 @@ body[data-page="ranking"] .page-header {
 }
 
 body[data-page="auth"] .page-header {
-  position: relative;
+  position: sticky;
+  top: 0;
   left: unset;
   right: unset;
   display: grid;
