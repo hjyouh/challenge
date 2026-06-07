@@ -1603,6 +1603,8 @@ body[data-page="auth"] .page-header {
   padding-top: calc(env(safe-area-inset-top) + 8px);
   padding-bottom: 10px;
   padding-left: 28px;
+  left: auto;
+  right: auto;
 }
 
 .auth-phone {
