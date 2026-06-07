@@ -158,8 +158,6 @@ body[data-page="auth"] .page-header {
   align-items: center;
   padding-top: max(52px, calc(env(safe-area-inset-top) + 20px));
   padding-bottom: 14px;
-  padding-left: 28px;
-  padding-right: 28px;
   flex-shrink: 0;
   background: #161513;
 }
@@ -1603,8 +1601,6 @@ body[data-page="auth"] .page-header {
   min-height: 44px;
   padding-top: calc(env(safe-area-inset-top) + 4px);
   padding-bottom: 6px;
-  padding-left: 28px;
-  padding-right: 28px;
 }
 
 .auth-phone {
