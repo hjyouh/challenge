@@ -150,14 +150,13 @@ body[data-page="ranking"] .page-header {
 }
 
 body[data-page="auth"] .page-header {
-  position: sticky;
-  top: 0;
+  position: relative;
   left: unset;
   right: unset;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  padding: max(44px, calc(env(safe-area-inset-top) + 10px)) 28px 12px;
+  padding: calc(env(safe-area-inset-top) + 12px) 28px 12px;
   background: #161513;
   border-bottom: 1px solid rgba(148, 163, 184, 0.2);
   box-sizing: border-box;
