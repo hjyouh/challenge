@@ -154,7 +154,7 @@ body[data-page="auth"] .page-header {
   top: 0;
   z-index: 10;
   display: grid;
-  grid-template-columns: 24px 1fr;
+  grid-template-columns: 22px 1fr;
   align-items: center;
   padding-top: max(48px, calc(env(safe-area-inset-top) + 14px));
   padding-bottom: 12px;
@@ -165,7 +165,7 @@ body[data-page="auth"] .page-header {
 
 body[data-page="auth"] .page-header h1 {
   color: #FFC000;
-  text-align: left;
+  text-align: center;
   white-space: nowrap;
   font-size: 20px;
 }
