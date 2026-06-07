@@ -153,11 +153,13 @@ body[data-page="auth"] .page-header {
   position: sticky;
   top: 0;
   z-index: 10;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
   padding-top: max(52px, calc(env(safe-area-inset-top) + 20px));
   padding-bottom: 14px;
+  padding-left: 28px;
+  padding-right: 28px;
   flex-shrink: 0;
   background: #161513;
 }
@@ -169,7 +171,7 @@ body[data-page="auth"] .page-header h1 {
   font-size: 20px;
 }
 
-.auth-header-spacer { display: none; }
+body[data-page="auth"] .auth-header-spacer { display: block; }
 
 body[data-page="my"] .page-header {
   position: relative;
@@ -1601,6 +1603,8 @@ body[data-page="auth"] .page-header {
   min-height: 44px;
   padding-top: calc(env(safe-area-inset-top) + 4px);
   padding-bottom: 6px;
+  padding-left: 28px;
+  padding-right: 28px;
 }
 
 .auth-phone {
@@ -1625,11 +1629,9 @@ body[data-page="auth"] .page-header {
 }
 
 .auth-back-btn {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  width: 36px;
-  height: 36px;
+  position: static;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1668,6 +1670,7 @@ body[data-page="auth"] .page-header {
   margin-top: 6px;
   color: var(--gold);
   font-size: 16px;
+  font-weight: 800;
   line-height: 1.35;
 }
 
