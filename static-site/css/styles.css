@@ -152,6 +152,9 @@ body[data-page="ranking"] .page-header {
 body[data-page="auth"] .page-header {
   position: sticky;
   top: 0;
+  left: unset;
+  right: unset;
+  width: 100%;
   z-index: 10;
   display: grid;
   grid-template-columns: 22px 1fr;
@@ -161,6 +164,7 @@ body[data-page="auth"] .page-header {
   flex-shrink: 0;
   background: #161513;
   border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  box-sizing: border-box;
 }
 
 body[data-page="auth"] .page-header h1 {
@@ -1602,8 +1606,6 @@ body[data-page="auth"] .page-header {
   min-height: 56px;
   padding-top: calc(env(safe-area-inset-top) + 8px);
   padding-bottom: 10px;
-  left: auto;
-  right: auto;
 }
 
 .auth-phone {
