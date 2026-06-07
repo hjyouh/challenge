@@ -114,7 +114,7 @@
     // iOS "강력한 암호" 팝업 방지: type=password 대신 text + -webkit-text-security:disc
     const isPw = type === "password";
     const inputType = isPw ? "text" : type;
-    const pwExtra = isPw ? ' style="-webkit-text-security:disc" autocomplete="new-password" data-form-type="other"' : ' autocomplete="off" data-form-type="other"';
+    const pwExtra = isPw ? ' style="-webkit-text-security:disc" autocomplete="new-password" data-form-type="other"' : ' autocomplete="off" data-lpignore="true" data-form-type="other" readonly onfocus="this.removeAttribute(\'readonly\')"';
     return `<label class="auth-field" for="${id}"><span>${label}</span><input id="${id}" type="${inputType}" placeholder="${placeholder}" value="${value}" autocapitalize="${autocapitalize}" autocorrect="off" spellcheck="false"${pwExtra} /></label>`;
   }
 
