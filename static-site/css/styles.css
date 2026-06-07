@@ -1731,6 +1731,7 @@ body[data-page="auth"] {
 
 .text-choice.ready {
   color: var(--gold);
+  font-weight: 800;
 }
 
 .find-actions {
@@ -1845,6 +1846,15 @@ body[data-page="auth"] {
   gap: 8px;
   width: min(100%, 356px);
   margin-top: 0;
+  max-height: 40dvh;
+  overflow-y: auto;
+}
+
+.find-popup {
+  position: sticky;
+  top: 0;
+  background: #161513;
+  z-index: 1;
 }
 
 .candidate-title {

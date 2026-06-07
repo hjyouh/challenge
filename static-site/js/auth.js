@@ -230,7 +230,9 @@
       const ready = Boolean(nickname.value.trim() || instagram.value.trim());
       nickname.classList.toggle("has-value", Boolean(nickname.value.trim()));
       instagram.classList.toggle("has-value", Boolean(instagram.value.trim()));
-      document.getElementById("findSubmit").classList.toggle("ready", ready);
+      const submit = document.getElementById("findSubmit");
+      submit.classList.toggle("ready", ready);
+      if (!ready) submit.classList.remove("selected");
     };
     const activateThen = (node, handler) => {
       node.classList.add("selected");

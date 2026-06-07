@@ -2,8 +2,11 @@
 <html lang="ko">
   <head>
     <script>
-      // iOS에서 키보드 올라올 때 window scroll 강제 리셋 → 제목 고정
+      // iOS 주소창 방지: body 스크롤 차단, auth-panel 내부만 허용
       window.addEventListener('scroll', function() { window.scrollTo(0, 0); }, { passive: false });
+      document.addEventListener('touchmove', function(e) {
+        if (!e.target.closest('.auth-panel')) e.preventDefault();
+      }, { passive: false });
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -16,7 +19,7 @@
     <link rel="manifest" href="../manifest.json" />
     <link rel="apple-touch-icon" href="../assets/images/angel-icon-rounded.png" />
     <style>html,body{background:#161513}#splash{position:fixed;inset:0;z-index:9999;background:#161513;display:flex;align-items:center;justify-content:center;pointer-events:none}</style>
-    <link rel="stylesheet" href="../css/styles.css?v=v57" />
+    <link rel="stylesheet" href="../css/styles.css?v=v58" />
     <meta property="og:title" content="디인챌 로그인" />
     <meta property="og:description" content="천사님 인스타 챌린지 출석 체크" />
     <meta property="og:image" content="https://angelsinstachallenge.vercel.app/assets/images/og-image.png" />
@@ -39,6 +42,6 @@
     </main>
     <script src="../js/supabase-data.js?v=sb1"></script>
     <script src="../js/common.js?v=common12"></script>
-    <script src="../js/auth.js?v=auth46"></script>
+    <script src="../js/auth.js?v=auth47"></script>
   </body>
 </html>
