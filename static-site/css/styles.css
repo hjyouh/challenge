@@ -150,18 +150,13 @@ body[data-page="ranking"] .page-header {
 }
 
 body[data-page="auth"] .page-header {
-  position: sticky;
-  top: 0;
+  position: relative;
   left: unset;
   right: unset;
-  width: 100%;
-  z-index: 10;
   display: grid;
-  grid-template-columns: 22px 1fr;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  padding-top: max(48px, calc(env(safe-area-inset-top) + 14px));
-  padding-bottom: 12px;
-  flex-shrink: 0;
+  padding: max(44px, calc(env(safe-area-inset-top) + 10px)) 28px 12px;
   background: #161513;
   border-bottom: 1px solid rgba(148, 163, 184, 0.2);
   box-sizing: border-box;
@@ -1602,11 +1597,6 @@ body[data-page="auth"] {
   height: 100dvh;
 }
 
-body[data-page="auth"] .page-header {
-  min-height: 56px;
-  padding-top: calc(env(safe-area-inset-top) + 8px);
-  padding-bottom: 10px;
-}
 
 .auth-phone {
   width: min(100%, 470px);
