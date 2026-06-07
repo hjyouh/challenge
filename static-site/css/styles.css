@@ -154,7 +154,7 @@ body[data-page="auth"] .page-header {
   top: 0;
   z-index: 10;
   display: grid;
-  grid-template-columns: 44px 1fr;
+  grid-template-columns: 24px 1fr;
   align-items: center;
   padding-top: max(48px, calc(env(safe-area-inset-top) + 14px));
   padding-bottom: 12px;
@@ -1627,8 +1627,8 @@ body[data-page="auth"] .page-header {
 
 .auth-back-btn {
   position: static;
-  width: 44px;
-  height: 44px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
