@@ -2009,9 +2009,16 @@ body[data-page="auth"] {
   font-weight: 800;
 }
 
-.pw-check-line {
-  grid-template-columns: 100px minmax(0, 1fr) !important;
+.pw-input-wrap {
   position: relative;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.pw-input-wrap input {
+  flex: 1;
+  min-width: 0;
 }
 
 .pw-match {
@@ -2020,13 +2027,15 @@ body[data-page="auth"] {
   bottom: 2px;
   font-size: 16px;
   font-weight: 800;
-  color: transparent;
-  transition: color 0.2s;
+  opacity: 0;
+  color: var(--green);
+  transition: opacity 0.2s;
   user-select: none;
+  pointer-events: none;
 }
 
 .pw-match.matched {
-  color: var(--green);
+  opacity: 1;
 }
 
 .account-subheader {

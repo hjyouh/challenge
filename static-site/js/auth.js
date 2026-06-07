@@ -298,7 +298,7 @@
         <p class="account-question" style="color:var(--gold);font-weight:800">${member.nickname} / @${member.instagramId || "-"}</p>
         <label class="account-line" for="credLoginId"><span>ID</span><input id="credLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" /></label>
         <label class="account-line" for="credPassword"><span>비밀번호</span><input id="credPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="new-password" data-form-type="other" /></label>
-        <label class="account-line pw-check-line" for="credPasswordConfirm"><span>비밀번호 확인</span><input id="credPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="new-password" data-form-type="other" /><span class="pw-match" id="credPwMatchIcon">✓</span></label>
+        <label class="account-line" for="credPasswordConfirm"><span>비밀번호 확인</span><div class="pw-input-wrap"><input id="credPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="new-password" data-form-type="other" /><span class="pw-match" id="credPwMatchIcon">✓</span></div></label>
         <label class="account-check check-first"><input id="credAuto" type="checkbox" checked /><span>자동로그인</span></label>
         <p id="credMsg" class="auth-message"></p>
         <button class="account-submit" id="credNext" type="button" disabled>다음</button>
@@ -533,7 +533,7 @@
         <p class="account-question">계정을 생성하시겠습니까?</p>
         <label class="account-line" for="newLoginId"><span>로그인 ID</span><input id="newLoginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" /></label>
         <label class="account-line" for="newPassword"><span>비밀번호</span><input id="newPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="current-password" data-form-type="other" /></label>
-        <label class="account-line pw-check-line" for="newPasswordConfirm"><span>비밀번호 확인</span><input id="newPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="current-password" data-form-type="other" /><span class="pw-match" id="newPwMatchIcon">✓</span></label>
+        <label class="account-line" for="newPasswordConfirm"><span>비밀번호 확인</span><div class="pw-input-wrap"><input id="newPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="current-password" data-form-type="other" /><span class="pw-match" id="newPwMatchIcon">✓</span></div></label>
         <label class="account-line" for="newNickname"><span>닉네임</span><input id="newNickname" type="text" placeholder="닉네임" /></label>
         <label class="account-line" for="newInstagram">
           <span>인스타그램<br/>ID @</span>
