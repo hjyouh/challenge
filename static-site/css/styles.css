@@ -1595,6 +1595,10 @@ body[data-page="auth"] {
   background: #161513;
   overflow: hidden;
   height: 100dvh;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 
@@ -1842,12 +1846,19 @@ body[data-page="auth"] {
 }
 
 .candidate-list {
-  display: grid;
-  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   width: min(100%, 356px);
   margin-top: 0;
-  max-height: 40dvh;
+}
+
+.candidate-rows {
+  display: grid;
+  gap: 8px;
   overflow-y: auto;
+  max-height: 38dvh;
+  padding-top: 8px;
 }
 
 .find-popup {

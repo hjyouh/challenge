@@ -269,14 +269,16 @@
     }
     target.innerHTML = `
       <p class="candidate-title">${result.type === "exact" ? "이 계정이 맞나요?" : "비슷한 계정이 있습니다."}</p>
-      ${result.rows.map((member, index) => `
-        <button class="candidate-row" type="button" data-index="${index}">
-          <strong>${member.nickname}</strong>
-          <span>@${member.instagramId || "-"}</span>
-        </button>
-      `).join("")}
+      <div class="candidate-rows">
+        ${result.rows.map((member, index) => `
+          <button class="candidate-row" type="button" data-index="${index}">
+            <strong>${member.nickname}</strong>
+            <span>@${member.instagramId || "-"}</span>
+          </button>
+        `).join("")}
+      </div>
     `;
-    target.querySelectorAll(".candidate-row").forEach((button) => {
+    target.querySelectorAll(".candidate-rows .candidate-row").forEach((button) => {
       button.addEventListener("click", () => {
         const member = result.rows[Number(button.dataset.index)];
         // prefilled 없으면 loginId/비밀번호 입력 단계 먼저
