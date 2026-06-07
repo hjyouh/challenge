@@ -1924,7 +1924,7 @@ body[data-page="auth"] {
 .account-line,
 .account-check {
   display: grid;
-  grid-template-columns: 82px minmax(0, 1fr);
+  grid-template-columns: 100px minmax(0, 1fr);
   align-items: center;
   gap: 4px;
   color: #8e8a84;
