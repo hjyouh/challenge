@@ -201,8 +201,8 @@
         <p>그동안 사용하신 닉네임 또는<br />인스타그램 ID를 입력해 주세요.</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
         <form class="auth-form" id="findForm" autocomplete="off">
-          ${field("findNickname", "닉네임", "")}
-          ${field("findInstagram", "인스타그램 ID", "")}
+          ${field("findNickname", "닉네임", "", "search")}
+          ${field("findInstagram", "인스타그램 ID", "", "search", "", "none")}
           <div class="find-actions">
             <span class="text-choice" id="newAccount" role="button" tabindex="0">새 계정 생성</span>
             <span class="text-choice" id="findSubmit" role="button" tabindex="0">계정찾기</span>
