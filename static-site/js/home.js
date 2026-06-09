@@ -220,6 +220,12 @@
 
   drawHome(false);
 
+  // 초기 천사 방향: 복주머니 쪽으로 회전
+  requestAnimationFrame(() => {
+    positionAnimation();
+    angelEl.style.transform = `rotate(${_deg}deg)`;
+  });
+
   // Supabase 데이터 로드 완료 후 attended 상태 재확인 + DB 동기화
   if (window.DC_DATA_READY) {
     window.DC_DATA_READY.then(() => {

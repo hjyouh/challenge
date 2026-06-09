@@ -225,7 +225,7 @@ body[data-page="my"] .page-header {
   border-radius: 0;
   border: 0;
   background: transparent;
-  padding: 75px 0 20px; /* 75px = 메시지 높이(~55px) + 여백(20px) */
+  padding: 55px 0 8px;
 }
 
 .mission-diagonal-message {
