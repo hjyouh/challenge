@@ -449,7 +449,7 @@ body[data-page="my"] .page-header {
 }
 
 body[data-page="home"] .attendance-board {
-  margin-top: 18px;
+  margin-top: 4px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.42);
   padding: 0 0 18px;
 }
