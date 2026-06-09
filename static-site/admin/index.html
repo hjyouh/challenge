@@ -582,7 +582,8 @@
       }
 
       if (!accounts.length) {
-        mc.innerHTML = `${inlineTabsHtml('users')}<div class="empty">등록된 계정이 없습니다.</div>`;
+        setFixedHeader(inlineTabsHtml('users') + headerHtml);
+        mc.innerHTML = `${inlineTabsHtml('users')}${headerHtml}<div class="empty">등록된 계정이 없습니다.</div>`;
         return;
       }
 
