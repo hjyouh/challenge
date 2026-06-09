@@ -327,16 +327,23 @@
     monthRank,
   };
 
-  // PWA 설치 유도 팝업 (auth 페이지 제외, 미설치 + 미거절 시 자동 표시)
+  // PWA 설치 유도 팝업 (홈 페이지에서만, 하루 1회)
   const _page = document.body.getAttribute('data-page');
-  if (_page !== 'auth' && _page !== 'admin') {
+  if (_page === 'home') {
     var isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-    if (!isStandalone && !sessionStorage.getItem('pwa-popup-nodisplay')) {
+    var _todayStr = new Date().toISOString().slice(0, 10);
+    var _neverShow = localStorage.getItem('pwa-popup-nodisplay');
+    var _shownDate = localStorage.getItem('pwa-popup-date');
+    if (!isStandalone && !_neverShow && _shownDate !== _todayStr) {
+      localStorage.setItem('pwa-popup-date', _todayStr);
+      var _isPreview = new URLSearchParams(location.search).get('main');
+      var _myHref = _isPreview ? '/pages/my.html?main=4' : '/pages/my.html';
       var pwaOv = document.createElement('div');
       pwaOv.id = 'pwaOverlay';
       pwaOv.style.cssText = 'position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;';
       pwaOv.innerHTML = [
-        '<div style="background:#1e1c1a;border:1px solid rgba(180,176,168,0.3);border-radius:16px;padding:20px 16px 0;width:min(100%,380px);font-family:SUITE,Poppins,Arial,sans-serif;color:#f8fafc;text-align:center;">',
+        '<div style="position:relative;background:#1e1c1a;border:1px solid rgba(180,176,168,0.3);border-radius:16px;padding:20px 16px 0;width:min(100%,380px);font-family:SUITE,Poppins,Arial,sans-serif;color:#f8fafc;text-align:center;">',
+        '<button id="pwaClose" style="position:absolute;top:10px;right:12px;background:none;border:none;color:#94a3b8;font-size:20px;line-height:1;cursor:pointer;padding:4px;">✕</button>',
         '<p style="font-size:18px;font-weight:800;color:#f8fafc;line-height:1.4;margin:0 0 10px">천사님 인스타 챌린지 앱에<br/>오신 것을 환영합니다.</p>',
         '<p style="font-size:15px;color:#cbd5e1;line-height:1.5;margin:0 0 8px">앞으로 천사님 챌린지를<br/><strong style="color:#22c55e;font-weight:800">홈 화면에 아이콘을 생성하시면</strong><br/>편리하게 사용하실 수 있습니다.</p>',
         '<p style="font-size:15px;color:#cbd5e1;line-height:1.5;margin:0 0 14px">홈화면에 아이콘 설치는 <strong style="color:#22c55e;font-weight:800">주메뉴 &gt; 마이에 자세히 설명</strong>되어 있습니다. <strong style="color:#22c55e;font-weight:800">마이 메뉴에서 확인하고 설치</strong>해 주세요.</p>',
@@ -346,12 +353,15 @@
         '</div></div>',
       ].join('');
       document.body.appendChild(pwaOv);
+      document.getElementById('pwaClose').addEventListener('click', function() {
+        pwaOv.remove();
+      });
       document.getElementById('pwaLater').addEventListener('click', function() {
-        sessionStorage.setItem('pwa-popup-nodisplay', '1');
+        localStorage.setItem('pwa-popup-nodisplay', '1');
         pwaOv.remove();
       });
       document.getElementById('pwaGo').addEventListener('click', function() {
-        location.href = '/pages/my.html';
+        location.href = _myHref;
       });
     }
   }
