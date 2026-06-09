@@ -1,9 +1,10 @@
 (function () {
   // TEST_RESET 비활성화 — 실 서비스 중
 
-  // ?main=N 프리뷰 모드: 인증 없이 UI 확인용
+  // ?main=N 프리뷰 모드: 인증 없이 UI 확인용 (세션 동안 유지)
   const mainPreview = new URLSearchParams(location.search).get("main");
-  if (mainPreview) {
+  if (mainPreview) sessionStorage.setItem("main-preview", "1");
+  if (mainPreview || sessionStorage.getItem("main-preview")) {
     const profileKey = "deinchal-profile";
     if (!localStorage.getItem(profileKey)) {
       localStorage.setItem(profileKey, JSON.stringify({
