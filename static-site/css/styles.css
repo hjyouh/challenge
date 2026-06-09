@@ -1177,7 +1177,7 @@ body[data-page="ranking"] .rank-pct {
   background: transparent;
   color: #f8fafc;
   outline: 0;
-  font-size: 14px;
+  font-size: 17px;
   padding-right: 22px;
   overflow: hidden;
 }
@@ -1931,7 +1931,7 @@ body[data-page="auth"] {
 .account-line,
 .account-check {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: 100px minmax(0, 1fr);
   align-items: center;
   gap: 4px;
   color: #8e8a84;
@@ -1946,7 +1946,7 @@ body[data-page="auth"] {
   background: transparent;
   color: #f8fafc;
   outline: 0;
-  font-size: 14px;
+  font-size: 17px;
   overflow: hidden;
 }
 
