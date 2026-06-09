@@ -461,7 +461,7 @@
         <p class="account-question">로그인</p>
         ${message ? `<p class="auth-message">${message}</p>` : ""}
         <label class="account-line" for="loginId"><span>ID</span><input id="loginId" type="text" placeholder="login_id" autocapitalize="none" autocorrect="off" /></label>
-        <label class="account-line" for="loginPassword"><span>비번</span><input id="loginPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="off" data-form-type="other" /></label>
+        <label class="account-line" for="loginPassword"><span>비밀번호</span><input id="loginPassword" type="text" style="-webkit-text-security:disc" placeholder="비밀번호" autocorrect="off" autocomplete="off" data-form-type="other" /></label>
         <div class="login-actions">
           <button class="login-btn" id="backStart" type="button">처음으로</button>
           <button class="login-btn login-btn-primary" id="loginSubmit" type="button" disabled>로그인</button>
@@ -536,7 +536,7 @@
         <label class="account-line" for="newPasswordConfirm"><span>비밀번호 확인</span><div class="pw-input-wrap"><input id="newPasswordConfirm" type="text" style="-webkit-text-security:disc" placeholder="비밀번호 확인" autocorrect="off" autocomplete="current-password" data-form-type="other" /><span class="pw-match" id="newPwMatchIcon">✓</span></div></label>
         <label class="account-line" for="newNickname"><span>닉네임</span><input id="newNickname" type="text" placeholder="닉네임" /></label>
         <label class="account-line" for="newInstagram">
-          <span>인스타그램<br/>ID @</span>
+          <span>인스타 @</span>
           <div class="insta-input-wrap">
             <input id="newInstagram" type="text" placeholder="instagram_id" autocapitalize="none" autocorrect="off" spellcheck="false" />
             <span id="instaCheck" class="insta-check"></span>
@@ -622,7 +622,6 @@
     });
   }
 
-  localStorage.removeItem(sessionKey);
   DC.hideSplash();
 
   // ?page=N 프리뷰 모드 (UI 수정용, 나중에 제거)
@@ -640,6 +639,8 @@
     (pages[previewPage] || pages["1"])();
     return;
   }
+
+  localStorage.removeItem(sessionKey);
 
   // 로컬에 계정 있으면 바로 로그인
   if (accounts().length > 0) {

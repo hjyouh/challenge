@@ -328,7 +328,8 @@
   };
 
   // PWA 설치 유도 팝업 (auth 페이지 제외, 미설치 + 미거절 시 자동 표시)
-  if (document.body.getAttribute('data-page') !== 'auth') {
+  const _page = document.body.getAttribute('data-page');
+  if (_page !== 'auth' && _page !== 'admin') {
     var isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
     if (!isStandalone && !sessionStorage.getItem('pwa-popup-nodisplay')) {
       var pwaOv = document.createElement('div');
@@ -345,14 +346,12 @@
         '</div></div>',
       ].join('');
       document.body.appendChild(pwaOv);
-      document.getElementById('pwaNodisplay').addEventListener('click', function() {
+      document.getElementById('pwaLater').addEventListener('click', function() {
         sessionStorage.setItem('pwa-popup-nodisplay', '1');
         pwaOv.remove();
       });
-      document.getElementById('pwaLater').addEventListener('click', function() { pwaOv.remove(); });
       document.getElementById('pwaGo').addEventListener('click', function() {
-        var base = location.pathname.includes('/pages/') ? '../' : './';
-        location.href = base + 'pages/my.html';
+        location.href = '/pages/my.html';
       });
     }
   }

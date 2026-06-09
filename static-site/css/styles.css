@@ -153,8 +153,8 @@ body[data-page="auth"] .page-header {
   position: relative;
   left: unset;
   right: unset;
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
+  justify-content: center;
   align-items: center;
   padding: calc(env(safe-area-inset-top) + 12px) 28px 12px;
   background: #161513;
@@ -1166,29 +1166,35 @@ body[data-page="ranking"] .rank-pct {
 }
 
 .insta-input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  position: relative;
   min-width: 0;
 }
 .insta-input-wrap input {
-  flex: 1;
+  width: 100%;
   min-width: 0;
   border: 0;
   border-bottom: 1px solid rgba(180, 176, 168, 0.62);
   background: transparent;
   color: #f8fafc;
   outline: 0;
-  font-size: 17px;
+  font-size: 14px;
+  padding-right: 22px;
+  overflow: hidden;
 }
 .insta-input-wrap input::placeholder { color: #8e8a84; }
 
 .insta-check {
+  position: absolute;
+  right: 0;
+  bottom: 2px;
   font-size: 15px;
   font-weight: 900;
-  min-width: 18px;
+  width: 18px;
   text-align: center;
-  align-self: center;
+  color: transparent;
+  transition: color 0.2s;
+  user-select: none;
+  pointer-events: none;
 }
 .insta-check.valid  { color: var(--green); }
 .insta-check.invalid { color: var(--red); }
@@ -1624,7 +1630,8 @@ body[data-page="auth"] {
 }
 
 .auth-back-btn {
-  position: static;
+  position: absolute;
+  left: 16px;
   width: 24px;
   height: 24px;
   display: flex;
@@ -1924,7 +1931,7 @@ body[data-page="auth"] {
 .account-line,
 .account-check {
   display: grid;
-  grid-template-columns: 100px minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 4px;
   color: #8e8a84;
@@ -1939,7 +1946,8 @@ body[data-page="auth"] {
   background: transparent;
   color: #f8fafc;
   outline: 0;
-  font-size: 17px;
+  font-size: 14px;
+  overflow: hidden;
 }
 
 .account-line.readonly-account input {
@@ -1957,6 +1965,15 @@ body[data-page="auth"] {
 
 .account-line input::placeholder {
   color: #8e8a84;
+}
+
+.account-line input:-webkit-autofill,
+.account-line input:-webkit-autofill:hover,
+.account-line input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #161513 inset;
+  -webkit-text-fill-color: #f8fafc;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: #f8fafc;
 }
 
 .account-check input {
@@ -2019,6 +2036,8 @@ body[data-page="auth"] {
 .pw-input-wrap input {
   flex: 1;
   min-width: 0;
+  padding-right: 22px;
+  overflow: hidden;
 }
 
 .pw-match {
