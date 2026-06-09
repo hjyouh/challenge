@@ -480,13 +480,22 @@
       '삭제하면 복구할 수 없습니다.',
       async () => {
         try {
-          await fetch(`${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}`, {
+          const r = await fetch(`${SB_URL}/rest/v1/accounts?login_id=eq.${encodeURIComponent(loginId)}`, {
             method: 'DELETE',
-            headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
+            headers: {
+              apikey: SB_KEY,
+              Authorization: `Bearer ${SB_KEY}`,
+              Prefer: 'return=minimal',
+            },
           });
+          if (!r.ok) {
+            const msg = await r.text().catch(() => r.status);
+            showToast(`❌ 삭제 실패 (${r.status}): ${String(msg).slice(0, 80)}`);
+            return;
+          }
           showToast(`🗑️ ${loginId} 삭제됨`);
           renderUsers();
-        } catch { showToast('삭제 중 오류가 발생했습니다.'); }
+        } catch (e) { showToast('삭제 중 오류: ' + e.message); }
       }
     );
   }
