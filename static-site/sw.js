@@ -1,4 +1,4 @@
-const CACHE = 'deinchal-v10';
+const CACHE = 'deinchal-v11';
 
 // 이미지만 선캐시
 const PRECACHE = [
@@ -32,7 +32,8 @@ self.addEventListener('fetch', e => {
 
   const url = new URL(e.request.url);
 
-  // 캐시 제외: Supabase API, admin 페이지
+  // 캐시 제외: http/https 외 스킴, Supabase API, admin 페이지
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
   if (url.hostname.includes('supabase.co')) return;
   if (url.pathname.startsWith('/admin')) return;
 
