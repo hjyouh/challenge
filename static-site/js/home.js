@@ -164,10 +164,10 @@
     // ── WAAPI: 천사 grow ──────────────────────────────────
     angelEl.getAnimations().forEach(a => a.cancel());
     angelEl.animate([
-      { transform: `rotate(${deg}deg) scale(0.15)`, opacity: 0,   offset: 0    },
-      { transform: `rotate(${deg}deg) scale(0.15)`, opacity: 0,   offset: 0.15 },
-      { transform: `rotate(${deg}deg) scale(1)`,    opacity: 1,   offset: 0.8  },
-      { transform: `rotate(${deg}deg) scale(1)`,    opacity: 1,   offset: 1    }
+      { transform: `scale(0.15)`, opacity: 0,   offset: 0    },
+      { transform: `scale(0.15)`, opacity: 0,   offset: 0.15 },
+      { transform: `scale(1)`,    opacity: 1,   offset: 0.8  },
+      { transform: `scale(1)`,    opacity: 1,   offset: 1    }
     ], { duration: angelMs, easing: "ease-out", fill: "forwards" });
 
     // ── WAAPI: 화살 발사 (천사 완료 후 시작) ─────────────
@@ -183,8 +183,8 @@
     setTimeout(() => {
       // 천사 dimout (WAAPI)
       angelEl.animate([
-        { transform: `rotate(${deg}deg) scale(1)`, opacity: 1 },
-        { transform: `rotate(${deg}deg) scale(1)`, opacity: 0 }
+        { transform: `scale(1)`, opacity: 1 },
+        { transform: `scale(1)`, opacity: 0 }
       ], { duration: 500, easing: "ease-out", fill: "forwards" });
 
       const stats = DC.monthStats(DC.today.getFullYear(), DC.today.getMonth());

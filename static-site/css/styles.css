@@ -417,9 +417,9 @@ body[data-page="home"]:has(.mission-stage.offday-done) .mission-diagonal-message
 }
 
 @keyframes active-bag-pop {
-  0%   { transform: translate(-50%, -50%) scale(0.5); }
-  50%  { transform: translate(-50%, -50%) scale(0.8); }
-  100% { transform: translate(-50%, -50%) scale(0.7); }
+  0%   { transform: translate(-50%, -50%) scale(0.511); }
+  50%  { transform: translate(-50%, -50%) scale(1.05); }
+  100% { transform: translate(-50%, -50%) scale(0.915); }
 }
 
 .message-area,
