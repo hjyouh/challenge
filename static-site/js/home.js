@@ -109,11 +109,8 @@
 
   const angelEl = document.getElementById("angel");
   const arrowEl = document.getElementById("arrow");
-  const angelColors = ["angel-yellow-new.png", "angel-white.png"];
-  const angelKey = "deinchal-angel-color";
-  const lastIdx = parseInt(localStorage.getItem(angelKey) || "0", 10);
-  const nextIdx = (lastIdx + 1) % angelColors.length;
-  angelEl.style.backgroundImage = `url("./assets/images/${angelColors[lastIdx]}")`;
+  const angelImg = "angel-yellow-new.png";
+  angelEl.style.backgroundImage = `url("./assets/images/${angelImg}")`;
 
   function getAnimSec() {
     try {
@@ -156,8 +153,7 @@
     const anim = getAnimSec();
     applyAnimVars(anim);
     positionAnimation();
-    angelEl.style.backgroundImage = `url("./assets/images/${angelColors[nextIdx]}")`;
-    localStorage.setItem(angelKey, String(nextIdx));
+    angelEl.style.backgroundImage = `url("./assets/images/${angelImg}")`;
     stage.classList.add("shooting");
 
     const deg       = _deg;
