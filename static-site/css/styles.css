@@ -253,7 +253,7 @@ body[data-page="home"]:has(.mission-stage.offday-missed) .mission-diagonal-messa
   font-size: 15px;
   line-height: 1.8;
   word-break: keep-all;
-  color: var(--gold);
+  color: var(--text);
 }
 
 body[data-page="home"]:has(.mission-stage.offday-missed) .mission-diagonal-message {
