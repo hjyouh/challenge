@@ -225,7 +225,7 @@ body[data-page="my"] .page-header {
   border-radius: 0;
   border: 0;
   background: transparent;
-  padding: 36px 0 0;
+  padding: 16px 0 0;
 }
 
 .mission-diagonal-message {
@@ -248,11 +248,11 @@ body[data-page="my"] .page-header {
   color: var(--gold);
 }
 
-/* 비미션일: padding-top 줄여서 레이아웃 압축 */
+/* 비미션일: padding-top 최소화 */
 .mission-stage.offday,
 .mission-stage.offday-done,
 .mission-stage.offday-missed {
-  padding-top: 65px;
+  padding-top: 16px;
 }
 
 .mission-stage.offday .mission-diagonal-message {
@@ -374,8 +374,14 @@ body[data-page="my"] .page-header {
   color: transparent;
   font-size: 0;
   opacity: 0;
-  transform: scale(0.15); /* rotate는 JS가 --angle 변수로 keyframe에 주입 */
+  transform: scale(0.15);
   transform-origin: center center;
+}
+
+/* 미션일(출석 전): 천사 정적 표시 */
+.mission-stage:not(.offday):not(.offday-done):not(.offday-missed) .angel {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* 화살: JS가 --angle(각도), --arrow-length, left, top 설정 */
