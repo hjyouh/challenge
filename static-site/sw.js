@@ -1,4 +1,4 @@
-const CACHE = 'deinchal-v8';
+const CACHE = 'deinchal-v9';
 
 // 이미지만 선캐시
 const PRECACHE = [
@@ -41,7 +41,9 @@ self.addEventListener('fetch', e => {
       caches.match(e.request).then(cached => {
         if (cached) return cached;
         return fetch(e.request).then(res => {
-          if (res && res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+          if (res && res.ok) {
+            try { const c2 = res.clone(); caches.open(CACHE).then(c => c.put(e.request, c2)); } catch(_) {}
+          }
           return res;
         });
       })
@@ -52,7 +54,9 @@ self.addEventListener('fetch', e => {
   // HTML / JS / CSS: 네트워크 우선 → 오프라인 시 캐시 폴백
   e.respondWith(
     fetch(e.request).then(res => {
-      if (res && res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+      if (res && res.ok) {
+        try { const c2 = res.clone(); caches.open(CACHE).then(c => c.put(e.request, c2)); } catch(_) {}
+      }
       return res;
     }).catch(() => caches.match(e.request))
   );
