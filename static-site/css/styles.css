@@ -310,8 +310,8 @@ body[data-page="home"]:has(.mission-stage.offday-done) .mission-diagonal-message
   z-index: 5;
 }
 
-.mission-meta:has(+ .mission-stage .mission-circle.active) .circle-date,
-.mission-meta:has(+ .mission-stage .mission-circle.done) .circle-date {
+.mission-meta:has(~ .mission-stage .mission-circle.active) .circle-date,
+.mission-meta:has(~ .mission-stage .mission-circle.done) .circle-date {
   font-size: 17px;
   font-weight: 800;
   color: var(--gold);
