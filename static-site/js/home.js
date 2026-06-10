@@ -172,7 +172,7 @@
   }
 
   circle.addEventListener("click", () => {
-    if (attended) return;
+    if (!isMission || attended) return;
     const anim = getAnimSec();
     applyAnimVars(anim);
     positionAnimation();
