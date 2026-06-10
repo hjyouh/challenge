@@ -225,7 +225,7 @@ body[data-page="my"] .page-header {
   border-radius: 0;
   border: 0;
   background: transparent;
-  padding: 0;
+  padding: 70px 0 0;
 }
 
 .mission-diagonal-message {
@@ -248,11 +248,11 @@ body[data-page="my"] .page-header {
   color: var(--gold);
 }
 
-/* 비미션일: padding 없음 */
+/* 비미션일: 동일 padding */
 .mission-stage.offday,
 .mission-stage.offday-done,
 .mission-stage.offday-missed {
-  padding-top: 0;
+  padding-top: 70px;
 }
 
 .mission-stage.offday .mission-diagonal-message {
@@ -378,11 +378,7 @@ body[data-page="my"] .page-header {
   transform-origin: center center;
 }
 
-/* 천사 항상 정적 표시 */
-.mission-stage .angel {
-  opacity: 1;
-  transform: scale(1);
-}
+/* 천사는 애니메이션 시에만 표시 (WAAPI가 제어) */
 
 /* 화살: JS가 --angle(각도), --arrow-length, left, top 설정 */
 .arrow {
@@ -455,7 +451,7 @@ body[data-page="my"] .page-header {
 }
 
 body[data-page="home"] .attendance-board {
-  margin-top: 0;
+  margin-top: 16px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.42);
   padding: 0 0 18px;
 }
