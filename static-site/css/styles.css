@@ -248,11 +248,14 @@ body[data-page="my"] .page-header {
   color: var(--gold);
 }
 
-/* 비미션일: 동일 padding */
+/* 비미션일 */
 .mission-stage.offday,
-.mission-stage.offday-done,
+.mission-stage.offday-done {
+  padding-top: 75px;
+}
+
 .mission-stage.offday-missed {
-  padding-top: 70px;
+  padding-top: 110px;
 }
 
 .mission-stage.offday .mission-diagonal-message {
