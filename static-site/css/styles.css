@@ -221,7 +221,7 @@ body[data-page="my"] .page-header {
   position: relative;
   display: grid;
   place-items: center;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 0;
   border: 0;
   background: transparent;
@@ -333,8 +333,8 @@ body[data-page="home"]:has(.mission-stage.offday-done) .mission-diagonal-message
   transform: translate(-50%, -50%) scale(0.915); /* 172px */
 }
 
-.mission-stage.offday-missed .circle-bag {
-  /* 비미션일: 96px */
+.mission-stage.offday-missed .mission-circle:not(.active):not(.done) .circle-bag {
+  /* 비미션일 비활성: 96px */
   transform: translate(-50%, -50%) scale(0.511);
 }
 
