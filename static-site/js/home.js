@@ -135,16 +135,28 @@
   function positionAnimation() {
     const stageRect  = stage.getBoundingClientRect();
     const circleRect = circle.getBoundingClientRect();
-    const angelCX = -20 + 46; // left:-20px, width:92px → center x = 26
-    const angelCY = 0   + 46; // top:0px            → center y = 46
-    const pouchCX = circleRect.left - stageRect.left + circleRect.width  / 2;
-    const pouchCY = circleRect.top  - stageRect.top  + circleRect.height / 2;
+
+    // 천사 위치: 뷰포트 좌표 (fixed 오버레이 기준)
+    const angelLeft = stageRect.left - 20;
+    const angelTop  = stageRect.top;
+    const angelCX   = angelLeft + 46; // 천사 중심 X
+    const angelCY   = angelTop  + 46; // 천사 중심 Y
+
+    // 복주머니 중심: 뷰포트 좌표
+    const pouchCX = circleRect.left + circleRect.width  / 2;
+    const pouchCY = circleRect.top  + circleRect.height / 2;
+
     const dx = pouchCX - angelCX;
     const dy = pouchCY - angelCY;
     _arrowLen = Math.sqrt(dx * dx + dy * dy);
     _deg      = Math.atan2(dy, dx) * 180 / Math.PI;
+
     document.documentElement.style.setProperty("--arrow-length", _arrowLen + "px");
-    arrowEl.style.left = angelCX + "px";
+
+    // fixed 오버레이 안에서 뷰포트 좌표로 위치 설정
+    angelEl.style.left = angelLeft + "px";
+    angelEl.style.top  = angelTop  + "px";
+    arrowEl.style.left = angelCX   + "px";
     arrowEl.style.top  = (angelCY - 4) + "px";
   }
 

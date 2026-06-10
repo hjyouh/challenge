@@ -350,14 +350,20 @@ body[data-page="home"]:has(.mission-stage.offday-done) .mission-diagonal-message
   --anim-pouch-drop: 1.65s;
 }
 
+/* 천사/화살 고정 오버레이: 페이지 최상단에 렌더링 */
+#angel-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
 .angel {
   position: absolute;
-  left: -20px;
-  top: 0;
-  z-index: 3;
+  /* left/top: JS positionAnimation()이 뷰포트 좌표로 설정 */
   width: 92px;
   height: 92px;
-  background: center / contain no-repeat url("../assets/images/angel.png");
+  background: center / contain no-repeat;
   color: transparent;
   font-size: 0;
   opacity: 0;
@@ -367,11 +373,10 @@ body[data-page="home"]:has(.mission-stage.offday-done) .mission-diagonal-message
 
 /* 천사는 애니메이션 시에만 표시 (WAAPI가 제어) */
 
-/* 화살: JS가 --angle(각도), --arrow-length, left, top 설정 */
+/* 화살: JS가 --arrow-length, left, top 설정 */
 .arrow {
   position: absolute;
-  left: 26px;
-  top: 42px;
+  /* left/top: JS positionAnimation()이 뷰포트 좌표로 설정 */
   width: var(--arrow-length, 240px);
   height: 8px;
   border-radius: 999px;
