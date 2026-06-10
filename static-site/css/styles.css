@@ -242,7 +242,9 @@ body[data-page="my"] .page-header {
 }
 
 .mission-diagonal-message.complete {
-  color: var(--gold);
+  font-size: 19px;
+  font-weight: 800;
+  color: #22c55e;
 }
 
 /* 비미션일: 폰트 조정 */

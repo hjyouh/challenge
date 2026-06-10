@@ -107,8 +107,9 @@
     }
   }
 
-  const angelEl = document.getElementById("angel");
-  const arrowEl = document.getElementById("arrow");
+  const angelEl   = document.getElementById("angel");
+  const arrowEl   = document.getElementById("arrow");
+  const missionMeta = document.querySelector(".mission-meta");
   const angelImg = "angel-yellow-new.png";
   angelEl.style.backgroundImage = `url("./assets/images/${angelImg}")`;
 
@@ -136,9 +137,10 @@
     const stageRect  = stage.getBoundingClientRect();
     const circleRect = circle.getBoundingClientRect();
 
-    // 천사 위치: 뷰포트 좌표 (fixed 오버레이 기준)
+    // 천사 위치: 뷰포트 좌표 (fixed 오버레이 기준) — mission-meta 높이에 맞춤
+    const metaRect  = missionMeta.getBoundingClientRect();
     const angelLeft = stageRect.left - 20;
-    const angelTop  = stageRect.top;
+    const angelTop  = metaRect.top - 10;
     const angelCX   = angelLeft + 46; // 천사 중심 X
     const angelCY   = angelTop  + 46; // 천사 중심 Y
 
@@ -178,8 +180,8 @@
     angelEl.animate([
       { transform: `scale(0.15)`, opacity: 0,   offset: 0    },
       { transform: `scale(0.15)`, opacity: 0,   offset: 0.15 },
-      { transform: `scale(1)`,    opacity: 1,   offset: 0.8  },
-      { transform: `scale(1)`,    opacity: 1,   offset: 1    }
+      { transform: `scale(1.3)`,  opacity: 1,   offset: 0.8  },
+      { transform: `scale(1.3)`,  opacity: 1,   offset: 1    }
     ], { duration: angelMs, easing: "ease-out", fill: "forwards" });
 
     // ── WAAPI: 화살 발사 (천사 완료 후 시작) ─────────────
@@ -195,8 +197,8 @@
     setTimeout(() => {
       // 천사 dimout (WAAPI)
       angelEl.animate([
-        { transform: `scale(1)`, opacity: 1 },
-        { transform: `scale(1)`, opacity: 0 }
+        { transform: `scale(1.3)`, opacity: 1 },
+        { transform: `scale(1.3)`, opacity: 0 }
       ], { duration: 500, easing: "ease-out", fill: "forwards" });
 
       const stats = DC.monthStats(DC.today.getFullYear(), DC.today.getMonth());
