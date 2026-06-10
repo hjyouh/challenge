@@ -63,6 +63,15 @@
         : !isMission
           ? ""
           : `${DC.today.getMonth() + 1}월 ${DC.today.getDate()}일 출석`;
+    if (attended) {
+      circleDate.style.fontSize = "17px";
+      circleDate.style.fontWeight = "800";
+      circleDate.style.color = "var(--gold)";
+    } else {
+      circleDate.style.fontSize = "";
+      circleDate.style.fontWeight = "";
+      circleDate.style.color = "";
+    }
 
     circle.classList.toggle("active", showActiveBag);
     circle.classList.toggle("done", showActiveBag);
