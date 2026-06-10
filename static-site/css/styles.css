@@ -183,7 +183,7 @@ body[data-page="my"] .page-header {
   position: relative;
   grid-template-columns: 1fr;
   align-items: center;
-  min-height: 34px;
+  min-height: 16px;
 }
 
 .mission-label {
@@ -349,6 +349,13 @@ body[data-page="my"] .page-header {
 .mission-stage.offday-missed .circle-bag {
   /* 비미션일은 항상 작은 복주머니 */
   transform: translate(-50%, -50%) scale(0.5);
+}
+
+/* 비미션일: 레이아웃 공간도 줄여서 하단 빈 공간 제거 */
+.mission-stage.offday .mission-circle,
+.mission-stage.offday-done .mission-circle,
+.mission-stage.offday-missed .mission-circle {
+  height: 96px;
 }
 
 .circle-state {
