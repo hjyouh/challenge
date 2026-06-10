@@ -167,7 +167,7 @@
     profile.password = newPwEl.value;
     DC.saveProfile(profile);
     password.value = profile.password;
-    password.style.webkitTextSecurity = "disc";
+    password.type = "password";
     pwMsg.textContent = "비밀번호가 변경되었습니다."; pwMsg.className = "modal-msg success";
     confirmPwBtn.disabled = true;
     setTimeout(closePwModal, 1200);
@@ -243,9 +243,7 @@
     updateInstallScrollLine();
   });
   document.getElementById("togglePassword").addEventListener("click", () => {
-    // type=text + -webkit-text-security 토글 (iOS 강력한 암호 팝업 방지)
-    const hidden = password.style.webkitTextSecurity === "disc" || !password.style.webkitTextSecurity;
-    password.style.webkitTextSecurity = hidden ? "none" : "disc";
+    password.type = password.type === "password" ? "text" : "password";
   });
   // autoLogin / userId 변경 즉시 저장
   autoLogin.addEventListener("change", () => { profile.autoLogin = autoLogin.checked; DC.saveProfile(profile); });
