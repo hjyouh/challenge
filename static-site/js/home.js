@@ -140,7 +140,7 @@
     // 천사 위치: 뷰포트 좌표 (fixed 오버레이 기준) — 메시지 텍스트 높이에 맞춤
     const msgRect   = message.getBoundingClientRect();
     const angelLeft = stageRect.left - 20;
-    const angelTop  = msgRect.bottom - 30;
+    const angelTop  = msgRect.bottom - 10;
     const angelCX   = angelLeft + 46; // 천사 중심 X
     const angelCY   = angelTop  + 46; // 천사 중심 Y
 
