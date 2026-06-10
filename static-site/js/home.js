@@ -76,7 +76,7 @@
     if (isMission && !attended) {
       message.innerHTML = "회색 복주머니를 눌러<br />출석체크해 주세요";
     } else if (attended) {
-      message.innerHTML = "오늘 출석 완료!<br />복주머니가 출석부에 전달되었습니다.";
+      message.innerHTML = `<span class="complete-title">오늘 출석 완료!</span><br />복주머니가 출석부에 전달되었습니다.`;
     } else {
       // 비미션일: "오늘은 출석체크 없습니다." 항상 노란색
       // 전날 결석이면 "결석하셨네요." 추가, 출석했으면 그 줄 없음
@@ -208,7 +208,7 @@
       attended = true;
       circle.classList.add("active", "done");
       setTimeout(() => {
-        message.innerHTML = "오늘 출석 완료!<br />복주머니가 출석부에 전달되었습니다.";
+        message.innerHTML = `<span class="complete-title">오늘 출석 완료!</span><br />복주머니가 출석부에 전달되었습니다.`;
         message.classList.add("complete");
       }, anim.pouchActivate * 1000);
       setTimeout(() => drawHome(true), anim.pouchActivate * 1000 + 500);

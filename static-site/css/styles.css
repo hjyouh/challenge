@@ -241,7 +241,7 @@ body[data-page="my"] .page-header {
   box-sizing: border-box;
 }
 
-.mission-diagonal-message.complete {
+.mission-diagonal-message .complete-title {
   font-size: 19px;
   font-weight: 800;
   color: #22c55e;
