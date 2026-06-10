@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#161513" />
-    <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js')</script>
+    <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js',{updateViaCache:'none'}).then(r=>r.update())</script>
     <script>(function(){var m=new URLSearchParams(location.search).get('main');if(m==='2')location.replace('./pages/attendance.html?main=2');else if(m==='3')location.replace('./pages/ranking.html?main=3');else if(m==='4')location.replace('./pages/my.html?main=4');})()</script>
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
