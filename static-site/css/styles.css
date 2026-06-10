@@ -248,8 +248,8 @@ body[data-page="my"] .page-header {
 }
 
 /* 비미션일: 폰트 조정 */
-body[data-page="home"]:has(.mission-stage.offday) .mission-diagonal-message,
-body[data-page="home"]:has(.mission-stage.offday-missed) .mission-diagonal-message {
+body[data-page="home"]:has(.mission-stage.offday) .mission-diagonal-message:not(.complete),
+body[data-page="home"]:has(.mission-stage.offday-missed) .mission-diagonal-message:not(.complete) {
   font-size: 15px;
   line-height: 1.8;
   word-break: keep-all;
