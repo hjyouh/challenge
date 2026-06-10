@@ -225,7 +225,7 @@ body[data-page="my"] .page-header {
   border-radius: 0;
   border: 0;
   background: transparent;
-  padding: 55px 0 8px;
+  padding: 36px 0 0;
 }
 
 .mission-diagonal-message {
@@ -449,7 +449,7 @@ body[data-page="my"] .page-header {
 }
 
 body[data-page="home"] .attendance-board {
-  margin-top: 4px;
+  margin-top: 0;
   border-bottom: 1px solid rgba(148, 163, 184, 0.42);
   padding: 0 0 18px;
 }

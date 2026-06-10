@@ -109,7 +109,7 @@
 
   const angelEl = document.getElementById("angel");
   const arrowEl = document.getElementById("arrow");
-  const angelColors = ["angel-yellow.png", "angel-white.png"];
+  const angelColors = ["angel-yellow-new.png", "angel-white.png"];
   const angelKey = "deinchal-angel-color";
   const lastIdx = parseInt(localStorage.getItem(angelKey) || "0", 10);
   const nextIdx = (lastIdx + 1) % angelColors.length;
@@ -219,12 +219,6 @@
   });
 
   drawHome(false);
-
-  // 초기 천사 방향: 복주머니 쪽으로 회전
-  requestAnimationFrame(() => {
-    positionAnimation();
-    angelEl.style.transform = `rotate(${_deg}deg)`;
-  });
 
   // Supabase 데이터 로드 완료 후 attended 상태 재확인 + DB 동기화
   if (window.DC_DATA_READY) {
