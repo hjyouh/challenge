@@ -225,7 +225,7 @@ body[data-page="my"] .page-header {
   border-radius: 0;
   border: 0;
   background: transparent;
-  padding: 16px 0 0;
+  padding: 0;
 }
 
 .mission-diagonal-message {
@@ -248,11 +248,11 @@ body[data-page="my"] .page-header {
   color: var(--gold);
 }
 
-/* 비미션일: padding-top 최소화 */
+/* 비미션일: padding 없음 */
 .mission-stage.offday,
 .mission-stage.offday-done,
 .mission-stage.offday-missed {
-  padding-top: 16px;
+  padding-top: 0;
 }
 
 .mission-stage.offday .mission-diagonal-message {
@@ -343,19 +343,12 @@ body[data-page="my"] .page-header {
 .active .circle-bag,
 .done .circle-bag {
   background-image: url("../assets/images/active bag.png");
-  transform: translate(-50%, -50%) scale(0.7);
+  transform: translate(-50%, -50%) scale(0.915); /* 172px */
 }
 
 .mission-stage.offday-missed .circle-bag {
-  /* 비미션일은 항상 작은 복주머니 */
-  transform: translate(-50%, -50%) scale(0.5);
-}
-
-/* 비미션일: 레이아웃 공간도 줄여서 하단 빈 공간 제거 */
-.mission-stage.offday .mission-circle,
-.mission-stage.offday-done .mission-circle,
-.mission-stage.offday-missed .mission-circle {
-  height: 96px;
+  /* 비미션일: 96px */
+  transform: translate(-50%, -50%) scale(0.511);
 }
 
 .circle-state {
