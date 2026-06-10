@@ -1,4 +1,4 @@
-const CACHE = 'deinchal-v7';
+const CACHE = 'deinchal-v8';
 
 // 이미지만 선캐시
 const PRECACHE = [
@@ -31,6 +31,9 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
 
   const url = new URL(e.request.url);
+
+  // Supabase API 요청은 캐시하지 않음 (Response body already used 에러 방지)
+  if (url.hostname.includes('supabase.co')) return;
 
   // 이미지만 캐시 우선 (자주 바뀌지 않음)
   if (/\.(png|jpg|jpeg|gif|webp|svg|ico)(\?|$)/.test(url.pathname)) {
